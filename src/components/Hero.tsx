@@ -1,0 +1,52 @@
+export default function Hero() {
+  return (
+    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+      {/* Brand name */}
+      <h1 className="font-garamond text-7xl sm:text-8xl md:text-9xl font-normal leading-none mb-3">
+        hey<span className="text-coral italic">mitch</span>
+      </h1>
+
+      {/* Tagline */}
+      <p className="text-2xl sm:text-3xl text-white/90 font-medium tracking-wide mb-10">
+        Build .skills
+      </p>
+
+      {/* CTA */}
+      <a
+        href="https://claudecoworkbootcamp.com"
+        className="inline-flex items-center gap-2 px-8 py-4 bg-coral hover:bg-coral/90 text-white text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-[1.02] mb-16"
+      >
+        Start Building
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+
+      {/* Value props */}
+      <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
+        {["Beginner friendly", "Claude Cowork", "Agent workflows"].map(
+          (prop) => (
+            <div
+              key={prop}
+              className="flex items-center gap-2.5 text-white/80 text-base font-medium"
+            >
+              <span className="w-2.5 h-2.5 bg-blue rounded-full" />
+              {prop}
+            </div>
+          )
+        )}
+      </div>
+    </section>
+  );
+}

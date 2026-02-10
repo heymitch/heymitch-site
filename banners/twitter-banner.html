@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .banner {
+      width: 1500px;
+      height: 500px;
+      background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Grid pattern */
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+
+    .content {
+      z-index: 1;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .brand-name {
+      font-family: 'EB Garamond', Garamond, serif;
+      font-size: 120px;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .brand-name span {
+      color: #E07A5F;
+      font-style: italic;
+    }
+
+    .tagline {
+      font-size: 32px;
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+      margin-bottom: 36px;
+      letter-spacing: 0.5px;
+    }
+
+    .value-props {
+      display: flex;
+      gap: 40px;
+    }
+
+    .prop {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.8);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .prop-dot {
+      width: 10px;
+      height: 10px;
+      background: #5B8DEF;
+      border-radius: 50%;
+    }
+
+    /* Decorative glows */
+    .glow-coral {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(224,122,95,0.12) 0%, transparent 70%);
+      top: -150px;
+      left: -50px;
+      pointer-events: none;
+    }
+
+    .glow-blue {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(91,141,239,0.1) 0%, transparent 70%);
+      bottom: -150px;
+      right: -50px;
+      pointer-events: none;
+    }
+
+    .glow-blue-2 {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(91,141,239,0.08) 0%, transparent 70%);
+      top: 50px;
+      right: 200px;
+      pointer-events: none;
+    }
+
+    /* Floating code snippets */
+    .code-float {
+      position: absolute;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      color: rgba(91,141,239,0.25);
+      white-space: nowrap;
+    }
+
+    .code-1 { top: 60px; left: 80px; transform: rotate(-5deg); }
+    .code-2 { bottom: 80px; right: 100px; transform: rotate(3deg); color: rgba(224,122,95,0.2); }
+    .code-3 { top: 120px; right: 150px; transform: rotate(-2deg); }
+    .code-4 { bottom: 120px; left: 120px; transform: rotate(4deg); color: rgba(224,122,95,0.2); }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <div class="glow-coral"></div>
+    <div class="glow-blue"></div>
+    <div class="glow-blue-2"></div>
+
+    <div class="code-float code-1">› Draft my weekly newsletter</div>
+    <div class="code-float code-2">✓ Saving content-draft.md</div>
+    <div class="code-float code-3">• Reading your writing voice</div>
+    <div class="code-float code-4">• Drafting in your voice</div>
+
+    <div class="content">
+      <div class="brand-name">hey<span>mitch</span></div>
+      <div class="tagline">Build .skills</div>
+      <div class="value-props">
+        <div class="prop">
+          <div class="prop-dot"></div>
+          <span>Beginner friendly</span>
+        </div>
+        <div class="prop">
+          <div class="prop-dot"></div>
+          <span>Claude Cowork</span>
+        </div>
+        <div class="prop">
+          <div class="prop-dot"></div>
+          <span>Agent workflows</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
