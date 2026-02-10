@@ -1,6 +1,13 @@
 export default function Hero() {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+      {/* Headshot */}
+      <img
+        src="/headshot.png"
+        alt="Mitch"
+        className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover object-top border-2 border-white/10 mb-8"
+      />
+
       {/* Brand name */}
       <h1 className="font-garamond text-7xl sm:text-8xl md:text-9xl font-normal leading-none mb-3">
         hey<span className="text-coral italic">mitch</span>
