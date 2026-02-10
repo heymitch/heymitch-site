@@ -5,7 +5,7 @@ export default function Hero() {
       <img
         src="/headshot.png"
         alt="Mitch"
-        className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover object-top border-2 border-white/10 mb-8"
+        className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-white/10 mb-8"
       />
 
       {/* Brand name */}
