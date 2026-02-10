@@ -1,11 +1,11 @@
 export default function Hero() {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+    <section className="min-h-screen flex flex-col items-center justify-center pt-24 pb-16 px-6 text-center -mt-20">
       {/* Headshot */}
       <img
         src="/headshot.png"
         alt="Mitch"
-        className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-white/10 mb-8"
+        className="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover border-2 border-white/10 mb-8"
       />
 
       {/* Brand name */}
