@@ -13,6 +13,11 @@ export default function Hero() {
         hey<span className="text-coral italic">mitch</span>
       </h1>
 
+      {/* Subtitle */}
+      <p className="text-lg sm:text-xl text-white/50 font-medium tracking-widest uppercase mb-4">
+        AI Coach
+      </p>
+
       {/* Tagline */}
       <p className="text-2xl sm:text-3xl text-white/90 font-medium tracking-wide mb-10">
         Build .skills

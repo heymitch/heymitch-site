@@ -12,7 +12,7 @@ export default function Background() {
         className="absolute -top-36 -left-12 w-[450px] h-[450px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(224,122,95,0.12) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(244,114,43,0.12) 0%, transparent 70%)",
         }}
       />
 
