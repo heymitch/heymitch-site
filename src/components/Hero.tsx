@@ -21,7 +21,7 @@ export default function Hero() {
       {/* CTAs */}
       <div className="flex flex-col sm:flex-row gap-4 mb-16">
         <a
-          href="https://claudecoworkbootcamp.com"
+          href="https://ccb-waitlist.vercel.app/"
           className="inline-flex items-center gap-2 px-8 py-4 bg-coral hover:bg-coral/90 text-white text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-[1.02]"
         >
           Start Building
