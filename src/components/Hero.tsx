@@ -59,7 +59,7 @@ export default function Hero() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 hover:border-white/40 text-white text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-[1.02]"
         >
-          disciple.ai newsletter
+          disciple ai newsletter
         </a>
       </div>
 
