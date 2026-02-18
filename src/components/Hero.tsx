@@ -61,6 +61,12 @@ export default function Hero() {
         >
           disciple ai newsletter
         </a>
+        <a
+          href="/resources"
+          className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 hover:border-white/40 text-white text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-[1.02]"
+        >
+          Free Resources
+        </a>
       </div>
 
       {/* Value props */}

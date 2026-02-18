@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Google Drive Skill",
+    "description": "Read docs, analyze sheets, build slides — all through your Cowork agent. Install in 2 minutes.",
+    "image": "/products/drive-skill.png",
+    "url": "https://heymitch-drive-skill.vercel.app",
+    "category": "skill",
+    "published": true
+  }
+]
