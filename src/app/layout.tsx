@@ -1,21 +1,33 @@
 import type { Metadata } from "next";
+import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex-mono",
+});
+
 export const metadata: Metadata = {
-  title: "heymitch — Build .skills",
+  title: "heymitch — AI. AI. Substack.",
   description:
-    "Beginner-friendly AI skills, Claude Cowork, and agent workflows. Build your first AI skill today.",
+    "Level up your AI skills. Join the next Cowork Bootcamp, read the newsletters, grab free resources.",
   openGraph: {
-    title: "heymitch — Build .skills",
+    title: "heymitch — AI. AI. Substack.",
     description:
-      "Beginner-friendly AI skills, Claude Cowork, and agent workflows.",
+      "Level up your AI skills. Join the next Cowork Bootcamp.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "heymitch — Build .skills",
+    title: "heymitch — AI. AI. Substack.",
     description:
-      "Beginner-friendly AI skills, Claude Cowork, and agent workflows.",
+      "Level up your AI skills. Join the next Cowork Bootcamp.",
   },
 };
 
@@ -26,19 +38,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-inter bg-void text-white">{children}</body>
+      <body
+        className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

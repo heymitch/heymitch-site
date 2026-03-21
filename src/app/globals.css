@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════
+   BASE STYLES — Editorial Foundation
+   ═══════════════════════════════════════════════ */
+
 html {
   scroll-behavior: smooth;
 }
@@ -9,12 +13,425 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F0E4D0;
+  color: #2D2118;
 }
 
-/* Grid pattern background */
-.grid-pattern {
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
+a {
+  color: #2B6B8A;
+  transition: color 200ms;
+}
+
+a:hover {
+  color: #E8682A;
+}
+
+/* ═══════════════════════════════════════════════
+   PHYSICAL 3D BUTTONS (Josh Comeau technique)
+   ═══════════════════════════════════════════════ */
+
+.physical-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+  transition: filter 250ms;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.physical-btn:hover {
+  filter: brightness(110%);
+}
+
+.physical-btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.physical-btn-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  will-change: transform;
+  transform: translateY(2px);
+  filter: blur(4px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.physical-btn:hover .physical-btn-shadow {
+  transform: translateY(4px);
+  filter: blur(6px);
+}
+
+.physical-btn:active .physical-btn-shadow {
+  transform: translateY(1px);
+  filter: blur(2px);
+  transition: transform 34ms;
+}
+
+.physical-btn-edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.physical-btn-front {
+  display: block;
+  position: relative;
+  border-radius: 8px;
+  will-change: transform;
+  transform: translateY(-4px);
+  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+.physical-btn:hover .physical-btn-front {
+  transform: translateY(-6px);
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+.physical-btn:active .physical-btn-front {
+  transform: translateY(-2px);
+  transition: transform 34ms;
+}
+
+/* Primary: dark brown face + orange text */
+.physical-btn-primary .physical-btn-edge {
+  background: linear-gradient(
+    to left,
+    #1a1008 0%,
+    #3a2a18 8%,
+    #3a2a18 92%,
+    #1a1008 100%
+  );
+}
+
+.physical-btn-primary .physical-btn-front {
+  background: linear-gradient(155deg, #382818 0%, #2D2118 40%, #342a1c 100%);
+  border: 1px solid #4A3A2A;
+  padding: 14px 48px;
+  color: #E8682A;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Secondary: cream-dark face + brown text */
+.physical-btn-secondary .physical-btn-edge {
+  background: linear-gradient(
+    to left,
+    #c8bca8 0%,
+    #d8ccb8 8%,
+    #d8ccb8 92%,
+    #c8bca8 100%
+  );
+}
+
+.physical-btn-secondary .physical-btn-front {
+  background: linear-gradient(155deg, #E8DCCA 0%, #E0D4BE 40%, #E4D8C4 100%);
+  border: 1px solid #c8bca8;
+  padding: 10px 28px;
+  color: #2D2118;
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.physical-btn-secondary:hover .physical-btn-front {
+  transform: translateY(-5px);
+}
+
+.physical-btn-secondary:active .physical-btn-front {
+  transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════════
+   METAL HOUSING PANEL
+   ═══════════════════════════════════════════════ */
+
+.metal-housing {
+  background:
+    /* Specular highlight — top edge */
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.06) 3%,
+      transparent 8%
+    ),
+    /* Brushed metal grain */
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      transparent 1px,
+      transparent 2px
+    ),
+    /* Main metal body */
+    linear-gradient(
+      170deg,
+      #c8c0b4 0%,
+      #bab2a4 20%,
+      #b0a898 50%,
+      #a8a090 80%,
+      #b0a898 100%
+    );
+  border-radius: 14px;
+  border: 1px solid #9a9284;
+  box-shadow:
+    /* Outer drop shadow */
+    0 6px 20px rgba(0, 0, 0, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.12),
+    /* Inner bevel — top/left highlight */
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 1px 0 0 rgba(255, 255, 255, 0.15),
+    /* Inner bevel — bottom/right shadow */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+    inset -1px 0 0 rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+/* Subtle noise texture */
+.metal-housing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Recessed well for components */
+.metal-well {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.06) 0%,
+    rgba(0, 0, 0, 0.02) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border-radius: 10px;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.12),
+    inset 1px 0 2px rgba(0, 0, 0, 0.06),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+    inset -1px 0 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* ═══════════════════════════════════════════════
+   RED ROUND BUTTON
+   ═══════════════════════════════════════════════ */
+
+.physical-btn-red .physical-btn-shadow {
+  border-radius: 50%;
+  background: rgba(180, 30, 8, 0.4);
+}
+
+.physical-btn-red .physical-btn-edge {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 100%,
+    #3a0800 0%,
+    #6a1408 60%,
+    #4a0a00 100%
+  );
+}
+
+.physical-btn-red .physical-btn-front {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    /* Glass highlight — top crescent */
+    radial-gradient(
+      ellipse at 50% 25%,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.06) 40%,
+      transparent 60%
+    ),
+    /* Main red body */
+    radial-gradient(
+      circle at 50% 45%,
+      #dd3318 0%,
+      #cc2a10 30%,
+      #b81e08 60%,
+      #9a1606 100%
+    );
+  border: 1px solid #8a1808;
+  padding: 0;
+  color: #fff;
+  box-shadow:
+    inset 0 2px 3px rgba(255, 200, 180, 0.25),
+    inset 0 -3px 4px rgba(0, 0, 0, 0.3),
+    inset 2px 0 3px rgba(255, 200, 180, 0.08),
+    inset -2px 0 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 640px) {
+  .physical-btn-red .physical-btn-front {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   MINI CRT READOUT
+   ═══════════════════════════════════════════════ */
+
+.mini-crt {
+  background:
+    /* Subtle scanlines */
+    repeating-linear-gradient(
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
+    ),
+    /* Dot matrix hint */
+    radial-gradient(
+      circle,
+      rgba(255, 160, 0, 0.02) 0%,
+      transparent 1px
+    ),
+    /* Deep black screen */
+    linear-gradient(160deg, #0e0e0e 0%, #080808 50%, #0a0a0a 100%);
+  background-size:
+    100% 100%,
+    3px 3px,
+    100% 100%;
+  border-radius: 6px;
+  position: relative;
+  box-shadow:
+    /* Recessed into housing */
+    inset 0 2px 6px rgba(0, 0, 0, 0.8),
+    inset 2px 0 4px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.05),
+    inset -1px 0 2px rgba(255, 255, 255, 0.03),
+    /* Outer bezel rim */
+    0 1px 0 rgba(255, 255, 255, 0.1),
+    0 -1px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid #1a1a1a;
+}
+
+/* Edge vignette overlay */
+.mini-crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Phosphor glow at bottom */
+.mini-crt::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  right: 15%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(255, 120, 0, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mini-crt-text {
+  color: #d4a840;
+  text-shadow:
+    0 0 4px rgba(212, 168, 64, 0.6),
+    0 0 10px rgba(212, 168, 64, 0.3),
+    0 0 20px rgba(212, 168, 64, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════════════
+   GREEN CRT COUNTDOWN
+   ═══════════════════════════════════════════════ */
+
+/* Override phosphor glow from amber to green */
+.mini-crt-green::after {
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(130, 200, 150, 0.06) 0%,
+    transparent 70%
+  ) !important;
+}
+
+.mini-crt-green-prompt {
+  color: #3C6446;
+  position: relative;
+  z-index: 2;
+}
+
+.mini-crt-green-time {
+  color: #82C896;
+  text-shadow:
+    0 0 6px rgba(130, 200, 150, 0.5),
+    0 0 16px rgba(130, 200, 150, 0.2),
+    0 0 30px rgba(130, 200, 150, 0.08);
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  z-index: 2;
+}
+
+.mini-crt-green-labels {
+  color: #3C6446;
+  position: relative;
+  z-index: 2;
+}
+
+.mini-crt-green-cursor {
+  width: 8px;
+  height: 2px;
+  background: #82C896;
+  margin-top: 6px;
+  position: relative;
+  z-index: 2;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════
+   EQUAL-HEIGHT BUTTON ROW
+   ═══════════════════════════════════════════════ */
+
+.secondary-btn-row .physical-btn {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.secondary-btn-row .physical-btn-front {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
