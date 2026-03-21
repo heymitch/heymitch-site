@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import RetroStripes from "@/components/RetroStripes";
 import SectionHeader from "@/components/SectionHeader";
 
@@ -16,20 +13,6 @@ const templates = [
 ];
 
 export default function SnaptasticPage() {
-  const formRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!formRef.current) return;
-    const script = document.createElement("script");
-    script.src = "https://pga.kit.com/SNAPTASTIC_FORM_ID/index.js";
-    script.async = true;
-    script.dataset.uid = "SNAPTASTIC_FORM_ID";
-    formRef.current.appendChild(script);
-    return () => {
-      script.remove();
-    };
-  }, []);
-
   return (
     <main className="min-h-screen bg-cream">
       {/* ── Nav ── */}
@@ -105,24 +88,72 @@ export default function SnaptasticPage() {
         </div>
       </section>
 
-      {/* ── Email Opt-in Gate ── */}
+      {/* ── Install ── */}
       <section className="bg-brown">
         <div className="max-w-[960px] mx-auto px-6 py-16">
-          <div className="max-w-xl mx-auto text-center">
-            <h2 className="font-sans text-2xl sm:text-3xl font-bold text-cream mb-3">
-              Get the install instructions + all 8 templates
+          <div className="max-w-2xl mx-auto">
+            <h2 className="font-sans text-2xl sm:text-3xl font-bold text-cream mb-2">
+              Install once. Paste into your agent.
             </h2>
             <p className="font-mono text-sm text-cream/50 mb-8">
-              Enter your email below. We&apos;ll send you the agent install
-              prompt. Paste it into Claude Code, Codex, or OpenClaw.
+              Open Claude Code, Codex, or OpenClaw. Paste this. Done.
             </p>
 
-            {/* Kit form embed */}
-            <div ref={formRef} className="min-h-[80px]" />
+            <div className="rounded-lg border border-[#2a2520] bg-[#12100E] p-6 overflow-x-auto">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+                <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+                <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
+                <span className="ml-3 font-mono text-xs text-[#82C896]/40">
+                  paste into your agent
+                </span>
+              </div>
+              <pre className="font-mono text-sm leading-relaxed text-[#82C896] whitespace-pre-wrap">{`Install Snaptastic for me.
+
+Snaptastic is a CLI screenshot beautifier that watches
+my screenshot folder and auto-beautifies every capture
+with backgrounds, rounded corners, shadows, and templates.
+
+Read https://github.com/heymitch/snaptastic and install
+it on my machine. Set up auto-start at login so it runs
+in the background.
+
+After install, ask me one question:
+Which template should be the default?
+1. gradient-sunset
+2. synthwave
+3. trd-pro
+4. catppuccin
+5. absolutely
+6. gradient-dark
+7. clean-white
+8. minimal-gray
+
+Then set my choice and confirm it's running.`}</pre>
+            </div>
+
+            <div className="flex flex-wrap gap-3 mt-6">
+              {["Claude Code", "Codex", "OpenClaw"].map((name) => (
+                <span
+                  key={name}
+                  className="inline-flex items-center gap-2 rounded-full bg-cream/10 border border-cream/10 px-4 py-1.5 font-mono text-xs text-cream/60"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#82C896]" />
+                  {name}
+                </span>
+              ))}
+            </div>
 
             <p className="font-mono text-xs text-cream/30 mt-6">
-              No spam. Unsubscribe anytime. You&apos;ll get the install prompt
-              and occasional updates about new tools.
+              Free forever. MIT license.{" "}
+              <a
+                href="https://github.com/heymitch/snaptastic"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal hover:underline"
+              >
+                Star it on GitHub.
+              </a>
             </p>
           </div>
         </div>
