@@ -1,3 +1,5 @@
+"use client";
+
 import RetroStripes from "@/components/RetroStripes";
 import SectionHeader from "@/components/SectionHeader";
 
