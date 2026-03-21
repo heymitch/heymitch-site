@@ -1,5 +1,13 @@
 [
   {
+    "title": "Snaptastic",
+    "description": "Free, open-source screenshot beautifier. Auto-watches your folder, adds backgrounds, corners, shadows. 8 templates. Install with your agent.",
+    "image": "/products/snaptastic.png",
+    "url": "/resources/snaptastic",
+    "category": "tool",
+    "published": true
+  },
+  {
     "title": "Google Drive Skill",
     "description": "Read docs, analyze sheets, build slides — all through your Cowork agent. Install in 2 minutes.",
     "image": "/products/drive-skill.png",
