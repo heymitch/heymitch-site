@@ -3,7 +3,7 @@
     "title": "Snaptastic",
     "description": "Free, open-source screenshot beautifier. Auto-watches your folder, adds backgrounds, corners, shadows. 8 templates. Install with your agent.",
     "image": "/products/snaptastic.png",
-    "url": "/resources/snaptastic",
+    "url": "https://snaptastic.vercel.app",
     "category": "tool",
     "published": true
   },
