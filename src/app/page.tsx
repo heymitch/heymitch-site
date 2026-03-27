@@ -2,6 +2,11 @@ import PhysicalButton from "@/components/PhysicalButton";
 import CountdownCRT from "@/components/CountdownCRT";
 import RetroStripes from "@/components/RetroStripes";
 import SectionHeader from "@/components/SectionHeader";
+import dynamic from "next/dynamic";
+
+const AsciiPortrait = dynamic(() => import("@/components/AsciiPortrait"), {
+  ssr: false,
+});
 
 const socials = [
   {
@@ -28,123 +33,159 @@ const socials = [
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-cream">
+      {/* ASCII Portrait — fixed to viewport, right half, sits behind everything */}
+      <div className="hidden lg:block fixed top-0 right-0 w-1/2 h-screen z-0">
+        <AsciiPortrait />
+      </div>
+
       {/* ═══ HERO ═══ */}
-      <main className="min-h-screen flex flex-col items-center justify-center px-6 py-16 bg-cream">
-        <div className="w-full max-w-[640px] text-center">
-          <div className="max-w-[320px] mx-auto mb-10">
-            <RetroStripes />
-          </div>
+      <main className="relative min-h-screen bg-cream lg:bg-transparent">
 
-          <h1 className="font-sans text-6xl sm:text-8xl font-bold tracking-tight text-brown mb-3">
-            hey<span className="text-orange">mitch</span>
-          </h1>
-
-          <p className="font-mono text-sm sm:text-base text-brown/60 tracking-wide mb-10">
-            AI skills you can actually use. Newsletters, bootcamps, free tools.
-          </p>
-
-          <div className="metal-housing inline-flex items-center gap-3 sm:gap-4 px-4 py-3 sm:px-5 sm:py-4 mb-6">
-            <div className="metal-well p-2 sm:p-2.5 relative z-10">
-              <PhysicalButton
-                href="https://ccb-waitlist.vercel.app/"
-                variant="red"
-              >
-                <span className="sr-only">Join the next bootcamp</span>
-              </PhysicalButton>
+        {/* LEFT: Content */}
+        <div className="relative z-10 lg:w-1/2 flex flex-col items-center lg:items-start justify-center min-h-screen px-6 lg:px-16 xl:px-24 py-16">
+          <div className="w-full max-w-[540px] text-center lg:text-left">
+            <div className="max-w-[280px] mx-auto lg:mx-0 mb-10">
+              <RetroStripes />
             </div>
 
-            <div className="metal-well p-1 sm:p-1.5 relative z-10">
-              <div className="mini-crt px-5 py-3 sm:px-6 sm:py-3.5">
-                <span className="mini-crt-text font-mono text-xs sm:text-sm tracking-[0.2em] uppercase whitespace-nowrap">
-                  CHECK OUT THE NEXT BOOTCAMP
-                </span>
+            <h1 className="font-sans text-6xl sm:text-8xl font-bold tracking-tight text-brown mb-3">
+              hey<span className="text-orange">mitch</span>
+            </h1>
+
+            <p className="font-mono text-sm sm:text-base text-brown/60 tracking-wide mb-10">
+              AI skills you can actually use. Newsletters, bootcamps, free tools.
+            </p>
+
+            {/* Desktop: horizontal row */}
+            <div className="metal-housing hidden sm:inline-flex items-center gap-4 px-5 py-4 mb-6">
+              <div className="metal-well p-2.5 relative z-10">
+                <PhysicalButton
+                  href="https://ccb-waitlist.vercel.app/"
+                  variant="red"
+                >
+                  <span className="sr-only">Join the next bootcamp</span>
+                </PhysicalButton>
+              </div>
+
+              <div className="metal-well p-1.5 relative z-10">
+                <div className="mini-crt px-6 py-3.5">
+                  <span className="mini-crt-text font-mono text-sm tracking-[0.2em] uppercase whitespace-nowrap">
+                    CHECK OUT THE NEXT BOOTCAMP
+                  </span>
+                </div>
+              </div>
+
+              <div className="metal-well p-1.5 relative z-10">
+                <CountdownCRT />
               </div>
             </div>
 
-            <div className="metal-well p-1 sm:p-1.5 relative z-10">
-              <CountdownCRT />
-            </div>
-          </div>
+            {/* Mobile: vertical stack — CRT text top, button + countdown bottom */}
+            <div className="metal-housing sm:hidden inline-flex flex-col gap-3 px-4 py-3 mb-6">
+              <div className="metal-well p-1 relative z-10">
+                <div className="mini-crt px-4 py-2.5">
+                  <span className="mini-crt-text font-mono text-xs tracking-[0.15em] uppercase text-center block leading-relaxed">
+                    CHECK OUT<br />THE NEXT<br />BOOTCAMP
+                  </span>
+                </div>
+              </div>
 
-          <SectionHeader />
+              <div className="flex items-center gap-3">
+                <div className="metal-well p-2 relative z-10">
+                  <PhysicalButton
+                    href="https://ccb-waitlist.vercel.app/"
+                    variant="red"
+                  >
+                    <span className="sr-only">Join the next bootcamp</span>
+                  </PhysicalButton>
+                </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 secondary-btn-row">
-            <div className="flex-1">
-              <PhysicalButton
-                href="https://heymitch.substack.com/"
-                variant="secondary"
-                className="w-full"
-              >
-                <span className="font-mono text-sm tracking-wide block text-center">
-                  AI Dispatch
-                </span>
-              </PhysicalButton>
-            </div>
-
-            <div className="flex-1">
-              <PhysicalButton
-                href="https://discipleai.substack.com/"
-                variant="secondary"
-                className="w-full"
-              >
-                <span className="font-mono text-sm tracking-wide block text-center">
-                  Disciple AI Substack
-                </span>
-              </PhysicalButton>
+                <div className="metal-well p-1 relative z-10 flex-1">
+                  <CountdownCRT />
+                </div>
+              </div>
             </div>
 
-            <div className="flex-1">
-              <PhysicalButton
-                href="/resources"
-                variant="secondary"
-                className="w-full"
-              >
-                <span className="font-mono text-sm tracking-wide block text-center">
-                  Free Resources
-                </span>
-              </PhysicalButton>
-            </div>
-          </div>
+            <SectionHeader />
 
-          <div className="flex items-center justify-center gap-5 mt-10">
-            {socials.map(({ label, href, d }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="text-brown/25 hover:text-orange transition-colors duration-200"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+            <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 secondary-btn-row">
+              <div className="flex-1">
+                <PhysicalButton
+                  href="https://heymitch.substack.com/"
+                  variant="secondary"
+                  className="w-full"
                 >
-                  <path d={d} />
-                </svg>
-              </a>
-            ))}
-          </div>
+                  <span className="font-mono text-sm tracking-wide block text-center">
+                    AI Dispatch
+                  </span>
+                </PhysicalButton>
+              </div>
 
-          <div className="max-w-[320px] mx-auto mt-10">
-            <RetroStripes />
+              <div className="flex-1">
+                <PhysicalButton
+                  href="https://discipleai.substack.com/"
+                  variant="secondary"
+                  className="w-full"
+                >
+                  <span className="font-mono text-sm tracking-wide block text-center">
+                    Disciple AI Substack
+                  </span>
+                </PhysicalButton>
+              </div>
+
+              <div className="flex-1">
+                <PhysicalButton
+                  href="/resources"
+                  variant="secondary"
+                  className="w-full"
+                >
+                  <span className="font-mono text-sm tracking-wide block text-center">
+                    Free Resources
+                  </span>
+                </PhysicalButton>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center lg:justify-start gap-5 mt-10">
+              {socials.map(({ label, href, d }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="text-brown/25 hover:text-orange transition-colors duration-200"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d={d} />
+                  </svg>
+                </a>
+              ))}
+            </div>
+
+            <div className="max-w-[280px] mx-auto lg:mx-0 mt-10">
+              <RetroStripes />
+            </div>
           </div>
         </div>
       </main>
 
-      {/* ═══ DARK FOOTER BAND ═══ */}
-      <footer className="bg-brown px-6 py-8 text-center">
-        <p className="font-sans text-xs tracking-[0.25em] uppercase text-cream/40">
+      {/* ═══ DARK FOOTER BAND — full width, transparent right half on desktop ═══ */}
+      <footer className="relative z-10 bg-brown px-6 py-8 text-center lg:bg-gradient-to-r lg:from-brown lg:from-50% lg:to-transparent lg:to-50%">
+        <p className="font-sans text-xs tracking-[0.25em] uppercase text-cream/40 lg:w-1/2 lg:text-left lg:pl-10 xl:pl-18">
           By Mitch Harris
         </p>
-        <p className="font-mono text-xs text-cream/25 mt-1">
+        <p className="font-mono text-xs text-cream/25 mt-1 lg:w-1/2 lg:text-left lg:pl-10 xl:pl-18">
           AI coach, builder, writer
         </p>
       </footer>
-    </>
+    </div>
   );
 }

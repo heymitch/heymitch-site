@@ -29,8 +29,10 @@ function useCountdown(targetDate: Date) {
   return timeLeft;
 }
 
+const LAUNCH_DATE = new Date("2026-04-06T12:00:00-04:00");
+
 export default function CountdownCRT() {
-  const launchDate = new Date("2026-04-06T12:00:00-04:00");
+  const launchDate = LAUNCH_DATE;
   const { days, hours, minutes, seconds } = useCountdown(launchDate);
 
   const units = [
