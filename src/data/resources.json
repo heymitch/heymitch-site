@@ -2,7 +2,7 @@
   {
     "title": "Sifu",
     "description": "Free, open-source action logger for macOS. Records your workflows, detects patterns, generates SOPs automatically. Privacy-first.",
-    "image": "/products/sifu.png",
+    "image": "/products/sifu-turtle.png",
     "url": "https://sifu-lander.vercel.app",
     "category": "tool",
     "published": true
@@ -10,7 +10,7 @@
   {
     "title": "📷 Snaptastic",
     "description": "Free, open-source screenshot beautifier. Auto-watches your folder, adds backgrounds, corners, shadows. 8 templates. Install with your agent.",
-    "image": "/products/snaptastic.png",
+    "image": "/products/snaptastic-bg-removed.png",
     "url": "https://snaptastic.vercel.app",
     "category": "tool",
     "published": true
