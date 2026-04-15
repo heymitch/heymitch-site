@@ -34,7 +34,7 @@
   {
     "title": "BrowserMonkey",
     "description": "Sniff once, Replay forever. Browser automation that skips the UI — intercepts fetch/XHR calls on any site and replays them 10-100x faster than clicking. Works on the 90% of SaaS that won't give you an API.",
-    "image": "/products/browser-monkey.png",
+    "image": "/products/browser-monkey-floppy.png",
     "url": "/resources/browser-monkey",
     "category": "skill",
     "published": true
