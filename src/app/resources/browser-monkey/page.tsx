@@ -127,7 +127,7 @@ export default function BrowserMonkeyPage() {
           <div className="flex-shrink-0 md:mt-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/products/browser-monkey.png"
+              src="/products/browser-monkey-floppy.png"
               alt="BrowserMonkey floppy disk"
               className="w-64 sm:w-72 md:w-80 h-auto drop-shadow-xl"
             />
