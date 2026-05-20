@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You're in — Unbundle Anything</title>
+  <meta name="description" content="Your Unbundle Anything kit — the prompt + the Claude Code skill.">
+  <meta property="og:title" content="You're in — Unbundle Anything">
+  <meta property="og:description" content="Your kit: the click-to-copy prompt and the /unbundle Claude Code skill.">
+  <meta property="og:image" content="https://heymitch.ai/unbundle/unbundle-anything-floppy-web.png">
+  <meta name="robots" content="noindex,nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* heymitch.ai design tokens — matches landing */
+    :root{
+      --cream:        #F8F4E9;
+      --cream-deep:   #EFE9D9;
+      --ink:          #2F2E2B;
+      --ink-2:        #1C2220;
+      --ink-3:        #5A4E44;
+      --orange:       #F35A1F;
+      --orange-deep:  #D04A14;
+      --rule:         #D9CFC0;
+      --paper-shadow: 0 30px 80px -40px rgba(31,28,22,0.35);
+
+      --serif: "Fraunces", "Times New Roman", serif;
+      --mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ margin:0; background: var(--cream); color: var(--ink); }
+    body{
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.6;
+      font-feature-settings: "ss01","ss02";
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container{ width: 100%; max-width: 880px; margin: 0 auto; padding: 0 28px; }
+    .mono{ font-family: var(--mono); }
+    .eyebrow{
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    /* topbar */
+    .topbar{ border-bottom: 1px solid var(--rule); background: var(--cream); }
+    .topbar-inner{
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 18px 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .topbar a{ color: var(--ink); text-decoration: none; }
+
+    /* hero */
+    .hero{ padding: 80px 0 32px; }
+    .hero h1{
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 0.96;
+      letter-spacing: -0.02em;
+      margin: 16px 0 22px;
+    }
+    .hero h1 .punct{ color: var(--orange); }
+    .hero h1 em{
+      font-style: italic;
+      position: relative;
+      white-space: nowrap;
+    }
+    .hero h1 em::after{
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0.06em;
+      height: 5px;
+      background: var(--orange);
+    }
+    .hero .sub{
+      font-size: 20px;
+      line-height: 1.55;
+      color: var(--ink-2);
+      max-width: 620px;
+      margin: 0 0 12px;
+    }
+    .hero .stamp{
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-top: 22px;
+    }
+
+    /* asset block (numbered card) */
+    .asset{ padding: 48px 0; border-top: 1px solid var(--rule); }
+    .asset:last-of-type{ border-bottom: 1px solid var(--rule); }
+    .asset-num{
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+    .asset h2{
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(32px, 4vw, 42px);
+      line-height: 1.1;
+      margin: 6px 0 14px;
+      letter-spacing: -0.015em;
+    }
+    .asset h2 .punct{ color: var(--orange); }
+    .asset .lede{ margin: 0 0 24px; color: var(--ink-2); max-width: 640px; }
+
+    /* prompt box */
+    .prompt-wrap{
+      background: var(--ink-2);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--paper-shadow);
+    }
+    .prompt-toolbar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #B6A98F;
+    }
+    .copy-btn{
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 10px 18px;
+      background: var(--orange);
+      color: #fff;
+      border: 1px solid var(--orange);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 120ms ease, transform 80ms ease;
+    }
+    .copy-btn:hover{ background: var(--orange-deep); border-color: var(--orange-deep); }
+    .copy-btn:active{ transform: translateY(1px); }
+    .copy-btn[data-copied="true"]{
+      background: #2C7A4E;
+      border-color: #2C7A4E;
+    }
+    .prompt-text{
+      font-family: var(--mono);
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #ECE7DA;
+      padding: 24px 22px 26px;
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-x: auto;
+      tab-size: 2;
+    }
+    .prompt-text .term-marker{ color: var(--orange); font-weight: 700; }
+
+    .prompt-hint{
+      margin-top: 18px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--ink-3);
+    }
+
+    /* skill download */
+    .download-row{
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .download-btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 16px 22px;
+      background: var(--ink-2);
+      color: #fff;
+      border: 1px solid var(--ink-2);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 120ms ease, transform 80ms ease;
+    }
+    .download-btn:hover{ background: #000; border-color: #000; }
+    .download-btn:active{ transform: translateY(1px); }
+    .download-btn .size{
+      font-weight: 400;
+      color: #B6A98F;
+      letter-spacing: 0.10em;
+    }
+    .download-btn .arrow{ font-weight: 400; opacity: 0.85; }
+    .install-steps{
+      margin: 20px 0 0;
+      padding: 18px 22px;
+      background: var(--cream-deep);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+    }
+    .install-steps p{ margin: 0 0 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); }
+    .install-steps ol{ margin: 0; padding-left: 20px; font-size: 15px; color: var(--ink-2); }
+    .install-steps ol li{ margin: 6px 0; }
+    .install-steps code{
+      font-family: var(--mono);
+      font-size: 13px;
+      background: #fff;
+      border: 1px solid var(--rule);
+      padding: 1px 6px;
+      border-radius: 3px;
+      color: var(--ink);
+    }
+
+    /* what now */
+    .what-now{ padding: 64px 0 32px; }
+    .what-now h2{
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(28px, 3.6vw, 38px);
+      line-height: 1.15;
+      margin: 0 0 18px;
+      letter-spacing: -0.015em;
+    }
+    .what-now h2 .punct{ color: var(--orange); }
+    .what-now p{ max-width: 680px; color: var(--ink-2); }
+    .what-now p em{ font-style: italic; color: var(--ink); }
+
+    /* footer */
+    footer{
+      border-top: 1px solid var(--rule);
+      padding: 24px 0 40px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    footer .row{ display:flex; justify-content: space-between; align-items: center; }
+    footer a{ color: var(--ink); text-decoration: none; }
+
+    @media (max-width: 720px){
+      .hero{ padding: 56px 0 24px; }
+      .asset{ padding: 36px 0; }
+      .what-now{ padding: 44px 0 24px; }
+      .prompt-text{ font-size: 12.5px; padding: 18px 16px 20px; }
+      .download-btn{ width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <a href="https://heymitch.ai">heymitch.ai</a>
+      <span>Utility series · HM-UTL-UA-01 · Your kit</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">Confirmed · Unbundle Anything</p>
+      <h1>You're <em>in</em><span class="punct">.</span></h1>
+      <p class="sub">Two things, both free, both yours. The prompt works in any LLM — copy it once and keep it. The skill works in Claude Code — three tracks, interactive, ten minutes per term.</p>
+      <p class="stamp">→ Don't forget to confirm your email so I can write to you.</p>
+    </div>
+  </header>
+
+  <section class="asset container">
+    <span class="asset-num">01 · The Prompt</span>
+    <h2>Paste this anywhere<span class="punct">.</span></h2>
+    <p class="lede">Drop it into Claude, ChatGPT, Gemini — anywhere. Replace <code>TERM:</code> with whatever bundled thing you want to unbundle. Charisma. "Be more strategic." A workflow that's been a mess for months.</p>
+
+    <div class="prompt-wrap">
+      <div class="prompt-toolbar">
+        <span>The Unbundle Prompt</span>
+        <button class="copy-btn" type="button" data-copy-target="#prompt-text" data-label="Copy the prompt">Copy the prompt</button>
+      </div>
+      <pre class="prompt-text" id="prompt-text">XYZ is a "bundled" term. Assume it houses a lot of connotative and intangible meaning that is hard to train and understand. Your mission is to "Unbundle" and operationalize this term.
+
+Operationalizing means to turn the phrase or word into a set of trainable and learnable and visible actions that when mastered, encompass the real meaning of the term.
+
+For example: "Charisma" is a bundled term that stands for the feeling of warmth, power, and presence other people feel when they interact with you. The actions that it encircles include making eye contact, active listening, speaking slowly, asking questions about the other person, smiling genuinely, having a firm handshake, and setting a collaborative frame for the conversation, etc.
+
+Provide CONCRETE examples for daily activities in work or life, business or relationships, interpersonal or mindset, in a way that someone could take action on without necessarily feeling the emotion that might naturally lead to the behavior.
+
+TERM:</pre>
+    </div>
+    <p class="prompt-hint">Tip — start with the word that's been nodded at and not acted on. That's the most-bundled term in your head right now.</p>
+  </section>
+
+  <section class="asset container">
+    <span class="asset-num">02 · The Skill</span>
+    <h2>Install for Claude Code<span class="punct">.</span></h2>
+    <p class="lede"><span class="mono">/unbundle</span> walks you through the same prompt interactively. Picks one of three tracks (Workflow / Soft Skill / Belief), asks one or two context questions, then returns 5–12 daily-trainable actions. Better than the raw prompt because the tracks change the output shape — a workflow needs an SOP, a soft skill needs observable behaviors, a belief needs a one-week schedule.</p>
+
+    <div class="download-row">
+      <a class="download-btn" href="/unbundle/unbundle.plugin.zip" download="unbundle.plugin.zip">
+        <span>⬇ Download unbundle.plugin.zip</span>
+        <span class="size">5.9 KB</span>
+      </a>
+    </div>
+
+    <div class="install-steps">
+      <p>Install — two ways</p>
+      <ol>
+        <li>In Claude Code: run <code>/plugin install</code> and point at the downloaded <code>unbundle.plugin.zip</code>.</li>
+        <li>Or manually: unzip into <code>~/.claude/plugins/</code> so the path is <code>~/.claude/plugins/unbundle/skills/unbundle/SKILL.md</code>. Restart Claude Code.</li>
+      </ol>
+    </div>
+    <p class="prompt-hint">Verify install — type <code class="mono">/unbundle</code> in a Claude Code session. If the skill is discovered, you'll see it ready to invoke.</p>
+  </section>
+
+  <section class="what-now container">
+    <h2>One more thing<span class="punct">.</span></h2>
+    <p>Pick <em>one</em> bundled term. Unbundle it today. Reply to my confirmation email and tell me what you got — every reply lands in my actual inbox and I read each one.</p>
+    <p>If you've been collecting prompts and never running them, this is the loop break. Run it once and you'll see why the tracks matter.</p>
+    <p class="prompt-hint">— Mitch</p>
+  </section>
+
+  <footer>
+    <div class="container row">
+      <span>heymitch.ai · HM-UTL-UA-01 · MMXXVI</span>
+      <span><a href="/unbundle">← back to the landing page</a></span>
+    </div>
+  </footer>
+
+  <script>
+    // Click-to-copy with clipboard API + selection fallback
+    (function(){
+      var btns = document.querySelectorAll('.copy-btn');
+      btns.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var target = document.querySelector(btn.dataset.copyTarget);
+          if(!target) return;
+          var text = target.textContent.trim();
+          var done = function(success){
+            var label = btn.dataset.label || btn.textContent;
+            btn.textContent = success ? '✓ Copied' : '⚠ Press ⌘C';
+            btn.setAttribute('data-copied', String(success));
+            setTimeout(function(){
+              btn.textContent = label;
+              btn.removeAttribute('data-copied');
+            }, 2200);
+          };
+          if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(text).then(function(){ done(true); }).catch(function(){
+              selectFallback(target); done(false);
+            });
+          } else {
+            selectFallback(target); done(false);
+          }
+        });
+      });
+      function selectFallback(el){
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    })();
+  </script>
+
+</body>
+</html>
