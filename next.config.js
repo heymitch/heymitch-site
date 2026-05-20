@@ -4,6 +4,7 @@ const nextConfig = {
   async rewrites() {
     return [
       { source: '/unbundle', destination: '/unbundle/index.html' },
+      { source: '/unbundle/thanks', destination: '/unbundle/thanks/index.html' },
     ]
   },
 }
