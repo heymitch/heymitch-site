@@ -564,11 +564,55 @@
   </footer>
 
   <!--
-    Form submission is handled by Kit's ck.5.js (loaded in <head>).
-    On success: shows "Now check your email to confirm your subscription."
-    inline via the .formkit-alert element, per the form's data-options config.
-    No custom handler needed.
+    Kit form submit handler — fire-and-redirect (PATTERNS.md §2).
+
+    Kit's ck.5.js binds to .formkit-form and runs whatever the Kit
+    dashboard says for after_subscribe (currently: inline message).
+    Local data-options does NOT override server-side dashboard config —
+    ck.5.js fetches form settings from Kit's server using data-uid.
+
+    To redirect to /unbundle/thanks anyway, we intercept the submit in
+    *capture phase* (before ck.5.js sees it), stop propagation so ck.5.js
+    never binds its own logic, fire a no-cors POST to the same endpoint
+    (subscription happens server-side), and redirect ourselves.
+
+    Belt-and-suspenders: also remove the form's `target` if any, and run
+    on a one-shot guard so double-submits don't trigger twice.
   -->
+  <script>
+    (function(){
+      var TARGET = 'https://www.heymitch.ai/unbundle/thanks';
+      var forms  = document.querySelectorAll('form.signup');
+      forms.forEach(function(form){
+        // Capture-phase listener fires BEFORE ck.5.js bubble-phase handler
+        form.addEventListener('submit', function(e){
+          var email = form.querySelector('input[type="email"]');
+          if(!email || !email.value || !email.checkValidity()){
+            // Let the browser show the native validation message
+            return;
+          }
+          if(form.dataset.submitting === 'true') return;
+          form.dataset.submitting = 'true';
+
+          e.preventDefault();
+          e.stopImmediatePropagation(); // <- key: blocks ck.5.js
+
+          var btn = form.querySelector('button[type="submit"], .formkit-submit');
+          if(btn){
+            btn.setAttribute('data-active', '');
+            btn.disabled = true;
+          }
+
+          var go = function(){ window.location.href = TARGET; };
+          fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: new FormData(form)
+          }).then(go).catch(go); // redirect either way; subscription fired regardless
+        }, true); // <- capture phase
+      });
+    })();
+  </script>
 
 </body>
 </html>
