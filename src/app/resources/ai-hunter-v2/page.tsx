@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+'use client';
+
+import { useState } from 'react';
 import RetroStripes from "@/components/RetroStripes";
 import SectionHeader from "@/components/SectionHeader";
-
-export const metadata: Metadata = {
-  title: "AI Hunter 2.0 — Search and Destroy Robo-Writing",
-  description:
-    "Deterministic AI pattern scanner with 200+ experiments baked in. Scores your writing 0-100. Finds exactly which sentences to rewrite.",
-};
 
 const beforeText = `In today's rapidly evolving landscape, it's crucial to understand that effective communication is the cornerstone of success. By leveraging cutting-edge strategies and fostering meaningful connections, you can navigate the complexities of modern business. Furthermore, it's important to note that embracing innovation isn't just beneficial — it's essential for driving sustainable growth and unlocking your full potential.`;
 
@@ -23,6 +19,25 @@ const flags = [
 ];
 
 export default function AIHunterPage() {
+  const [email, setEmail]     = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError]     = useState('');
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.includes('@')) { setError('Enter a valid email'); return; }
+    setLoading(true);
+    setError('');
+    await fetch('/api/plugin-signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, plugin: 'ai-hunter' }),
+    });
+    setSubmitted(true);
+    setLoading(false);
+  }
+
   return (
     <main className="min-h-screen bg-cream">
       {/* Nav */}
@@ -31,31 +46,14 @@ export default function AIHunterPage() {
           <RetroStripes />
         </div>
         <div className="flex items-center justify-between">
-          <a
-            href="/"
-            className="font-sans text-3xl sm:text-4xl font-bold text-brown hover:text-brown/70 transition-colors"
-          >
+          <a href="/" className="font-sans text-3xl sm:text-4xl font-bold text-brown hover:text-brown/70 transition-colors">
             hey<span className="text-orange">mitch</span>
           </a>
-          <a
-            href="/resources"
-            className="flex items-center gap-2 text-brown/50 hover:text-brown text-sm font-medium transition-colors"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m12 19-7-7 7-7" />
-              <path d="M19 12H5" />
+          <a href="/tools/ai-hunter" className="flex items-center gap-2 text-brown/50 hover:text-brown text-sm font-medium transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m12 19-7-7 7-7" /><path d="M19 12H5" />
             </svg>
-            Resources
+            Try the free tool
           </a>
         </div>
       </nav>
@@ -79,7 +77,7 @@ export default function AIHunterPage() {
               an explanation, and a rewrite direction. Built from months of GPTZero evasion research.
             </p>
 
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-3 mb-10">
               {[
                 "Dual evaluation: regex patterns + punctuation landmarks",
                 "Scores 0-100 with letter grade (A through F)",
@@ -93,25 +91,56 @@ export default function AIHunterPage() {
               ))}
             </ul>
 
-            <a
-              href="/downloads/ai-hunter-v2.plugin.zip"
-              download
-              className="inline-flex items-center gap-3 rounded-lg bg-brown text-cream font-sans font-bold text-base px-6 py-3.5 hover:bg-brown/90 transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Download AI Hunter 2.0
-            </a>
-
-            <p className="font-mono text-xs text-brown/40 mt-3">
-              Claude Cowork plugin. Install via Plugins &rarr; Add Personal Plugin &rarr; Upload.
-            </p>
+            {/* ── Email gate ─────────────────────────────────────────── */}
+            {!submitted ? (
+              <div>
+                <p className="font-mono text-xs text-brown/40 mb-3 uppercase tracking-wider">
+                  Drop your email — we'll send it straight to you
+                </p>
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => { setEmail(e.target.value); setError(''); }}
+                    placeholder="you@example.com"
+                    required
+                    className="flex-1 rounded-lg border border-brown/20 bg-white px-4 py-3 font-mono text-sm text-brown placeholder-brown/30 outline-none focus:border-orange transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="rounded-lg bg-brown text-cream font-sans font-bold text-sm px-6 py-3 hover:bg-brown/90 transition-colors disabled:opacity-50 whitespace-nowrap"
+                  >
+                    {loading ? 'Sending…' : 'Get the Plugin →'}
+                  </button>
+                </form>
+                {error && <p className="font-mono text-xs text-red-500 mt-2">{error}</p>}
+              </div>
+            ) : (
+              <div>
+                <p className="font-mono text-sm text-brown/50 mb-4">
+                  ✓ Got it. Here&apos;s your download:
+                </p>
+                <a
+                  href="/downloads/ai-hunter-v2.plugin.zip"
+                  download
+                  className="inline-flex items-center gap-3 rounded-lg bg-brown text-cream font-sans font-bold text-base px-6 py-3.5 hover:bg-brown/90 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Download AI Hunter 2.0
+                </a>
+                <p className="font-mono text-xs text-brown/40 mt-3">
+                  Claude Cowork plugin. Install via Plugins → Add Personal Plugin → Upload.
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* Floppy disk image */}
+          {/* Floppy */}
           <div className="flex-shrink-0 md:mt-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -127,34 +156,22 @@ export default function AIHunterPage() {
       <section className="bg-brown">
         <div className="max-w-[960px] mx-auto px-6 py-16">
           <div className="max-w-3xl mx-auto">
-            <h2 className="font-sans text-2xl sm:text-3xl font-bold text-cream mb-2">
-              See it in action
-            </h2>
+            <h2 className="font-sans text-2xl sm:text-3xl font-bold text-cream mb-2">See it in action</h2>
             <p className="font-mono text-sm text-cream/50 mb-10">
               Run this paragraph through AI Hunter. Watch it light up like a crime scene.
             </p>
-
-            {/* Input sample */}
             <div className="rounded-lg border border-[#2a2520] bg-[#12100E] p-6 mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
                 <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
                 <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
-                <span className="ml-3 font-mono text-xs text-[#ff5f56]/60">
-                  input &mdash; Grade: F
-                </span>
+                <span className="ml-3 font-mono text-xs text-[#ff5f56]/60">input — Grade: F</span>
               </div>
-              <p className="font-mono text-sm leading-relaxed text-cream/60 italic">
-                &ldquo;{beforeText}&rdquo;
-              </p>
+              <p className="font-mono text-sm leading-relaxed text-cream/60 italic">&ldquo;{beforeText}&rdquo;</p>
             </div>
-
-            {/* Flags table */}
             <div className="rounded-lg border border-[#2a2520] bg-[#12100E] overflow-hidden">
               <div className="px-6 py-4 border-b border-[#2a2520]">
-                <p className="font-mono text-xs text-[#ff5f56] tracking-wider uppercase">
-                  9 flags in 3 sentences &mdash; Verdict: F
-                </p>
+                <p className="font-mono text-xs text-[#ff5f56] tracking-wider uppercase">9 flags in 3 sentences — Verdict: F</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
@@ -179,63 +196,23 @@ export default function AIHunterPage() {
                 </table>
               </div>
             </div>
-
-            {/* Callouts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-              <div className="rounded-lg border border-[#2a2520] bg-[#12100E] p-5">
-                <p className="font-sans font-bold text-cream text-sm mb-2">
-                  Contrast Framing &mdash; The #1 Dead Giveaway
-                </p>
-                <p className="font-mono text-xs text-cream/40 leading-relaxed">
-                  &ldquo;Not just X&mdash;it&apos;s Y&rdquo; is the single biggest AI tipoff. AI thinks in contrasts so deeply that even after cleaning,
-                  it creeps back. Stay vigilant on this one.
-                </p>
-              </div>
-              <div className="rounded-lg border border-[#2a2520] bg-[#12100E] p-5">
-                <p className="font-sans font-bold text-cream text-sm mb-2">
-                  Rule of Three &mdash; AI&apos;s Favorite Rhythm
-                </p>
-                <p className="font-mono text-xs text-cream/40 leading-relaxed">
-                  AI defaults to listing things in threes every time it wants to sound persuasive.
-                  Break the pattern&mdash;use two, use five, or just say the one thing that matters.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Install Instructions */}
+      {/* Install */}
       <section className="max-w-[960px] mx-auto px-6 py-16">
         <SectionHeader label="Install" />
-
         <div className="max-w-2xl">
-          <h2 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-brown mb-6">
-            3 steps. 2 minutes.
-          </h2>
-
+          <h2 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-brown mb-6">3 steps. 2 minutes.</h2>
           <div className="space-y-6">
             {[
-              {
-                step: "1",
-                title: "Download the plugin",
-                desc: "Click the download button above. You'll get a .plugin.zip file.",
-              },
-              {
-                step: "2",
-                title: "Open Claude Cowork",
-                desc: "Go to Plugins \u2192 Add Personal Plugin \u2192 Upload the .zip file.",
-              },
-              {
-                step: "3",
-                title: "Run it",
-                desc: 'Paste any text and say "Run AI Hunter on this." Watch it score and flag every AI pattern.',
-              },
+              { step: "1", title: "Enter your email above", desc: "We'll give you the download link instantly." },
+              { step: "2", title: "Open Claude Cowork", desc: "Go to Plugins → Add Personal Plugin → Upload the .zip file." },
+              { step: "3", title: "Run it", desc: 'Paste any text and say "Run AI Hunter on this." Watch it score and flag every AI pattern.' },
             ].map((s) => (
               <div key={s.step} className="flex items-start gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-orange text-cream font-sans font-bold text-sm flex items-center justify-center">
-                  {s.step}
-                </span>
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-orange text-cream font-sans font-bold text-sm flex items-center justify-center">{s.step}</span>
                 <div>
                   <p className="font-sans font-bold text-brown text-base">{s.title}</p>
                   <p className="font-mono text-sm text-brown/50">{s.desc}</p>
@@ -243,55 +220,30 @@ export default function AIHunterPage() {
               </div>
             ))}
           </div>
-
-          <div className="mt-10">
-            <a
-              href="/downloads/ai-hunter-v2.plugin.zip"
-              download
-              className="inline-flex items-center gap-3 rounded-lg bg-brown text-cream font-sans font-bold text-base px-6 py-3.5 hover:bg-brown/90 transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Download AI Hunter 2.0
-            </a>
-          </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="max-w-[960px] mx-auto px-6 pb-16">
         <div className="rounded-xl border border-brown/10 bg-cream-dark/30 p-8 sm:p-10 text-center">
-          <p className="font-mono text-xs tracking-wider uppercase text-brown/40 mb-3">
-            Want the full system?
-          </p>
+          <p className="font-mono text-xs tracking-wider uppercase text-brown/40 mb-3">Want the full system?</p>
           <h3 className="font-sans text-2xl sm:text-3xl font-bold text-brown mb-3">
             AI Hunter is one of 20+ skills you build in the bootcamp.
           </h3>
           <p className="font-mono text-sm text-brown/50 mb-6 max-w-lg mx-auto">
-            Claude Cowork Bootcamp teaches you to build AI workflows that run your business.
-            6 live sessions. Real skills. Not prompts.
+            Claude Cowork Bootcamp teaches you to build AI workflows that run your business. 6 live sessions. Real skills. Not prompts.
           </p>
-          <a
-            href="https://ccb-waitlist.vercel.app"
-            className="inline-flex items-center gap-2 rounded-lg bg-orange text-cream font-sans font-bold text-base px-6 py-3.5 hover:bg-orange/90 transition-colors"
-          >
+          <a href="https://ccmb-waitlist.vercel.app" className="inline-flex items-center gap-2 rounded-lg bg-orange text-cream font-sans font-bold text-base px-6 py-3.5 hover:bg-orange/90 transition-colors">
             Join the Waitlist
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
+              <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
             </svg>
           </a>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-brown px-6 py-6 text-center">
-        <p className="font-sans text-xs tracking-[0.25em] uppercase text-cream/40">
-          By Mitch Harris
-        </p>
+        <p className="font-sans text-xs tracking-[0.25em] uppercase text-cream/40">By Mitch Harris</p>
       </footer>
     </main>
   );

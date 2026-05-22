@@ -6,3 +6,9 @@ out/
 .DS_Store
 .vercel
 .env*.local
+
+# build artifact
+tsconfig.tsbuildinfo
+
+# claude worktrees
+.claude/worktrees/

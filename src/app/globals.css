@@ -435,3 +435,138 @@ a:hover {
   align-items: center;
   justify-content: center;
 }
+
+/* ═══════════════════════════════════════════════
+   FIELD DOCS — Markdown Prose Styles
+   ═══════════════════════════════════════════════ */
+
+.prose-field-docs h1 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #2D2118;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.prose-field-docs h2 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2D2118;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(45, 33, 24, 0.1);
+}
+
+.prose-field-docs h3 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #2D2118;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-field-docs p {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(45, 33, 24, 0.8);
+  margin-bottom: 1rem;
+}
+
+.prose-field-docs strong {
+  color: #2D2118;
+  font-weight: 600;
+}
+
+.prose-field-docs a {
+  color: #E8682A;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-field-docs a:hover {
+  color: rgba(232, 104, 42, 0.7);
+}
+
+.prose-field-docs ul, .prose-field-docs ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.prose-field-docs li {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(45, 33, 24, 0.8);
+  margin-bottom: 0.25rem;
+}
+
+.prose-field-docs code {
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.85rem;
+  background: rgba(45, 33, 24, 0.06);
+  color: #2D2118;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(45, 33, 24, 0.08);
+}
+
+.prose-field-docs pre {
+  background: #2D2118;
+  color: #F0E4D0;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.prose-field-docs pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #F0E4D0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.prose-field-docs table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.prose-field-docs th {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  color: #2D2118;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid rgba(45, 33, 24, 0.15);
+  background: rgba(45, 33, 24, 0.03);
+}
+
+.prose-field-docs td {
+  font-family: var(--font-space-grotesk), sans-serif;
+  color: rgba(45, 33, 24, 0.75);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(45, 33, 24, 0.06);
+}
+
+.prose-field-docs blockquote {
+  border-left: 3px solid #E8682A;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: rgba(45, 33, 24, 0.7);
+}
+
+.prose-field-docs hr {
+  border: none;
+  border-top: 1px solid rgba(45, 33, 24, 0.1);
+  margin: 2rem 0;
+}

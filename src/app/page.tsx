@@ -61,7 +61,7 @@ export default function Home() {
             <div className="metal-housing hidden sm:inline-flex items-center gap-4 px-5 py-4 mb-6">
               <div className="metal-well p-2.5 relative z-10">
                 <PhysicalButton
-                  href="https://ccb-waitlist.vercel.app/"
+                  href="https://ccmb-waitlist.vercel.app/"
                   variant="red"
                 >
                   <span className="sr-only">Join the next bootcamp</span>
@@ -94,7 +94,7 @@ export default function Home() {
               <div className="flex items-center gap-3">
                 <div className="metal-well p-2 relative z-10">
                   <PhysicalButton
-                    href="https://ccb-waitlist.vercel.app/"
+                    href="https://ccmb-waitlist.vercel.app/"
                     variant="red"
                   >
                     <span className="sr-only">Join the next bootcamp</span>
@@ -136,12 +136,12 @@ export default function Home() {
 
               <div className="flex-1">
                 <PhysicalButton
-                  href="/resources"
+                  href="/tools/ai-hunter"
                   variant="secondary"
                   className="w-full"
                 >
                   <span className="font-mono text-sm tracking-wide block text-center">
-                    Free Resources
+                    AI Hunter Tool
                   </span>
                 </PhysicalButton>
               </div>

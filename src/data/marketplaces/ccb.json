@@ -1,0 +1,301 @@
+{
+  "name": "cowork-bootcamp",
+  "owner": {
+    "name": "Speakeasy",
+    "email": "mitch@heymitch.com"
+  },
+  "metadata": {
+    "description": "Claude Cowork Bootcamp — skills, connectors, and workflows for knowledge workers",
+    "version": "2.0.0"
+  },
+  "plugins": [
+    {
+      "name": "system-prompt-settings",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/system-prompt-settings"
+      },
+      "description": "One-time system prompt setup for Claude Cowork",
+      "version": "1.0.0",
+      "category": "setup",
+      "tags": ["bootcamp", "setup", "session-1"]
+    },
+    {
+      "name": "business-blueprint",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/business-blueprint"
+      },
+      "description": "Interactive interview that builds a personalized agent config and CLAUDE.md so the agent knows who you are, what your business does, and how to help you",
+      "version": "1.0.0",
+      "category": "setup",
+      "tags": ["bootcamp", "setup", "session-1"]
+    },
+    {
+      "name": "organize-machine",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/organize-machine"
+      },
+      "description": "Organize files on your computer using GTD principles — starts with screenshots, expands to your whole desktop and downloads",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["bootcamp", "productivity", "session-1"]
+    },
+    {
+      "name": "notion-connector",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/notion-connector"
+      },
+      "description": "Connect Claude Cowork to your Notion workspace so skills can read your notes and create pages directly where you work",
+      "version": "1.0.0",
+      "category": "connector",
+      "tags": ["bootcamp", "connector", "session-2"]
+    },
+    {
+      "name": "voice-training",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/voice-training"
+      },
+      "description": "Train your agent on your unique writing voice using your past writing so all outputs sound like you, not generic AI",
+      "version": "1.0.0",
+      "category": "setup",
+      "tags": ["bootcamp", "voice", "session-2"]
+    },
+    {
+      "name": "newsletter-writer",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/newsletter-writer"
+      },
+      "description": "Draft your weekly newsletter by pulling from your Notion notes, writing in your voice, and saving the finished draft directly to Notion",
+      "version": "1.0.0",
+      "category": "content",
+      "tags": ["bootcamp", "content", "session-2"]
+    },
+    {
+      "name": "social-content",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/social-content"
+      },
+      "description": "Generate social media posts for X and LinkedIn in your voice from topics, notes, or ideas",
+      "version": "1.0.0",
+      "category": "content",
+      "tags": ["bootcamp", "content", "session-2"]
+    },
+    {
+      "name": "trend-jacking",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/trend-jacking"
+      },
+      "description": "Research trending topics in your industry and generate content angles with draft posts you can publish immediately",
+      "version": "1.0.0",
+      "category": "content",
+      "tags": ["bootcamp", "content", "session-2"]
+    },
+    {
+      "name": "voice-memo-to-post",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/voice-memo-to-post"
+      },
+      "description": "Turn voice memos, rough notes, and dictated ideas into polished social media posts in your voice",
+      "version": "1.0.0",
+      "category": "content",
+      "tags": ["bootcamp", "content", "session-2"]
+    },
+    {
+      "name": "gmail-connector",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/gmail-connector"
+      },
+      "description": "Connect Gmail to Cowork and triage your inbox — read emails, draft replies, and pull inbox context into other skills",
+      "version": "1.0.0",
+      "category": "connector",
+      "tags": ["bootcamp", "connector", "session-3"]
+    },
+    {
+      "name": "slack-connector",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/slack-connector"
+      },
+      "description": "Connect Slack to Cowork and catch up on channels — read channels, summarize threads, and pull conversation context into other skills",
+      "version": "1.0.0",
+      "category": "connector",
+      "tags": ["bootcamp", "connector", "session-3"]
+    },
+    {
+      "name": "google-docs-connector",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/google-docs-connector"
+      },
+      "description": "Connect Google Drive, Docs, and Sheets to Cowork for reading, writing, and pulling file context into other skills",
+      "version": "1.0.0",
+      "category": "connector",
+      "tags": ["bootcamp", "connector", "session-3"]
+    },
+    {
+      "name": "fireflies-connector",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/fireflies-connector"
+      },
+      "description": "Connect Fireflies.ai to Cowork for meeting transcripts, action items, and past conversation context",
+      "version": "1.0.0",
+      "category": "connector",
+      "tags": ["bootcamp", "connector", "session-3"]
+    },
+    {
+      "name": "meeting-prep",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/meeting-prep"
+      },
+      "description": "Prepare a comprehensive brief before any meeting by pulling from Gmail, Slack, Google Docs, and Fireflies",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["bootcamp", "productivity", "session-3"]
+    },
+    {
+      "name": "gamma-connector",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/gamma-connector"
+      },
+      "description": "Connect Gamma to Cowork for creating presentations, documents, and webpages from your content",
+      "version": "1.0.0",
+      "category": "connector",
+      "tags": ["bootcamp", "connector", "session-4"]
+    },
+    {
+      "name": "gamma-designer",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/gamma-designer"
+      },
+      "description": "Turn content into polished Gamma presentations, one-pagers, and documents",
+      "version": "1.0.0",
+      "category": "content",
+      "tags": ["bootcamp", "design", "session-4"]
+    },
+    {
+      "name": "project-kit",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/project-kit"
+      },
+      "description": "Generate a complete project kit from a single input — meeting transcript, brief, or voice memo becomes a proposal, presentation, social posts, and follow-up email",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["bootcamp", "productivity", "session-4"]
+    },
+    {
+      "name": "vercel-landing-page",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/vercel-landing-page"
+      },
+      "description": "Build and deploy a landing page to Vercel from a description, Notion content, or product brief",
+      "version": "1.0.0",
+      "category": "automation",
+      "tags": ["bootcamp", "automation", "session-5"]
+    },
+    {
+      "name": "browser-automation",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/browser-automation"
+      },
+      "description": "Automate repetitive browser tasks — fill forms, navigate websites, extract data, and interact with web tools on your behalf",
+      "version": "1.0.0",
+      "category": "automation",
+      "tags": ["bootcamp", "automation", "session-5"]
+    },
+    {
+      "name": "skill-maker",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/skill-maker"
+      },
+      "description": "Build new custom skills from scratch based on your business context — turn manual processes into repeatable agent skills",
+      "version": "1.0.0",
+      "category": "automation",
+      "tags": ["bootcamp", "automation", "session-6"]
+    },
+    {
+      "name": "digital-product",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/digital-product"
+      },
+      "description": "Build a digital product from idea to launch using the 0 to $1 framework",
+      "version": "1.0.0",
+      "category": "creation",
+      "tags": ["bootcamp", "session-5", "digital-product", "launch"]
+    },
+    {
+      "name": "ship30-tutor",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/ship30-tutor"
+      },
+      "description": "Ship 30 for 30 agent tutor — teaches the atomic essay system lesson by lesson, builds your idea matrix, and creates Notion templates for daily writing",
+      "version": "1.0.0",
+      "category": "bonus",
+      "tags": ["bootcamp", "bonus", "writing", "ship30"]
+    },
+    {
+      "name": "cnc",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/cnc-tutor"
+      },
+      "description": "Category Newsletter Creator — complete newsletter business system with tutor (learn the course), builder (create the assets), and smart routing. Covers positioning, writing, growth, monetization, email automation, and book publishing across 6 tracks",
+      "version": "1.0.0",
+      "category": "bonus",
+      "tags": ["bootcamp", "bonus", "newsletter", "cnc", "tutor"]
+    },
+    {
+      "name": "ltl-tutor",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/heymitch/cowork-bootcamp-plugins.git",
+        "path": "plugins/ltl-tutor"
+      },
+      "description": "Low Ticket Launchpad — build, price, and launch your low-ticket digital product ($50-$350) with interactive exercises, progress tracking, and a builder that helps you create every asset",
+      "version": "1.0.0",
+      "category": "bonus",
+      "tags": ["bootcamp", "bonus", "digital-product", "ltl", "tutor"]
+    }
+  ]
+}

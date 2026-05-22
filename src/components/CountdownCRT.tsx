@@ -29,7 +29,7 @@ function useCountdown(targetDate: Date) {
   return timeLeft;
 }
 
-const LAUNCH_DATE = new Date("2026-04-06T12:00:00-04:00");
+const LAUNCH_DATE = new Date("2026-05-18T12:00:00-04:00");
 
 export default function CountdownCRT() {
   const launchDate = LAUNCH_DATE;
@@ -45,7 +45,7 @@ export default function CountdownCRT() {
   return (
     <div className="mini-crt mini-crt-green px-3 py-2 sm:px-4 sm:py-2.5">
       <div className="mini-crt-green-prompt font-mono text-[7px] sm:text-[8px] tracking-wider mb-1">
-        $ countdown --apr-6
+        $ countdown --may-18
       </div>
       <div className="flex items-baseline" style={{ gap: 0 }}>
         {units.map((unit, i) => (
