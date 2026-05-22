@@ -11,11 +11,12 @@ export default function ResourceCard({
   image,
   url,
 }: ResourceCardProps) {
+  const isInternal = url.startsWith("/");
+
   return (
     <a
       href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(isInternal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
       className="group block rounded-xl border border-brown/10 bg-cream-dark/30 p-5 transition-all duration-300 hover:border-brown/20 hover:bg-cream-dark/50"
     >
       <div className="flex justify-center mb-4">

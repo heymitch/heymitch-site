@@ -2,7 +2,11 @@ import PhysicalButton from "@/components/PhysicalButton";
 import CountdownCRT from "@/components/CountdownCRT";
 import RetroStripes from "@/components/RetroStripes";
 import SectionHeader from "@/components/SectionHeader";
+import ResourceCard from "@/components/ResourceCard";
+import resources from "@/data/resources.json";
 import dynamic from "next/dynamic";
+
+const publishedResources = resources.filter((r) => r.published);
 
 const AsciiPortrait = dynamic(() => import("@/components/AsciiPortrait"), {
   ssr: false,
@@ -107,12 +111,12 @@ export default function Home() {
               </div>
             </div>
 
-            <SectionHeader />
+            <SectionHeader label="Newsletters" />
 
             <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 secondary-btn-row">
               <div className="flex-1">
                 <PhysicalButton
-                  href="https://heymitch.substack.com/"
+                  href="/dispatch"
                   variant="secondary"
                   className="w-full"
                 >
@@ -129,19 +133,7 @@ export default function Home() {
                   className="w-full"
                 >
                   <span className="font-mono text-sm tracking-wide block text-center">
-                    Disciple AI Substack
-                  </span>
-                </PhysicalButton>
-              </div>
-
-              <div className="flex-1">
-                <PhysicalButton
-                  href="/tools/ai-hunter"
-                  variant="secondary"
-                  className="w-full"
-                >
-                  <span className="font-mono text-sm tracking-wide block text-center">
-                    AI Hunter Tool
+                    Disciple AI
                   </span>
                 </PhysicalButton>
               </div>
@@ -176,6 +168,31 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      {/* ═══ FREE TOOLS & SKILLS — card gallery ═══ */}
+      <section className="relative z-10 bg-cream border-t border-brown/10 px-6 py-20 lg:py-24">
+        <div className="max-w-[1080px] mx-auto">
+          <div className="max-w-[240px] mb-8">
+            <RetroStripes />
+          </div>
+
+          <div className="mb-10">
+            <h2 className="font-sans text-4xl sm:text-5xl font-bold tracking-tight text-brown mb-3">
+              Free <span className="text-orange">tools &amp; skills</span>
+            </h2>
+            <p className="font-mono text-sm text-brown/55 max-w-xl leading-relaxed">
+              Browser tools and agent skills you can use today. No account, no
+              cost. Each one installs in minutes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {publishedResources.map((resource) => (
+              <ResourceCard key={resource.url} {...resource} />
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ═══ DARK FOOTER BAND — full width, transparent right half on desktop ═══ */}
       <footer className="relative z-10 bg-brown px-6 py-8 text-center lg:bg-gradient-to-r lg:from-brown lg:from-50% lg:to-transparent lg:to-50%">
