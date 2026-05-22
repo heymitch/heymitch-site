@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unbundle Anything — A Heymitch utility</title>
+  <meta name="description" content="A prompt and Claude Code skill that turn any fuzzy goal into a checklist of trainable actions. Free.">
+  <meta property="og:title" content="Unbundle anything.">
+  <meta property="og:description" content="One prompt. One skill. Ten minutes. Paste any bundled term — and get the concrete daily actions that train it.">
+  <meta property="og:image" content="https://heymitch.ai/unbundle/unbundle-anything-floppy-web.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Kit (ConvertKit) form runtime — binds to .formkit-form elements -->
+  <script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+
+  <style>
+    /* heymitch.ai design tokens — matches the SSS lander palette */
+    :root{
+      --cream:        #F8F4E9;
+      --cream-deep:   #EFE9D9;
+      --ink:          #2F2E2B;
+      --ink-2:        #1C2220;
+      --ink-3:        #5A4E44;
+      --orange:       #F35A1F;
+      --orange-deep:  #D04A14;
+      --rule:         #D9CFC0;
+      --paper-shadow: 0 30px 80px -40px rgba(31,28,22,0.35);
+
+      --serif: "Fraunces", "Times New Roman", serif;
+      --mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ margin:0; background: var(--cream); color: var(--ink); }
+    body{
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.6;
+      font-feature-settings: "ss01","ss02";
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* utility */
+    .container{ width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+    .mono{ font-family: var(--mono); }
+    .eyebrow{
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .rule{ border:0; border-top:1px solid var(--rule); margin: 64px 0; }
+
+    /* top bar */
+    .topbar{
+      border-bottom: 1px solid var(--rule);
+      background: var(--cream);
+    }
+    .topbar-inner{
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 18px 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .topbar a{ color: var(--ink); text-decoration: none; }
+
+    /* hero */
+    .hero{ padding: 80px 0 40px; }
+    .hero-grid{
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .hero h1{
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(56px, 8vw, 104px);
+      line-height: 0.94;
+      letter-spacing: -0.025em;
+      margin: 18px 0 24px;
+    }
+    .hero h1 .anything{
+      font-style: italic;
+      position: relative;
+      white-space: nowrap;
+    }
+    .hero h1 .anything::after{
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0.05em;
+      height: 6px;
+      background: var(--orange);
+    }
+    .hero h1 .period{ color: var(--orange); }
+    .hero .sub{
+      font-size: 20px;
+      line-height: 1.55;
+      color: var(--ink-2);
+      max-width: 540px;
+      margin: 0 0 28px;
+    }
+    .hero .sub em{ font-style: italic; color: var(--ink); }
+    .hero .contract{
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin: 0 0 24px;
+    }
+    .hero-art{
+      display: flex;
+      justify-content: center;
+    }
+    .hero-art img{
+      width: 100%;
+      max-width: 440px;
+      height: auto;
+      filter: drop-shadow(0 24px 32px rgba(31,28,22,0.30));
+      transform: rotate(-2deg);
+    }
+
+    /* form — styled overrides for Kit's .formkit-* classes */
+    .signup{ max-width: 480px; margin: 0; }
+    .cta .signup{ margin: 22px auto 0; }
+    .signup .formkit-fields{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      width: 100%;
+    }
+    .signup .formkit-field{ margin: 0; }
+    .signup .formkit-input{
+      font-family: var(--mono);
+      font-size: 15px;
+      padding: 16px 18px;
+      background: #fff;
+      border: 1px solid var(--ink-2);
+      border-radius: 4px;
+      color: var(--ink);
+      outline: none;
+      width: 100%;
+      line-height: 1.4;
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+    }
+    .signup .formkit-input::placeholder{ color: #9b9388; opacity: 1; }
+    .signup .formkit-input:focus{
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(243,90,31,0.15);
+    }
+    .signup .formkit-submit{
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0 22px;
+      min-height: 52px;
+      background: var(--orange);
+      color: #fff;
+      border: 1px solid var(--orange);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 120ms ease, transform 80ms ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .signup .formkit-submit:hover{ background: var(--orange-deep); border-color: var(--orange-deep); }
+    .signup .formkit-submit:active{ transform: translateY(1px); }
+    .signup .formkit-submit:disabled,
+    .signup .formkit-submit[data-active]{ opacity: 0.7; cursor: progress; }
+    .signup .formkit-submit > span{ display: inline-block; }
+    .signup .formkit-spinner{
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .signup .formkit-submit[data-active] .formkit-spinner{ display: inline-flex; }
+    .signup .formkit-submit[data-active] > span{ visibility: hidden; }
+    .signup .formkit-spinner > div{
+      width: 6px; height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: signupBounce 1.2s infinite ease-in-out both;
+    }
+    .signup .formkit-spinner > div:nth-child(1){ animation-delay: -0.32s; }
+    .signup .formkit-spinner > div:nth-child(2){ animation-delay: -0.16s; }
+    @keyframes signupBounce{
+      0%,80%,100%{ transform: scale(0.5); opacity: 0.3; }
+      40%        { transform: scale(1);   opacity: 1; }
+    }
+    /* Kit success / error alerts */
+    .signup .formkit-alert{
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin: 0 0 12px;
+      list-style: none;
+    }
+    .signup .formkit-alert:empty{ display: none; }
+    .signup .formkit-alert-success{
+      background: #ECF7EE;
+      border: 1px solid #4CA86A;
+      color: #1F6A37;
+    }
+    .signup .formkit-alert-error{
+      background: #FDE9E1;
+      border: 1px solid var(--orange);
+      color: var(--orange-deep);
+    }
+    /* Kit attribution — small + subtle */
+    .signup .formkit-powered-by-convertkit-container{
+      margin: 10px 0 0;
+      display: flex;
+      justify-content: flex-start;
+      opacity: 0.55;
+    }
+    .signup .formkit-powered-by-convertkit{
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+    .cta .signup .formkit-powered-by-convertkit-container{ justify-content: center; }
+
+    .signup-note{
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin: 10px 0 0;
+    }
+
+    /* sections */
+    section{ padding: 56px 0; }
+    h2{
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(32px, 4vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin: 0 0 28px;
+    }
+    h2 .punct{ color: var(--orange); }
+
+    /* what's inside */
+    .inside{ background: var(--cream-deep); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .inside-grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .card{
+      background: #fff;
+      border: 1px solid var(--rule);
+      padding: 28px 26px 30px;
+      border-radius: 6px;
+      box-shadow: var(--paper-shadow);
+    }
+    .card .num{
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--orange);
+      text-transform: uppercase;
+    }
+    .card h3{
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 26px;
+      line-height: 1.15;
+      margin: 8px 0 12px;
+    }
+    .card p{ margin: 0; color: var(--ink-2); font-size: 16px; line-height: 1.55; }
+
+    /* demo block */
+    .demo{
+      background: var(--ink-2);
+      color: #F2EFE6;
+      border-radius: 8px;
+      padding: 40px 44px;
+      margin-top: 16px;
+    }
+    .demo .label{
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #B6A98F;
+      margin-bottom: 16px;
+    }
+    .demo .term{
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 32px;
+      color: #fff;
+      margin: 0 0 6px;
+    }
+    .demo .arrow{
+      font-family: var(--mono);
+      color: var(--orange);
+      letter-spacing: 0.2em;
+      font-size: 11px;
+    }
+    .demo ol{
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 32px;
+    }
+    .demo ol li{
+      counter-increment: step;
+      padding-left: 36px;
+      position: relative;
+      line-height: 1.45;
+      font-size: 16px;
+      color: #ECE7DA;
+    }
+    .demo ol li::before{
+      content: counter(step,decimal-leading-zero);
+      position: absolute;
+      left: 0; top: 1px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+    }
+    .demo .closer{
+      margin-top: 24px;
+      font-family: var(--serif);
+      font-style: italic;
+      color: #DCD3BC;
+    }
+
+    /* who it's for */
+    .who p{ font-size: 19px; max-width: 720px; color: var(--ink-2); }
+    .who p strong{ color: var(--ink); }
+
+    /* bonus */
+    .bonus{
+      border-left: 3px solid var(--orange);
+      padding: 4px 0 4px 22px;
+      margin: 32px 0;
+      max-width: 720px;
+    }
+    .bonus .tag{
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+    .bonus p{ margin: 6px 0 0; font-size: 18px; color: var(--ink-2); }
+
+    /* CTA */
+    .cta{ text-align: center; padding-bottom: 80px; }
+    .cta h2{ margin-bottom: 16px; }
+    .cta .signup{ margin: 22px auto 0; }
+    .cta .signup-note{ text-align: center; }
+
+    /* footer */
+    footer{
+      border-top: 1px solid var(--rule);
+      padding: 24px 0 40px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    footer .row{ display:flex; justify-content: space-between; align-items: center; }
+    footer a{ color: var(--ink); text-decoration: none; }
+
+    /* responsive */
+    @media (max-width: 880px){
+      .hero-grid{ grid-template-columns: 1fr; gap: 24px; }
+      .hero-art{ order: -1; }
+      .hero-art img{ max-width: 280px; transform: rotate(-2deg); }
+      .inside-grid{ grid-template-columns: 1fr; }
+      .demo{ padding: 28px 22px; }
+      .demo ol{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <a href="https://heymitch.ai">heymitch.ai</a>
+      <span>Utility series · HM-UTL-UA-01</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">A Heymitch utility · The prompt + skill bundle</p>
+        <h1>
+          Unbundle <span class="anything">anything</span><span class="period">.</span>
+        </h1>
+        <p class="sub">
+          Paste any bundled term — <em>charisma, leadership, "be more strategic,"</em>
+          an entire fuzzy workflow — and get the concrete daily actions that train it.
+        </p>
+        <p class="contract">One prompt · One skill · Ten minutes</p>
+
+        <form class="seva-form formkit-form signup"
+              action="https://app.kit.com/forms/9467198/subscriptions"
+              method="post"
+              data-sv-form="9467198"
+              data-uid="e882d01d83"
+              data-format="inline"
+              data-version="5"
+              data-options="{&quot;settings&quot;:{&quot;after_subscribe&quot;:{&quot;action&quot;:&quot;redirect&quot;,&quot;success_message&quot;:&quot;&quot;,&quot;redirect_url&quot;:&quot;https://www.heymitch.ai/unbundle/thanks&quot;}}}">
+          <div data-style="clean">
+            <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+            <div data-element="fields" data-stacked="false" class="seva-fields formkit-fields">
+              <div class="formkit-field">
+                <input class="formkit-input" name="email_address"
+                       aria-label="Email Address"
+                       placeholder="your@email.com"
+                       required type="email">
+              </div>
+              <button data-element="submit" class="formkit-submit">
+                <div class="formkit-spinner"><div></div><div></div><div></div></div>
+                <span>Send the kit →</span>
+              </button>
+            </div>
+            <div class="formkit-powered-by-convertkit-container">
+              <a href="https://kit.com/features/forms?utm_campaign=poweredby&utm_content=form&utm_medium=referral&utm_source=dynamic"
+                 class="formkit-powered-by-convertkit"
+                 data-element="powered-by"
+                 target="_blank" rel="nofollow noopener">Built with Kit</a>
+            </div>
+          </div>
+        </form>
+        <p class="signup-note">Free. No upsell. Delivered in 30 seconds.</p>
+      </div>
+      <div class="hero-art">
+        <img src="/unbundle/unbundle-anything-floppy-web.png" alt="Unbundle Anything floppy disk — the prompt + skill bundle">
+      </div>
+    </div>
+  </header>
+
+  <section class="inside">
+    <div class="container">
+      <h2>What's inside<span class="punct">.</span></h2>
+      <div class="inside-grid">
+        <div class="card">
+          <span class="num">01 · The Prompt</span>
+          <h3>A one-page PDF, click-to-copy.</h3>
+          <p>Paste into Claude, ChatGPT, Gemini — anywhere — and unbundle in 30 seconds. The same prompt the skill runs, in portable form.</p>
+        </div>
+        <div class="card">
+          <span class="num">02 · The Skill</span>
+          <h3><span class="mono">/unbundle</span> for Claude Code.</h3>
+          <p>An interactive skill that walks you through it. Three tracks: <em>Workflow</em> (fuzzy process → SOP), <em>Soft Skill</em> (charisma → behaviors), <em>Belief</em> (identity → daily training).</p>
+        </div>
+        <div class="card">
+          <span class="num">03 · The Worked Example</span>
+          <h3>Charisma → 7 actions.</h3>
+          <p>See the prompt turn the fuzziest word in English into seven things to do at your next coffee meeting. So you trust it works on the thing <em>you</em> want to unbundle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>See it in action<span class="punct">.</span></h2>
+    <div class="demo">
+      <p class="label">Input <span class="arrow">→</span> Output</p>
+      <p class="term">"Charisma."</p>
+      <p class="arrow">↓</p>
+      <ol>
+        <li>Make eye contact for one full beat before speaking.</li>
+        <li>Speak about 15% slower than your default.</li>
+        <li>Ask one question about their work before mentioning yours.</li>
+        <li>Repeat one phrase they used, then build on it.</li>
+        <li>Smile genuinely on the greeting <em>and</em> the goodbye.</li>
+        <li>Stand or sit with weight evenly on both sides.</li>
+        <li>Set a collaborative frame: "let's figure this out together."</li>
+      </ol>
+      <p class="closer">That's what "be more charismatic" actually means. Now imagine doing this for every piece of advice you've nodded at and never acted on.</p>
+    </div>
+  </section>
+
+  <section class="who container">
+    <h2>Who this is for<span class="punct">.</span></h2>
+    <p>
+      This is for the <strong>operator</strong> — solopreneur, marketer, builder — running their business on AI and drowning in two things at once: <strong>advice that doesn't tell you what to <em>do</em></strong>, and <strong>skills and plugins that don't compound</strong>.
+    </p>
+    <p>
+      If you've ever read brilliant advice, nodded, and still done nothing about it on Monday — <em>Unbundle Anything</em> is the bridge.
+    </p>
+
+    <div class="bonus">
+      <span class="tag">Bonus</span>
+      <p>The skill works on <strong>your own monolithic mega-prompts</strong> too. Paste one in, get a clean Claude Code skill spec back. Stop collecting; start unbundling.</p>
+    </div>
+  </section>
+
+  <section class="cta container">
+    <h2>Send me the kit<span class="punct">.</span></h2>
+    <form class="seva-form formkit-form signup"
+          action="https://app.kit.com/forms/9467198/subscriptions"
+          method="post"
+          data-sv-form="9467198"
+          data-uid="e882d01d83"
+          data-format="inline"
+          data-version="5"
+          data-options="{&quot;settings&quot;:{&quot;after_subscribe&quot;:{&quot;action&quot;:&quot;redirect&quot;,&quot;success_message&quot;:&quot;&quot;,&quot;redirect_url&quot;:&quot;https://www.heymitch.ai/unbundle/thanks&quot;}}}">
+      <div data-style="clean">
+        <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+        <div data-element="fields" data-stacked="false" class="seva-fields formkit-fields">
+          <div class="formkit-field">
+            <input class="formkit-input" name="email_address"
+                   aria-label="Email Address"
+                   placeholder="your@email.com"
+                   required type="email">
+          </div>
+          <button data-element="submit" class="formkit-submit">
+            <div class="formkit-spinner"><div></div><div></div><div></div></div>
+            <span>Send the kit →</span>
+          </button>
+        </div>
+        <div class="formkit-powered-by-convertkit-container">
+          <a href="https://kit.com/features/forms?utm_campaign=poweredby&utm_content=form&utm_medium=referral&utm_source=dynamic"
+             class="formkit-powered-by-convertkit"
+             data-element="powered-by"
+             target="_blank" rel="nofollow noopener">Built with Kit</a>
+        </div>
+      </div>
+    </form>
+    <p class="signup-note">Free. No upsell. Delivered in 30 seconds.</p>
+  </section>
+
+  <footer>
+    <div class="container row">
+      <span>heymitch.ai · HM-UTL-UA-01 · MMXXVI</span>
+      <span><a href="https://heymitch.ai">← back to heymitch.ai</a></span>
+    </div>
+  </footer>
+
+  <!--
+    Kit form submit handler — fire-and-redirect (PATTERNS.md §2).
+
+    Kit's ck.5.js binds to .formkit-form and runs whatever the Kit
+    dashboard says for after_subscribe (currently: inline message).
+    Local data-options does NOT override server-side dashboard config —
+    ck.5.js fetches form settings from Kit's server using data-uid.
+
+    To redirect to /unbundle/thanks anyway, we intercept the submit in
+    *capture phase* (before ck.5.js sees it), stop propagation so ck.5.js
+    never binds its own logic, fire a no-cors POST to the same endpoint
+    (subscription happens server-side), and redirect ourselves.
+
+    Belt-and-suspenders: also remove the form's `target` if any, and run
+    on a one-shot guard so double-submits don't trigger twice.
+  -->
+  <script>
+    (function(){
+      var TARGET = 'https://www.heymitch.ai/unbundle/thanks';
+      var forms  = document.querySelectorAll('form.signup');
+      forms.forEach(function(form){
+        // Capture-phase listener fires BEFORE ck.5.js bubble-phase handler
+        form.addEventListener('submit', function(e){
+          var email = form.querySelector('input[type="email"]');
+          if(!email || !email.value || !email.checkValidity()){
+            // Let the browser show the native validation message
+            return;
+          }
+          if(form.dataset.submitting === 'true') return;
+          form.dataset.submitting = 'true';
+
+          e.preventDefault();
+          e.stopImmediatePropagation(); // <- key: blocks ck.5.js
+
+          var btn = form.querySelector('button[type="submit"], .formkit-submit');
+          if(btn){
+            btn.setAttribute('data-active', '');
+            btn.disabled = true;
+          }
+
+          var go = function(){ window.location.href = TARGET; };
+          fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: new FormData(form)
+          }).then(go).catch(go); // redirect either way; subscription fired regardless
+        }, true); // <- capture phase
+      });
+    })();
+  </script>
+
+</body>
+</html>
