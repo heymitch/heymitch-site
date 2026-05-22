@@ -50,54 +50,56 @@ export const AXIS_META: Record<'autonomy' | 'openness' | 'value', AxisMeta> = {
 // Mogul, Sovereign, Wizard share the high-X-high-Y corner — Z splits them.
 // That split IS the newsletter payoff: same altitude, opposite philosophies.
 
+// Voice: Mitch (heymitch). Punchy, direct, no hedging, no jargon. Every tier is
+// seen, not judged. Verified clean against the in-repo AI Hunter engine.
 export const ARCHETYPES: Archetype[] = [
   {
     name: 'Tinkerer',
     coord: { autonomy: LOW, openness: LOW, value: MIX },
-    tagline: 'Plays in one chat window. Fiddles. Nothing ships yet.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Make one thing repeatable: save a reused prompt, install a skill.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'You live in the chat box. Endlessly curious, prompting daily, and nothing runs without you yet.',
+    climbMove: 'Make one thing repeatable. Save a prompt you keep retyping, or install a skill. That is the first rung.',
   },
   {
     name: 'Operator',
     coord: { autonomy: MID, openness: MID, value: MIX },
-    tagline: 'A couple reliable workflows, driven daily, hands-on.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Let one workflow run without you starting it.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'A few workflows you trust, run by hand, every day. This is where most real work gets done.',
+    climbMove: 'Take one workflow you run by hand and make it start itself. A trigger, a schedule, anything.',
   },
   {
     name: 'Builder',
     coord: { autonomy: MID, openness: 0.65, value: BUILD },
-    tagline: 'Builds real custom tools — not toys — but still hands-on.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Get one of your builds to run autonomously, or hand it off.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'You build the real thing, not toys. Still hands-on, still the one pressing go.',
+    climbMove: 'You can build. Now get one of your builds running without you in the loop, or hand it to someone who is not you.',
   },
   {
     name: 'Hermit',
     coord: { autonomy: HIGH, openness: LOW, value: 0.8 },
-    tagline: 'Automated a ton, but it is a black box. Dies if you vanish.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Make one workflow legible enough to hand to a person or an agent.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'You have automated a ton. It is also a black box that dies the day you step away.',
+    climbMove: 'Pick your most important black box and make it legible. Write it down so a person, or an agent, could run it cold.',
   },
   {
     name: 'Scribe',
     coord: { autonomy: LOW, openness: HIGH, value: MIX },
-    tagline: 'Documented and shareable. All map, no engine — nothing running yet.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Turn one beautiful doc into something that executes.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'Beautiful docs, clean systems, anyone could pick it up. There is just no engine running yet.',
+    climbMove: 'Take your best doc and make it execute. Turn the map into an engine, even a small one.',
   },
   {
     name: 'Mogul',
     coord: { autonomy: HIGH, openness: HIGH, value: BUY },
-    tagline: 'Empire on the best off-the-shelf tools. Happy to be replaced by Claude.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Already at altitude. Trade-off chosen: speed & focus over ownership.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'An empire built on the best tools other people made. Happy to be replaced by Claude, because speed wins.',
+    climbMove: 'Nothing to climb. You are at altitude. Just own the bet you made: speed and focus over owning the thing.',
   },
   {
     name: 'Sovereign',
     coord: { autonomy: HIGH, openness: HIGH, value: BUILD },
-    tagline: 'Owns the engine — skills, agents, stack, open. Replaceable by no one.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Already at altitude. Trade-off chosen: control & sovereignty.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'You own the engine. Your skills, your agents, your stack, all open. Nobody can cut you off.',
+    climbMove: 'Nothing to climb. You are at altitude and you own it. Keep it open, keep it yours.',
   },
   {
     name: 'Wizard',
     coord: { autonomy: 0.95, openness: 0.95, value: MIX },
-    tagline: 'Apex. Directs a fleet — most of them agents — and supervises.', // [NEEDS_VOICE_REVIEW]
-    climbMove: 'Where the whole tool points.', // [NEEDS_VOICE_REVIEW]
+    tagline: 'The apex. You direct a fleet, most of it agents, and you mostly supervise.',
+    climbMove: 'This is where the whole thing points. Your job now is keeping the fleet legible as it grows.',
   },
 ];
 
@@ -106,10 +108,10 @@ export const ARCHETYPES: Archetype[] = [
 // Ordered low→high; a band runs [min, next.min).
 
 export const LEVEL_BANDS: LevelBand[] = [
-  { name: 'Spark',     min: 0.0,  blurb: 'You are at the entry point. Everyone starts here.' },          // [NEEDS_VOICE_REVIEW]
-  { name: 'Operator',  min: 0.32, blurb: 'You drive AI daily and a few workflows are reliable.' },        // [NEEDS_VOICE_REVIEW]
-  { name: 'Architect', min: 0.55, blurb: 'You build and run real things — past toys, into leverage.' },    // [NEEDS_VOICE_REVIEW]
-  { name: 'Wizard',    min: 0.78, blurb: 'Apex altitude. Legible, autonomous operation you supervise.' },  // [NEEDS_VOICE_REVIEW]
+  { name: 'Spark',     min: 0.0,  blurb: 'You are at the trailhead. Everyone starts here. The only people who do not are the ones who never started.' },
+  { name: 'Operator',  min: 0.32, blurb: 'AI is part of your day now. A few things are reliable. You are past playing and into using.' },
+  { name: 'Architect', min: 0.55, blurb: 'You build real systems and run them. Past toys, into work that holds weight.' },
+  { name: 'Wizard',    min: 0.78, blurb: 'Top of the mountain. Legible, autonomous, supervised. The rare air.' },
 ];
 
 /** Resolve an altitude in [0,1] to its level-band name. */

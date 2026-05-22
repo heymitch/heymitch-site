@@ -79,22 +79,21 @@ export function scoreQuiz(answers: AnswerMap, questions: QuizQuestion[]): ScoreR
   const coherence = climbAnswers.length ? topCount / climbAnswers.length : 0;
   const monocultureFlag = coherence >= 0.9;
 
-  // Respectful, specific caveats — a flag, never a punishment. [NEEDS_VOICE_REVIEW]
+  // Voice: Mitch. A flag, never a punishment. Direct, on your side.
   let caveat: string | null = null;
   if (driftFlag && centroid.autonomy >= 0.6) {
     caveat =
-      'You scored high on Autonomy but could not point to a specific thing that ' +
-      'runs without you. That gap is the most common one — your score here may be ' +
-      'aspirational. The fastest win: get one workflow to run end-to-end, hands-off, once.';
+      'You scored high on Autonomy, but you could not name one thing that actually runs without you. ' +
+      'That is the most common gap there is. Do not sweat it. Go get one workflow running end-to-end, ' +
+      'hands-off, one time. Then the score is real.';
   } else if (monocultureFlag) {
     caveat =
-      'You rated yourself at the top on every climb question. That happens, but it is ' +
-      'also what aspirational answering looks like. Gut-check each one against a concrete, ' +
-      'repeatable instance you could show someone.';
+      'You maxed out every climb question. Could be true. Could also be how it feels right before you check. ' +
+      'Gut-check each one against something concrete you could show someone.';
   } else if (driftFlag) {
     caveat =
-      'Heads up: you flagged that you could not point to a specific hands-off instance. ' +
-      'Worth confirming your setup is as real as it feels.';
+      'Quick flag: you said you could not point to one specific hands-off task. ' +
+      'Worth making sure your setup is as real as it feels.';
   }
 
   return {

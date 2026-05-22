@@ -228,7 +228,7 @@ function ScoreRow({
       </View>
       {isTradeoff && (
         <Text style={s.scoreNote}>
-          No wrong side — this axis is a trade-off, not a climb.
+          No wrong side here. This one is a trade-off, not a climb.
         </Text>
       )}
     </View>
@@ -241,13 +241,14 @@ export function buildReport(result: ScoreResult): React.ReactElement {
   const archetype = ARCHETYPES.find((a) => a.name === result.archetype) ?? ARCHETYPES[0];
   const altitudePct = pct(result.altitude);
 
-  // Trade-off prose: neutral explanation of Mogul vs Sovereign at equal altitude. {/* [NEEDS_VOICE_REVIEW] */}
+  // Trade-off prose. Voice: Mitch. Neutral on the choice, opinionated on the framing.
   const tradeoffProse =
-    'Two people can sit at identical altitude—same autonomy, same openness—and make opposite choices on the Build↔Buy axis. ' +
-    'The Mogul bets on speed and focus: best off-the-shelf tools, minimal maintenance, delegates the engine to vendors. ' +
-    'The Sovereign bets on control: owns the stack, runs open-source, stays replaceable by no one. ' +
-    'Neither is wrong. The trade-off reflects your risk tolerance, your budget, and what you want to be sovereign over. ' +
-    'Your score just shows where you sit today—you can move it deliberately.'; // [NEEDS_VOICE_REVIEW]
+    'Two people can sit at the exact same altitude, same autonomy, same openness, and split hard on Build versus Buy. ' +
+    'The Mogul bets on speed: best tools off the shelf, low maintenance, happy to let vendors own the engine. ' +
+    'Hormozi lives here, and he is not wrong. ' +
+    'The Sovereign bets the other way, on control: owns the stack, runs open source, replaceable by no one. Also not wrong. ' +
+    'This axis is not a level. It is a choice about what you want to own, and your score just marks where you stand today. ' +
+    'You can move it on purpose.';
 
   return (
     <Document

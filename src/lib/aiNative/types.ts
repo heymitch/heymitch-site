@@ -87,9 +87,9 @@ export interface Archetype {
   name: ArchetypeName;
   /** Fixed location in normalized 3D space. */
   coord: Vec3;
-  /** One-line identity (who this person is). [NEEDS_VOICE_REVIEW] */
+  /** One-line identity (who this person is). Voiced. */
   tagline: string;
-  /** The single move that climbs them toward the high-X-high-Y corner. [NEEDS_VOICE_REVIEW] */
+  /** The single move that climbs them toward the high-X-high-Y corner. Voiced. */
   climbMove: string;
 }
 
@@ -98,7 +98,7 @@ export interface LevelBand {
   name: string;
   /** Inclusive lower bound on altitude [0,1]; band runs [min, next.min). */
   min: number;
-  /** Short description of this altitude. [NEEDS_VOICE_REVIEW] */
+  /** Short description of this altitude. Voiced. */
   blurb: string;
 }
 
@@ -138,7 +138,7 @@ export interface ScoreResult {
   /**
    * A respectful, specific caveat to show on the result, or null.
    * Set when drift is tripped on a high-autonomy claim, or on monoculture.
-   * [NEEDS_VOICE_REVIEW]
+   * Voiced.
    */
   caveat: string | null;
 }

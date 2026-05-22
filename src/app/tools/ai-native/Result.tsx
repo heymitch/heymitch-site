@@ -55,8 +55,8 @@ export default function Result({ result, percentile, submissionId, sessionId, on
       <p style={{ fontSize: 18, fontStyle: 'italic', color: C.mid, lineHeight: 1.5, margin: '0 0 8px' }}>
         {arch.tagline}
       </p>
-      <p style={{ fontSize: 11, color: C.faint, margin: '0 0 28px' }}>
-        {/* [NEEDS_VOICE_REVIEW] copy stub */}
+      <p style={{ fontSize: 13, color: C.faint, margin: '0 0 28px' }}>
+        Here is where your answers actually landed.
       </p>
 
       {/* ── The 3D plot — the differentiator ─────────────────────────────── */}
@@ -123,9 +123,9 @@ export default function Result({ result, percentile, submissionId, sessionId, on
         })()}
       </div>
       <p style={{ fontSize: 12, color: C.faint, lineHeight: 1.6, margin: '14px 0 28px' }}>
-        Autonomy and Openness are the climb — that&rsquo;s your AI-native altitude. Build↔Buy is a values
-        call, not a level: the Mogul (best off-the-shelf) and the Sovereign (owns the engine) sit at the
-        same height, pointed opposite ways. {/* [NEEDS_VOICE_REVIEW] */}
+        Autonomy and Openness are the climb. That&rsquo;s your altitude. Build↔Buy isn&rsquo;t a level, it&rsquo;s a
+        values call: the Mogul who runs the best off-the-shelf and the Sovereign who owns the engine sit at
+        the exact same height, pointed opposite ways.
       </p>
 
       {/* ── Caveat (only if tripped) ──────────────────────────────────────── */}
