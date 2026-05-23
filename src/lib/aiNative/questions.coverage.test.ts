@@ -24,17 +24,27 @@ function ans(
 }
 
 describe('question set — composition', () => {
-  test('exactly 3 autonomy + 3 openness + 3 value + 1 gate = 10', () => {
-    expect(QUESTIONS).toHaveLength(10);
-    const byAxis = (a: string) => QUESTIONS.filter(q => !q.isGate && q.axis === a).length;
+  test('3 autonomy + 3 openness + 3 value + 1 gate + 1 tools = 11', () => {
+    expect(QUESTIONS).toHaveLength(11);
+    const byAxis = (a: string) =>
+      QUESTIONS.filter(q => !q.isGate && q.kind !== 'tools' && q.axis === a).length;
     expect(byAxis('autonomy')).toBe(3);
     expect(byAxis('openness')).toBe(3);
     expect(byAxis('value')).toBe(3);
     expect(QUESTIONS.filter(q => q.isGate)).toHaveLength(1);
+    expect(QUESTIONS.filter(q => q.kind === 'tools')).toHaveLength(1);
+  });
+
+  test('the tools question is multi-select with tier-tagged options spanning all 4 tiers', () => {
+    const tools = QUESTIONS.find(q => q.kind === 'tools')!;
+    expect(tools.options.length).toBeGreaterThanOrEqual(10);
+    const tiers = new Set(tools.options.map(o => o.tier));
+    expect(tiers).toEqual(new Set([1, 2, 3, 4]));
   });
 
   test('every scoring option carries its primary-axis weight; gate has exactly one drift', () => {
     for (const q of QUESTIONS) {
+      if (q.kind === 'tools') continue; // inventory options carry tiers, not axis weights
       if (q.isGate) {
         expect(q.options.filter(o => o.drift)).toHaveLength(1);
         continue;

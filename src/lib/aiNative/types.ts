@@ -45,6 +45,7 @@ export interface QuizOption {
   /**
    * Where this answer sits on each axis it touches, in [0, 1].
    * The question's primary axis MUST be present. Cross-loads optional.
+   * Empty {} for gate options and tools-inventory options.
    */
   weights: Partial<Vec3>;
   /**
@@ -53,6 +54,11 @@ export interface QuizOption {
    * (claimed sophistication with no concrete, repeatable instance behind it).
    */
   drift?: boolean;
+  /**
+   * Tools-inventory only: sophistication tier of this tool.
+   * 1 = entry (chat) · 2 = applied · 3 = builder/automation · 4 = agentic/sovereign.
+   */
+  tier?: 1 | 2 | 3 | 4;
 }
 
 export interface QuizQuestion {
@@ -66,10 +72,18 @@ export interface QuizQuestion {
   options: QuizOption[];
   /** True for the single drift/gaming-gate item (does not vote for a tier). */
   isGate?: boolean;
+  /**
+   * 'single' (default) = pick one. 'tools' = multi-select tool inventory:
+   * does not vote on the centroid; nudges altitude lightly + drives recommendations.
+   */
+  kind?: 'single' | 'tools';
 }
 
-/** A completed answer set: questionId -> chosen optionId. */
-export type AnswerMap = Record<string, string>;
+/**
+ * A completed answer set: questionId -> chosen optionId (single)
+ * or array of selected ids (tools inventory).
+ */
+export type AnswerMap = Record<string, string | string[]>;
 
 // ─── Archetypes & levels ──────────────────────────────────────────────────────
 
@@ -141,4 +155,29 @@ export interface ScoreResult {
    * Voiced.
    */
   caveat: string | null;
+
+  /** Tool ids the taker selected on the inventory question (for recommendations). */
+  selectedTools: string[];
+  /**
+   * Sophistication of their toolset in [0,1], or null if the inventory was not
+   * answered. Driven by the most advanced tool used + a small breadth bonus.
+   * Lightly nudges altitude; never moves the centroid/archetype.
+   */
+  toolSophistication: number | null;
+}
+
+// ─── Per-archetype "what's next" recommendation (the report's depth) ──────────
+// Filled in recommendations.ts from the State of AI Tools Guide.
+
+export interface ArchetypeReco {
+  /** One-line framing of where this person should aim next. [voice: Mitch] */
+  headline: string;
+  /** The harness to learn/lean into next (e.g. Claude Cowork, Claude Code). */
+  harness: { name: string; why: string };
+  /** A specific tool to add next, named from the guide. */
+  tool: { name: string; why: string };
+  /** A connector or AI skill to wire up next. */
+  connectorOrSkill: { name: string; why: string };
+  /** The single concrete first step to take this week. */
+  firstStep: string;
 }

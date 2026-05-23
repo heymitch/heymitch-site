@@ -54,6 +54,7 @@
 // ─── End reachability map ─────────────────────────────────────────────────────
 
 import type { QuizQuestion } from './types';
+import { MARQUEE_TOOLS } from './recommendations';
 
 export const QUESTIONS: QuizQuestion[] = [
   // ── Q1: Autonomy — how much runs without you starting it ──────────────────
@@ -395,5 +396,16 @@ export const QUESTIONS: QuizQuestion[] = [
         weights: {},
       },
     ],
+  },
+
+  // ── Q11: Tool inventory — multi-select. Does not vote on archetype; lightly
+  // nudges altitude, cross-checks the autonomy claim, and drives recommendations. ──
+  {
+    id: 'tools',
+    axis: 'autonomy',
+    kind: 'tools',
+    prompt: 'Last one: which of these have you actually used?',
+    helper: 'Pick all that apply, or none. This sharpens your recommendations and sanity-checks your scores.',
+    options: MARQUEE_TOOLS.map(t => ({ id: t.id, label: t.label, weights: {}, tier: t.tier })),
   },
 ];
