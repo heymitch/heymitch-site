@@ -55,7 +55,7 @@ export default function Quiz({ onComplete }: { onComplete: (answers: AnswerMap) 
         {QUESTIONS.map((qq, i) => {
           const done = answers[qq.id] != null;
           const current = i === index;
-          const color = qq.isGate || qq.kind === 'tools' ? C.faint : AXIS_COLOR[qq.axis];
+          const color = qq.isGate || qq.kind === 'tools' || qq.kind === 'intent' ? C.faint : AXIS_COLOR[qq.axis];
           return (
             <div
               key={qq.id}

@@ -36,11 +36,25 @@ const GATE: QuizQuestion = {
   ],
 };
 
+// Intent question: non-scoring. Each option carries a willingness tier, empty weights.
+const INTENT: QuizQuestion = {
+  id: 'intent',
+  axis: 'autonomy', // ignored; intent never votes
+  kind: 'intent',
+  prompt: 'how important is AI to your business',
+  options: [
+    { id: 'crit', label: 'Critical and urgent', weights: {}, willingness: 'critical' },
+    { id: 'build', label: 'Important, building toward it', weights: {}, willingness: 'building' },
+    { id: 'cur', label: 'Curious, exploring', weights: {}, willingness: 'curious' },
+    { id: 'none', label: 'Not a priority', weights: {}, willingness: 'none' },
+  ],
+};
+
 const QS: QuizQuestion[] = [
   climbQ('a1', 'autonomy'), climbQ('a2', 'autonomy'), climbQ('a3', 'autonomy'),
   climbQ('y1', 'openness'), climbQ('y2', 'openness'), climbQ('y3', 'openness'),
   valueQ('v1'), valueQ('v2'), valueQ('v3'),
-  GATE,
+  GATE, INTENT,
 ];
 
 /** Build an answer map by option index per axis (gate defaults to 'ok'). */
@@ -156,6 +170,44 @@ describe('scoreQuiz — ungameable signals', () => {
   test('mixed answers do not flag monoculture', () => {
     const r = scoreQuiz(answers(1, 2, 1), QS);
     expect(r.monocultureFlag).toBe(false);
+  });
+});
+
+describe('scoreQuiz — willingness is a non-scoring intent signal', () => {
+  test('sets willingness from the chosen intent option', () => {
+    const r = scoreQuiz({ ...answers(2, 2, 2), intent: 'crit' }, QS);
+    expect(r.willingness).toBe('critical');
+  });
+
+  test('willingness is null when the intent question is unanswered', () => {
+    const r = scoreQuiz(answers(2, 2, 2), QS);
+    expect(r.willingness).toBeNull();
+  });
+
+  test('intent never plots a dot', () => {
+    const r = scoreQuiz({ ...answers(2, 2, 2), intent: 'crit' }, QS);
+    expect(r.dots).toHaveLength(9);
+    expect(r.dots.some(d => d.questionId === 'intent')).toBe(false);
+  });
+
+  // The core requirement: intent rides alongside, it must not move the result.
+  test('willingness does NOT change archetype, altitude, level, centroid, or dots', () => {
+    const base = answers(3, 3, 2); // a fixed capability profile
+    const noIntent = scoreQuiz(base, QS);
+    const high = scoreQuiz({ ...base, intent: 'crit' }, QS);
+    const low = scoreQuiz({ ...base, intent: 'none' }, QS);
+
+    for (const r of [high, low]) {
+      expect(r.archetype).toBe(noIntent.archetype);
+      expect(r.altitude).toBeCloseTo(noIntent.altitude, 10);
+      expect(r.level).toBe(noIntent.level);
+      expect(r.centroid).toEqual(noIntent.centroid);
+      expect(r.subScores).toEqual(noIntent.subScores);
+      expect(r.dots).toEqual(noIntent.dots);
+    }
+    // ...but the willingness signal itself does flow through, distinctly.
+    expect(high.willingness).toBe('critical');
+    expect(low.willingness).toBe('none');
   });
 });
 

@@ -109,13 +109,13 @@ function Intro({ onStart }: { onStart: () => void }) {
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px', textAlign: 'center' }}>
       <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.faint, marginBottom: 16 }}>
-        Free · 10 questions · ~2 minutes
+        Free · 12 questions · ~2 minutes
       </div>
       <h1 style={{ fontSize: 'clamp(36px, 8vw, 56px)', fontWeight: 800, color: C.dark, lineHeight: 1.05, letterSpacing: '-0.03em', margin: '0 0 18px' }}>
         How AI-native<br />are you, really?
       </h1>
       <p style={{ fontSize: 17, color: C.mid, lineHeight: 1.6, margin: '0 auto 32px', maxWidth: 520 }}>
-        Not how much you <em>want</em> to use AI — how much actually runs in your world today. Answer 10
+        Not how much you <em>want</em> to use AI — how much actually runs in your world today. Answer 12
         honest questions and watch your answers plot themselves in 3D. Then meet your archetype.
       </p>
 

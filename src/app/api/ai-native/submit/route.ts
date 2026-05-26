@@ -29,6 +29,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'answers + computed required' }, { status: 400 });
   }
 
+  // Non-scoring intent signal. Persisted to a dedicated `willingness` column (indexed
+  // with altitude for the Capability × Intent routing query) and mirrored into the
+  // submit-event metadata. Also rides inside `computed` jsonb as the source of truth.
+  const willingness = computed.willingness ?? null;
+
   const id = randomUUID(); // server-side UUID — no select-back needed (PATTERNS.md §4)
   const sessionId = body.sessionId ?? randomUUID();
   const ua = request.headers.get('user-agent') ?? '';
@@ -46,6 +51,7 @@ export async function POST(request: NextRequest) {
     archetype: computed.archetype,
     level_band: computed.level,
     altitude: computed.altitude,
+    willingness,
     referrer,
     user_agent_hash: userAgentHash,
   });
@@ -58,7 +64,7 @@ export async function POST(request: NextRequest) {
   // Fire-and-forget funnel telemetry.
   supabase
     .from('ai_native_events')
-    .insert({ session_id: sessionId, event_type: 'submit', metadata: { archetype: computed.archetype, level: computed.level } })
+    .insert({ session_id: sessionId, event_type: 'submit', metadata: { archetype: computed.archetype, level: computed.level, willingness } })
     .then(({ error: e }) => { if (e) console.error('ai_native_events:', e.message); });
 
   // Leaderboard percentile: share of takers strictly below this altitude.

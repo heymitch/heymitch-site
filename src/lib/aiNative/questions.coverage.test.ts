@@ -24,15 +24,26 @@ function ans(
 }
 
 describe('question set — composition', () => {
-  test('3 autonomy + 3 openness + 3 value + 1 gate + 1 tools = 11', () => {
-    expect(QUESTIONS).toHaveLength(11);
+  test('3 autonomy + 3 openness + 3 value + 1 gate + 1 intent + 1 tools = 12', () => {
+    expect(QUESTIONS).toHaveLength(12);
     const byAxis = (a: string) =>
-      QUESTIONS.filter(q => !q.isGate && q.kind !== 'tools' && q.axis === a).length;
+      QUESTIONS.filter(q => !q.isGate && q.kind !== 'tools' && q.kind !== 'intent' && q.axis === a).length;
     expect(byAxis('autonomy')).toBe(3);
     expect(byAxis('openness')).toBe(3);
     expect(byAxis('value')).toBe(3);
     expect(QUESTIONS.filter(q => q.isGate)).toHaveLength(1);
+    expect(QUESTIONS.filter(q => q.kind === 'intent')).toHaveLength(1);
     expect(QUESTIONS.filter(q => q.kind === 'tools')).toHaveLength(1);
+  });
+
+  test('the intent question is single-select, non-scoring, and spans all 4 willingness tiers', () => {
+    const intent = QUESTIONS.find(q => q.kind === 'intent')!;
+    // Non-scoring: no option carries any axis weight.
+    for (const o of intent.options) {
+      expect(Object.keys(o.weights)).toHaveLength(0);
+    }
+    const tiers = new Set(intent.options.map(o => o.willingness));
+    expect(tiers).toEqual(new Set(['critical', 'building', 'curious', 'none']));
   });
 
   test('the tools question is multi-select with tier-tagged options spanning all 4 tiers', () => {
@@ -45,6 +56,7 @@ describe('question set — composition', () => {
   test('every scoring option carries its primary-axis weight; gate has exactly one drift', () => {
     for (const q of QUESTIONS) {
       if (q.kind === 'tools') continue; // inventory options carry tiers, not axis weights
+      if (q.kind === 'intent') continue; // intent options carry willingness, not axis weights
       if (q.isGate) {
         expect(q.options.filter(o => o.drift)).toHaveLength(1);
         continue;

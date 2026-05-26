@@ -14,6 +14,14 @@ export type Axis = 'autonomy' | 'openness' | 'value';
 
 export const AXES: readonly Axis[] = ['autonomy', 'openness', 'value'] as const;
 
+// ─── Intent (willingness) ─────────────────────────────────────────────────────
+// A NON-SCORING signal: how important/urgent getting great at AI is to the taker's
+// business right now. It rides alongside the score — it never moves the centroid,
+// votes on an axis, plots a dot, or changes the archetype/altitude. Downstream
+// email routing branches on Capability (altitude) × Intent (willingness):
+// high altitude + high willingness ('critical' | 'building') → AI strategy call.
+export type WillingnessLevel = 'critical' | 'building' | 'curious' | 'none';
+
 /** A point / contribution in the 3D normalized space. */
 export interface Vec3 {
   autonomy: number;
@@ -59,6 +67,11 @@ export interface QuizOption {
    * 1 = entry (chat) · 2 = applied · 3 = builder/automation · 4 = agentic/sovereign.
    */
   tier?: 1 | 2 | 3 | 4;
+  /**
+   * Intent-question only: the willingness tier this option signals.
+   * Read off the chosen option; never affects scoring.
+   */
+  willingness?: WillingnessLevel;
 }
 
 export interface QuizQuestion {
@@ -75,8 +88,10 @@ export interface QuizQuestion {
   /**
    * 'single' (default) = pick one. 'tools' = multi-select tool inventory:
    * does not vote on the centroid; nudges altitude lightly + drives recommendations.
+   * 'intent' = single-select willingness signal: does not vote, plot, or alter
+   * altitude/archetype; only sets ScoreResult.willingness for downstream routing.
    */
-  kind?: 'single' | 'tools';
+  kind?: 'single' | 'tools' | 'intent';
 }
 
 /**
@@ -164,6 +179,13 @@ export interface ScoreResult {
    * Lightly nudges altitude; never moves the centroid/archetype.
    */
   toolSophistication: number | null;
+
+  /**
+   * Non-scoring intent signal: how important/urgent AI is to the taker's business,
+   * or null if the intent question was not answered. Persisted inside the `computed`
+   * jsonb so routing can read it (Capability × Intent). NEVER affects the score.
+   */
+  willingness: WillingnessLevel | null;
 }
 
 // ─── Per-archetype "what's next" recommendation (the report's depth) ──────────

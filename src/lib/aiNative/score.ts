@@ -2,7 +2,7 @@
 // No DOM, no fetch, no globals. Inputs in, ScoreResult out. Unit-tested (score.test.ts).
 // Mirrors the ai-hunter-engine.ts separation: all grade logic lives here, never in the view.
 
-import type { AnswerDot, AnswerMap, Axis, QuizOption, QuizQuestion, ScoreResult, Vec3 } from './types';
+import type { AnswerDot, AnswerMap, Axis, QuizOption, QuizQuestion, ScoreResult, Vec3, WillingnessLevel } from './types';
 import { AXES } from './types';
 import { ARCHETYPES, bandForAltitude, dist2 } from './model';
 
@@ -30,6 +30,7 @@ export function scoreQuiz(answers: AnswerMap, questions: QuizQuestion[]): ScoreR
   let driftFlag = false;
   let selectedTools: string[] = [];
   let toolSophistication: number | null = null;
+  let willingness: WillingnessLevel | null = null;
 
   for (const q of questions) {
     const raw = answers[q.id];
@@ -41,6 +42,15 @@ export function scoreQuiz(answers: AnswerMap, questions: QuizQuestion[]): ScoreR
       const chosen = q.options.filter(o => ids.includes(o.id));
       selectedTools = chosen.map(o => o.id);
       toolSophistication = computeToolSophistication(chosen);
+      continue;
+    }
+
+    // Intent: single-select willingness signal. Reads the chosen option's tier and
+    // continues BEFORE any vote — never moves the centroid, plots, or shifts altitude.
+    if (q.kind === 'intent') {
+      const optId = Array.isArray(raw) ? raw[0] : raw;
+      const opt = q.options.find(o => o.id === optId);
+      willingness = opt?.willingness ?? null;
       continue;
     }
 
@@ -146,5 +156,6 @@ export function scoreQuiz(answers: AnswerMap, questions: QuizQuestion[]): ScoreR
     caveat,
     selectedTools,
     toolSophistication,
+    willingness,
   };
 }
