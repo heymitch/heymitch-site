@@ -173,7 +173,7 @@ export default function Result({ result, percentile, submissionId, sessionId, on
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {([['Harness', reco.harness.name], ['Tool', reco.tool.name], ['Connector / skill', reco.connectorOrSkill.name]] as const).map(([kind, name]) => {
-            const owned = result.selectedTools.some(id => name.toLowerCase().includes(id.replace(/-/g, ' ')) || id.replace(/-/g, ' ').includes(name.toLowerCase()));
+            const owned = (result.selectedTools ?? []).some(id => name.toLowerCase().includes(id.replace(/-/g, ' ')) || id.replace(/-/g, ' ').includes(name.toLowerCase()));
             return (
               <div key={kind} style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '10px 14px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8 }}>
                 <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: C.faint, width: 116, flexShrink: 0 }}>{kind}</span>
@@ -292,14 +292,14 @@ function OptInBlock({ submissionId, sessionId, result }: { submissionId: string 
           />
           <button
             type="submit"
-            disabled={state === 'sending'}
+            disabled={state === 'sending' || !submissionId}
             style={{
               padding: '12px 22px', background: C.orange, color: '#fff', border: 'none', borderRadius: 8,
               fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
-              opacity: state === 'sending' ? 0.7 : 1,
+              opacity: (state === 'sending' || !submissionId) ? 0.7 : 1,
             }}
           >
-            {state === 'sending' ? 'Sending…' : 'Send my report →'}
+            {!submissionId ? 'Saving your result…' : state === 'sending' ? 'Sending…' : 'Send my report →'}
           </button>
         </div>
         {state === 'error' && (

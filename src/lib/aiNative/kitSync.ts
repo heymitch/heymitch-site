@@ -16,9 +16,6 @@ export const ARCHETYPE_TAG_ID: Record<ArchetypeName, number> = {
   Wizard: 19849303,
 };
 
-/** Kit custom-field keys (must match the account exactly — renaming breaks Liquid). */
-export const KIT_FIELD = { archetype: 'archetype', reportUrl: 'report_url' } as const;
-
 /** Tags to apply for a taker: always Quiz Lead, plus the archetype tag when recognized. */
 export function tagIdsForArchetype(archetype: string): number[] {
   const id = ARCHETYPE_TAG_ID[archetype as ArchetypeName];

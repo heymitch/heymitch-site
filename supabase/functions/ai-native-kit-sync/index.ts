@@ -106,9 +106,15 @@ Deno.serve(async () => {
       const seq = await kit(`/sequences/${TRACK1_SEQUENCE_ID}/subscribers`, { email_address: c.email }, kitKey);
       if (!seq.ok) throw new Error(`sequence ${seq.status}`);
 
-      await supabase.from('ai_native_contacts')
+      const { error: stampErr } = await supabase.from('ai_native_contacts')
         .update({ kit_synced_at: new Date().toISOString() }).eq('id', c.id);
-      synced++;
+      if (stampErr) {
+        // Kit calls all succeeded but the stamp didn't land — leave unsynced; next poll
+        // re-runs the idempotent Kit calls and re-stamps. Don't count it as synced.
+        console.error('kit sync stamp failed for', c.email, stampErr.message);
+      } else {
+        synced++;
+      }
     } catch (e) {
       console.error('kit sync failed for', c.email, (e as Error).message);
       await supabase.from('ai_native_contacts')
