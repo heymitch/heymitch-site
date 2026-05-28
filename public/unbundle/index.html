@@ -11,37 +11,43 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Kit (ConvertKit) form runtime — binds to .formkit-form elements -->
   <script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
 
   <style>
-    /* heymitch.ai design tokens — matches the SSS lander palette */
+    /* heymitch.ai design tokens — matches the main heymitch-site brand */
     :root{
-      --cream:        #F8F4E9;
-      --cream-deep:   #EFE9D9;
-      --ink:          #2F2E2B;
-      --ink-2:        #1C2220;
-      --ink-3:        #5A4E44;
-      --orange:       #F35A1F;
-      --orange-deep:  #D04A14;
-      --rule:         #D9CFC0;
-      --paper-shadow: 0 30px 80px -40px rgba(31,28,22,0.35);
+      --cream:        #F0E4D0;
+      --cream-deep:   #E0D4BE;
+      --card:         #FBF6EC;
+      --ink:          #2D2118;
+      --ink-2:        #2D2118;
+      --ink-3:        #6B5B4D;
+      --orange:       #E8682A;
+      --orange-deep:  #C9551E;
+      --teal:         #2B6B8A;
+      --rule:         #D8CCB8;
+      --paper-shadow: 0 30px 80px -40px rgba(45,33,24,0.30);
 
-      --serif: "Fraunces", "Times New Roman", serif;
-      --mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+      --sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
     }
 
     *{ box-sizing: border-box; }
     html,body{ margin:0; background: var(--cream); color: var(--ink); }
     body{
-      font-family: var(--serif);
+      font-family: var(--sans);
       font-size: 18px;
       line-height: 1.6;
-      font-feature-settings: "ss01","ss02";
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+    a{ color: var(--teal); transition: color 200ms; }
+    a:hover{ color: var(--orange); }
+    /* Space Grotesk has no true italic — emphasize with weight + ink, brand-style */
+    em{ font-style: normal; font-weight: 600; color: var(--ink); }
 
     /* utility */
     .container{ width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 28px; }
@@ -80,15 +86,14 @@
       align-items: center;
     }
     .hero h1{
-      font-family: var(--serif);
-      font-weight: 500;
+      font-family: var(--sans);
+      font-weight: 700;
       font-size: clamp(56px, 8vw, 104px);
       line-height: 0.94;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.035em;
       margin: 18px 0 24px;
     }
     .hero h1 .anything{
-      font-style: italic;
       position: relative;
       white-space: nowrap;
     }
@@ -107,7 +112,7 @@
       max-width: 540px;
       margin: 0 0 28px;
     }
-    .hero .sub em{ font-style: italic; color: var(--ink); }
+    .hero .sub em{ color: var(--ink); }
     .hero .contract{
       font-family: var(--mono);
       font-size: 13px;
@@ -252,12 +257,14 @@
 
     /* sections */
     section{ padding: 56px 0; }
+    /* .container's horizontal padding would otherwise zero out section vertical padding (higher specificity) */
+    section.container{ padding-top: 64px; padding-bottom: 64px; }
     h2{
-      font-family: var(--serif);
-      font-weight: 500;
+      font-family: var(--sans);
+      font-weight: 700;
       font-size: clamp(32px, 4vw, 44px);
       line-height: 1.1;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.025em;
       margin: 0 0 28px;
     }
     h2 .punct{ color: var(--orange); }
@@ -270,7 +277,7 @@
       gap: 28px;
     }
     .card{
-      background: #fff;
+      background: var(--card);
       border: 1px solid var(--rule);
       padding: 28px 26px 30px;
       border-radius: 6px;
@@ -284,10 +291,11 @@
       text-transform: uppercase;
     }
     .card h3{
-      font-family: var(--serif);
-      font-weight: 500;
-      font-size: 26px;
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 25px;
       line-height: 1.15;
+      letter-spacing: -0.02em;
       margin: 8px 0 12px;
     }
     .card p{ margin: 0; color: var(--ink-2); font-size: 16px; line-height: 1.55; }
@@ -295,7 +303,7 @@
     /* demo block */
     .demo{
       background: var(--ink-2);
-      color: #F2EFE6;
+      color: var(--cream);
       border-radius: 8px;
       padding: 40px 44px;
       margin-top: 16px;
@@ -309,9 +317,10 @@
       margin-bottom: 16px;
     }
     .demo .term{
-      font-family: var(--serif);
-      font-style: italic;
+      font-family: var(--sans);
+      font-weight: 600;
       font-size: 32px;
+      letter-spacing: -0.02em;
       color: #fff;
       margin: 0 0 6px;
     }
@@ -338,6 +347,7 @@
       font-size: 16px;
       color: #ECE7DA;
     }
+    .demo ol li em{ color: #fff; }
     .demo ol li::before{
       content: counter(step,decimal-leading-zero);
       position: absolute;
@@ -349,8 +359,7 @@
     }
     .demo .closer{
       margin-top: 24px;
-      font-family: var(--serif);
-      font-style: italic;
+      font-family: var(--sans);
       color: #DCD3BC;
     }
 
@@ -375,7 +384,7 @@
     .bonus p{ margin: 6px 0 0; font-size: 18px; color: var(--ink-2); }
 
     /* CTA */
-    .cta{ text-align: center; padding-bottom: 80px; }
+    .cta.container{ text-align: center; padding-bottom: 80px; }
     .cta h2{ margin-bottom: 16px; }
     .cta .signup{ margin: 22px auto 0; }
     .cta .signup-note{ text-align: center; }
