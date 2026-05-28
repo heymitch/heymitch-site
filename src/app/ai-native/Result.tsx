@@ -8,6 +8,18 @@ import { RECOMMENDATIONS } from '@/lib/aiNative/recommendations';
 import { AIWS_NAME, AIWS_PRICE, AIWS_URL, AIWS_PITCH } from '@/lib/aiNative/links';
 import type { ScoreResult } from '@/lib/aiNative/types';
 
+// Kit "Clare form" — capture target. Subscriber enrichment (tags/fields/sequence)
+// is done server-side by the ai-native-kit-sync edge function, so this POST is
+// best-effort: if it fails, the edge function still creates the subscriber by email.
+const KIT_FORM_ID = '9488687';
+function kitSubscribe(email: string): void {
+  void fetch(`https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email_address: email }),
+  }).catch(() => { /* best-effort; edge function backstops */ });
+}
+
 // Plot3D is WebGL — never render it server-side.
 const Plot3D = dynamic(() => import('./Plot3D'), {
   ssr: false,
@@ -161,7 +173,7 @@ export default function Result({ result, percentile, submissionId, sessionId, on
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {([['Harness', reco.harness.name], ['Tool', reco.tool.name], ['Connector / skill', reco.connectorOrSkill.name]] as const).map(([kind, name]) => {
-            const owned = result.selectedTools.some(id => name.toLowerCase().includes(id.replace(/-/g, ' ')) || id.replace(/-/g, ' ').includes(name.toLowerCase()));
+            const owned = (result.selectedTools ?? []).some(id => name.toLowerCase().includes(id.replace(/-/g, ' ')) || id.replace(/-/g, ' ').includes(name.toLowerCase()));
             return (
               <div key={kind} style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '10px 14px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8 }}>
                 <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: C.faint, width: 116, flexShrink: 0 }}>{kind}</span>
@@ -223,37 +235,11 @@ function OptInBlock({ submissionId, sessionId, result }: { submissionId: string 
   const [email, setEmail] = useState('');
   const [optInDispatch, setOptInDispatch] = useState(true);
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
-  const [downloading, setDownloading] = useState(false);
-
-  async function downloadReport() {
-    setDownloading(true);
-    try {
-      const r = await fetch('/api/ai-native/report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ computed: result }),
-      });
-      if (!r.ok) throw new Error('report failed');
-      const blob = await r.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `ai-native-${archetype.toLowerCase()}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    } catch {
-      /* swallow — the explicit Download button lets them retry */
-    } finally {
-      setDownloading(false);
-    }
-  }
-
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!email.includes('@')) { setState('error'); return; }
     setState('sending');
+    kitSubscribe(email); // best-effort; edge function backstops
     try {
       const r = await fetch('/api/ai-native/optin', {
         method: 'POST',
@@ -262,7 +248,6 @@ function OptInBlock({ submissionId, sessionId, result }: { submissionId: string 
       });
       if (r.ok) {
         setState('done');
-        downloadReport(); // auto-trigger the PDF
       } else {
         setState('error');
       }
@@ -275,30 +260,10 @@ function OptInBlock({ submissionId, sessionId, result }: { submissionId: string 
     return (
       <div style={{ background: C.cream, border: `1px solid ${C.creamDk}`, borderRadius: 14, padding: '26px 24px', marginBottom: 28, textAlign: 'center' }}>
         <div style={{ fontSize: 18, fontWeight: 800, color: C.dark, marginBottom: 8 }}>You&rsquo;re in. ✓</div>
-        <p style={{ fontSize: 14, color: C.mid, lineHeight: 1.55, margin: '0 0 16px' }}>
-          Your personalized <strong>{archetype}</strong> report should be downloading now.
-          Confirm your AI Dispatch subscription below to get the &ldquo;how to climb&rdquo; playbook in your inbox.
+        <p style={{ fontSize: 14, color: C.mid, lineHeight: 1.55, margin: '0 0 4px' }}>
+          Check your inbox — your full {archetype} report is on its way. Open it, then watch for the
+          follow-ups that show you how to climb.
         </p>
-        <button
-          onClick={downloadReport}
-          disabled={downloading}
-          style={{
-            padding: '10px 20px', background: C.dark, color: C.cream, border: 'none', borderRadius: 8,
-            fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', marginBottom: 18,
-            opacity: downloading ? 0.7 : 1,
-          }}
-        >
-          {downloading ? 'Preparing PDF…' : '↓ Download my report (PDF)'}
-        </button>
-        {/* AI Dispatch (Substack) — the funnel destination */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <iframe
-            src="https://aidispatch.substack.com/embed"
-            width="480" height="150"
-            style={{ border: `1px solid ${C.border}`, background: 'white', maxWidth: '100%' }}
-            frameBorder={0} scrolling="no" title="Subscribe to AI Dispatch"
-          />
-        </div>
       </div>
     );
   }
@@ -309,8 +274,8 @@ function OptInBlock({ submissionId, sessionId, result }: { submissionId: string 
         Get your full {archetype} report
       </h3>
       <p style={{ fontSize: 14, color: C.mid, lineHeight: 1.55, margin: '0 0 18px' }}>
-        A personalized PDF: your 3D plot, your three scores, the one move that climbs you a level, and the
-        trade-off you&rsquo;ve chosen — plus the AI Dispatch newsletter that shows you how to make the climb.
+        A personalized PDF — your 3D plot, your three scores, the one move that climbs you a level, and the
+        trade-off you&rsquo;ve chosen — sent straight to your inbox, plus the follow-ups that show you how to make the climb.
       </p>
 
       <form onSubmit={submit}>
@@ -327,14 +292,14 @@ function OptInBlock({ submissionId, sessionId, result }: { submissionId: string 
           />
           <button
             type="submit"
-            disabled={state === 'sending'}
+            disabled={state === 'sending' || !submissionId}
             style={{
               padding: '12px 22px', background: C.orange, color: '#fff', border: 'none', borderRadius: 8,
               fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
-              opacity: state === 'sending' ? 0.7 : 1,
+              opacity: (state === 'sending' || !submissionId) ? 0.7 : 1,
             }}
           >
-            {state === 'sending' ? 'Sending…' : 'Send my report →'}
+            {!submissionId ? 'Saving your result…' : state === 'sending' ? 'Sending…' : 'Send my report →'}
           </button>
         </div>
         {state === 'error' && (
