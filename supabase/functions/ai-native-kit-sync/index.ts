@@ -29,7 +29,7 @@ const BATCH = 50;
 const SITE_BASE = Deno.env.get('SITE_BASE_URL') ?? 'https://heymitch.ai';
 
 function reportUrl(id: string): string {
-  return `${SITE_BASE.replace(/\/+$/, '')}/ai-native/report?id=${id}`;
+  return `${SITE_BASE.replace(/\/+$/, '')}/api/ai-native/report?id=${id}`;
 }
 function tagIds(archetype: string): number[] {
   const id = ARCHETYPE_TAG_ID[archetype];

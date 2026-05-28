@@ -3,8 +3,8 @@ import { buildReportUrl, tagIdsForArchetype, QUIZ_LEAD_TAG_ID, TRACK1_SEQUENCE_I
 
 describe('kitSync helpers', () => {
   it('builds the report url from id + base (no trailing slash issues)', () => {
-    expect(buildReportUrl('abc-123', 'https://heymitch.ai')).toBe('https://heymitch.ai/ai-native/report?id=abc-123');
-    expect(buildReportUrl('abc-123', 'https://heymitch.ai/')).toBe('https://heymitch.ai/ai-native/report?id=abc-123');
+    expect(buildReportUrl('abc-123', 'https://heymitch.ai')).toBe('https://heymitch.ai/api/ai-native/report?id=abc-123');
+    expect(buildReportUrl('abc-123', 'https://heymitch.ai/')).toBe('https://heymitch.ai/api/ai-native/report?id=abc-123');
   });
 
   it('maps a known archetype to Quiz Lead + its archetype tag', () => {

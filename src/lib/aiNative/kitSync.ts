@@ -24,5 +24,5 @@ export function tagIdsForArchetype(archetype: string): number[] {
 
 /** The personalized report link emailed to the taker. */
 export function buildReportUrl(submissionId: string, baseUrl: string): string {
-  return `${baseUrl.replace(/\/+$/, '')}/ai-native/report?id=${submissionId}`;
+  return `${baseUrl.replace(/\/+$/, '')}/api/ai-native/report?id=${submissionId}`;
 }
