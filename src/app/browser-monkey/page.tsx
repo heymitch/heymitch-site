@@ -48,7 +48,7 @@ export default function BrowserMonkeyPage() {
             hey<span className="text-orange">mitch</span>
           </a>
           <a
-            href="/resources"
+            href="/"
             className="flex items-center gap-2 text-brown/50 hover:text-brown text-sm font-medium transition-colors"
           >
             <svg

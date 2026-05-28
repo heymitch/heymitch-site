@@ -54,6 +54,7 @@
 // ─── End reachability map ─────────────────────────────────────────────────────
 
 import type { QuizQuestion } from './types';
+import { MARQUEE_TOOLS } from './recommendations';
 
 export const QUESTIONS: QuizQuestion[] = [
   // ── Q1: Autonomy — how much runs without you starting it ──────────────────
@@ -395,5 +396,53 @@ export const QUESTIONS: QuizQuestion[] = [
         weights: {},
       },
     ],
+  },
+
+  // ── Intent — non-scoring willingness signal. Captures how urgent getting great
+  // at AI is for the taker's business. Never votes on an axis, never plots, never
+  // moves altitude/archetype. Sets ScoreResult.willingness for downstream routing. ──
+  {
+    id: 'intent',
+    axis: 'autonomy', // required by the type; ignored — intent never votes
+    kind: 'intent',
+    prompt: 'How important is getting great at AI to your business right now?',
+    helper: 'No wrong answer. This just helps us point you at the right next step.',
+    options: [
+      {
+        id: 'critical',
+        label: 'Critical and urgent. Falling behind on AI is a real risk to my business right now.',
+        weights: {},
+        willingness: 'critical',
+      },
+      {
+        id: 'building',
+        label: 'Important. I am actively building toward it, just not there yet.',
+        weights: {},
+        willingness: 'building',
+      },
+      {
+        id: 'curious',
+        label: 'Curious. I am exploring what is possible but not committed to a real push yet.',
+        weights: {},
+        willingness: 'curious',
+      },
+      {
+        id: 'none',
+        label: 'Not a priority right now. Other things matter more.',
+        weights: {},
+        willingness: 'none',
+      },
+    ],
+  },
+
+  // ── Q11: Tool inventory — multi-select. Does not vote on archetype; lightly
+  // nudges altitude, cross-checks the autonomy claim, and drives recommendations. ──
+  {
+    id: 'tools',
+    axis: 'autonomy',
+    kind: 'tools',
+    prompt: 'Last one: which of these have you actually used?',
+    helper: 'Pick all that apply, or none. This sharpens your recommendations and sanity-checks your scores.',
+    options: MARQUEE_TOOLS.map(t => ({ id: t.id, label: t.label, weights: {}, tier: t.tier })),
   },
 ];

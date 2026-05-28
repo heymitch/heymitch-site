@@ -4,6 +4,8 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { C, AXIS_COLOR } from './palette';
 import { ARCHETYPES, AXIS_META } from '@/lib/aiNative/model';
+import { RECOMMENDATIONS } from '@/lib/aiNative/recommendations';
+import { AIWS_NAME, AIWS_PRICE, AIWS_URL, AIWS_PITCH } from '@/lib/aiNative/links';
 import type { ScoreResult } from '@/lib/aiNative/types';
 
 // Plot3D is WebGL — never render it server-side.
@@ -28,6 +30,7 @@ const pct = (v: number) => Math.round(v * 100);
 
 export default function Result({ result, percentile, submissionId, sessionId, onRetake }: ResultProps) {
   const arch = ARCHETYPES.find(a => a.name === result.archetype)!;
+  const reco = RECOMMENDATIONS[result.archetype];
 
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '8px 20px 64px' }}>
@@ -55,8 +58,8 @@ export default function Result({ result, percentile, submissionId, sessionId, on
       <p style={{ fontSize: 18, fontStyle: 'italic', color: C.mid, lineHeight: 1.5, margin: '0 0 8px' }}>
         {arch.tagline}
       </p>
-      <p style={{ fontSize: 11, color: C.faint, margin: '0 0 28px' }}>
-        {/* [NEEDS_VOICE_REVIEW] copy stub */}
+      <p style={{ fontSize: 13, color: C.faint, margin: '0 0 28px' }}>
+        Here is where your answers actually landed.
       </p>
 
       {/* ── The 3D plot — the differentiator ─────────────────────────────── */}
@@ -123,9 +126,9 @@ export default function Result({ result, percentile, submissionId, sessionId, on
         })()}
       </div>
       <p style={{ fontSize: 12, color: C.faint, lineHeight: 1.6, margin: '14px 0 28px' }}>
-        Autonomy and Openness are the climb — that&rsquo;s your AI-native altitude. Build↔Buy is a values
-        call, not a level: the Mogul (best off-the-shelf) and the Sovereign (owns the engine) sit at the
-        same height, pointed opposite ways. {/* [NEEDS_VOICE_REVIEW] */}
+        Autonomy and Openness are the climb. That&rsquo;s your altitude. Build↔Buy isn&rsquo;t a level, it&rsquo;s a
+        values call: the Mogul who runs the best off-the-shelf and the Sovereign who owns the engine sit at
+        the exact same height, pointed opposite ways.
       </p>
 
       {/* ── Caveat (only if tripped) ──────────────────────────────────────── */}
@@ -148,6 +151,31 @@ export default function Result({ result, percentile, submissionId, sessionId, on
         </p>
       </div>
 
+      {/* ── What to learn next (preview; full why + first step in the PDF) ── */}
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.faint, marginBottom: 12 }}>
+          What to learn next
+        </div>
+        <p style={{ fontSize: 16, fontWeight: 700, color: C.dark, lineHeight: 1.35, margin: '0 0 16px' }}>
+          {reco.headline}
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {([['Harness', reco.harness.name], ['Tool', reco.tool.name], ['Connector / skill', reco.connectorOrSkill.name]] as const).map(([kind, name]) => {
+            const owned = result.selectedTools.some(id => name.toLowerCase().includes(id.replace(/-/g, ' ')) || id.replace(/-/g, ' ').includes(name.toLowerCase()));
+            return (
+              <div key={kind} style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '10px 14px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8 }}>
+                <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: C.faint, width: 116, flexShrink: 0 }}>{kind}</span>
+                <span style={{ fontSize: 15, fontWeight: 700, color: C.dark }}>{name}</span>
+                {owned && <span style={{ fontSize: 11, color: C.green, marginLeft: 'auto' }}>you use this</span>}
+              </div>
+            );
+          })}
+        </div>
+        <p style={{ fontSize: 12, color: C.faint, margin: '12px 0 0', lineHeight: 1.5 }}>
+          Why each one, your first step, and the full 5-page playbook are in your report below.
+        </p>
+      </div>
+
       {/* ── Leaderboard percentile ────────────────────────────────────────── */}
       <div style={{ textAlign: 'center', marginBottom: 36 }}>
         {percentile != null ? (
@@ -163,6 +191,19 @@ export default function Result({ result, percentile, submissionId, sessionId, on
 
       {/* ── Email gate → PDF + AI Dispatch ────────────────────────────────── */}
       <OptInBlock submissionId={submissionId} sessionId={sessionId} result={result} />
+
+      {/* ── AI Writing Skool — the end CTA ────────────────────────────────── */}
+      <a href={AIWS_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: 28 }}>
+        <div style={{ background: C.dark, borderRadius: 14, padding: '22px 24px' }}>
+          <div style={{ fontSize: 18, fontWeight: 800, color: C.cream, marginBottom: 8 }}>
+            Climb faster inside {AIWS_NAME}
+          </div>
+          <p style={{ fontSize: 14, color: C.cream, opacity: 0.9, lineHeight: 1.55, margin: '0 0 14px' }}>
+            {AIWS_PITCH} {AIWS_PRICE}.
+          </p>
+          <span style={{ fontSize: 14, fontWeight: 700, color: C.orange }}>Join {AIWS_NAME} &rarr;</span>
+        </div>
+      </a>
 
       {/* ── Share + retake ────────────────────────────────────────────────── */}
       <ShareRow archetype={result.archetype} />

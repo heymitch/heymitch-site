@@ -49,7 +49,7 @@ export default function AIHunterPage() {
           <a href="/" className="font-sans text-3xl sm:text-4xl font-bold text-brown hover:text-brown/70 transition-colors">
             hey<span className="text-orange">mitch</span>
           </a>
-          <a href="/tools/ai-hunter" className="flex items-center gap-2 text-brown/50 hover:text-brown text-sm font-medium transition-colors">
+          <a href="/ai-hunter" className="flex items-center gap-2 text-brown/50 hover:text-brown text-sm font-medium transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="m12 19-7-7 7-7" /><path d="M19 12H5" />
             </svg>

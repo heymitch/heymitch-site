@@ -14,6 +14,14 @@ export type Axis = 'autonomy' | 'openness' | 'value';
 
 export const AXES: readonly Axis[] = ['autonomy', 'openness', 'value'] as const;
 
+// ─── Intent (willingness) ─────────────────────────────────────────────────────
+// A NON-SCORING signal: how important/urgent getting great at AI is to the taker's
+// business right now. It rides alongside the score — it never moves the centroid,
+// votes on an axis, plots a dot, or changes the archetype/altitude. Downstream
+// email routing branches on Capability (altitude) × Intent (willingness):
+// high altitude + high willingness ('critical' | 'building') → AI strategy call.
+export type WillingnessLevel = 'critical' | 'building' | 'curious' | 'none';
+
 /** A point / contribution in the 3D normalized space. */
 export interface Vec3 {
   autonomy: number;
@@ -45,6 +53,7 @@ export interface QuizOption {
   /**
    * Where this answer sits on each axis it touches, in [0, 1].
    * The question's primary axis MUST be present. Cross-loads optional.
+   * Empty {} for gate options and tools-inventory options.
    */
   weights: Partial<Vec3>;
   /**
@@ -53,6 +62,16 @@ export interface QuizOption {
    * (claimed sophistication with no concrete, repeatable instance behind it).
    */
   drift?: boolean;
+  /**
+   * Tools-inventory only: sophistication tier of this tool.
+   * 1 = entry (chat) · 2 = applied · 3 = builder/automation · 4 = agentic/sovereign.
+   */
+  tier?: 1 | 2 | 3 | 4;
+  /**
+   * Intent-question only: the willingness tier this option signals.
+   * Read off the chosen option; never affects scoring.
+   */
+  willingness?: WillingnessLevel;
 }
 
 export interface QuizQuestion {
@@ -66,10 +85,20 @@ export interface QuizQuestion {
   options: QuizOption[];
   /** True for the single drift/gaming-gate item (does not vote for a tier). */
   isGate?: boolean;
+  /**
+   * 'single' (default) = pick one. 'tools' = multi-select tool inventory:
+   * does not vote on the centroid; nudges altitude lightly + drives recommendations.
+   * 'intent' = single-select willingness signal: does not vote, plot, or alter
+   * altitude/archetype; only sets ScoreResult.willingness for downstream routing.
+   */
+  kind?: 'single' | 'tools' | 'intent';
 }
 
-/** A completed answer set: questionId -> chosen optionId. */
-export type AnswerMap = Record<string, string>;
+/**
+ * A completed answer set: questionId -> chosen optionId (single)
+ * or array of selected ids (tools inventory).
+ */
+export type AnswerMap = Record<string, string | string[]>;
 
 // ─── Archetypes & levels ──────────────────────────────────────────────────────
 
@@ -87,9 +116,9 @@ export interface Archetype {
   name: ArchetypeName;
   /** Fixed location in normalized 3D space. */
   coord: Vec3;
-  /** One-line identity (who this person is). [NEEDS_VOICE_REVIEW] */
+  /** One-line identity (who this person is). Voiced. */
   tagline: string;
-  /** The single move that climbs them toward the high-X-high-Y corner. [NEEDS_VOICE_REVIEW] */
+  /** The single move that climbs them toward the high-X-high-Y corner. Voiced. */
   climbMove: string;
 }
 
@@ -98,7 +127,7 @@ export interface LevelBand {
   name: string;
   /** Inclusive lower bound on altitude [0,1]; band runs [min, next.min). */
   min: number;
-  /** Short description of this altitude. [NEEDS_VOICE_REVIEW] */
+  /** Short description of this altitude. Voiced. */
   blurb: string;
 }
 
@@ -138,7 +167,39 @@ export interface ScoreResult {
   /**
    * A respectful, specific caveat to show on the result, or null.
    * Set when drift is tripped on a high-autonomy claim, or on monoculture.
-   * [NEEDS_VOICE_REVIEW]
+   * Voiced.
    */
   caveat: string | null;
+
+  /** Tool ids the taker selected on the inventory question (for recommendations). */
+  selectedTools: string[];
+  /**
+   * Sophistication of their toolset in [0,1], or null if the inventory was not
+   * answered. Driven by the most advanced tool used + a small breadth bonus.
+   * Lightly nudges altitude; never moves the centroid/archetype.
+   */
+  toolSophistication: number | null;
+
+  /**
+   * Non-scoring intent signal: how important/urgent AI is to the taker's business,
+   * or null if the intent question was not answered. Persisted inside the `computed`
+   * jsonb so routing can read it (Capability × Intent). NEVER affects the score.
+   */
+  willingness: WillingnessLevel | null;
+}
+
+// ─── Per-archetype "what's next" recommendation (the report's depth) ──────────
+// Filled in recommendations.ts from the State of AI Tools Guide.
+
+export interface ArchetypeReco {
+  /** One-line framing of where this person should aim next. [voice: Mitch] */
+  headline: string;
+  /** The harness to learn/lean into next (e.g. Claude Cowork, Claude Code). */
+  harness: { name: string; why: string };
+  /** A specific tool to add next, named from the guide. */
+  tool: { name: string; why: string };
+  /** A connector or AI skill to wire up next. */
+  connectorOrSkill: { name: string; why: string };
+  /** The single concrete first step to take this week. */
+  firstStep: string;
 }
