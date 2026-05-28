@@ -11,6 +11,18 @@ const ARCHETYPE_TAG_ID: Record<string, number> = {
   Tinkerer: 19849296, Operator: 19849297, Builder: 19849298, Hermit: 19849299,
   Scribe: 19849300, Mogul: 19849301, Sovereign: 19849302, Wizard: 19849303,
 };
+// The one climb move per archetype — mirrors src/lib/aiNative/model.ts ARCHETYPES[].climbMove.
+// Feeds the {{ subscriber.climb_move }} Liquid token in the day-0 Track-1 email.
+const CLIMB_MOVE: Record<string, string> = {
+  Tinkerer: 'Make one thing repeatable. Save a prompt you keep retyping, or install a skill. That is the first rung.',
+  Operator: 'Take one workflow you run by hand and make it start itself. A trigger, a schedule, anything.',
+  Builder: 'You can build. Now get one of your builds running without you in the loop, or hand it to someone who is not you.',
+  Hermit: 'Pick your most important black box and make it legible. Write it down so a person, or an agent, could run it cold.',
+  Scribe: 'Take your best doc and make it execute. Turn the map into an engine, even a small one.',
+  Mogul: 'Nothing to climb. You are at altitude. Just own the bet you made: speed and focus over owning the thing.',
+  Sovereign: 'Nothing to climb. You are at altitude and you own it. Keep it open, keep it yours.',
+  Wizard: 'This is where the whole thing points. Your job now is keeping the fleet legible as it grows.',
+};
 const MAX_ATTEMPTS = 5;
 const BATCH = 50;
 
@@ -53,25 +65,34 @@ Deno.serve(async () => {
   if (cErr) return new Response(JSON.stringify({ error: cErr.message }), { status: 500 });
   if (!contacts?.length) return new Response(JSON.stringify({ synced: 0 }), { status: 200 });
 
-  // 2. Archetypes for those submissions, in one query.
+  // 2. Archetype + level band for those submissions, in one query.
   const subIds = [...new Set(contacts.map((c) => c.submission_id))];
   const { data: subs } = await supabase
-    .from('ai_native_submissions').select('id, archetype').in('id', subIds);
-  const archetypeById = new Map((subs ?? []).map((s) => [s.id, s.archetype as string]));
+    .from('ai_native_submissions').select('id, archetype, level_band').in('id', subIds);
+  const subById = new Map(
+    (subs ?? []).map((s) => [s.id, s as { archetype: string; level_band: string | null }]),
+  );
 
   let synced = 0;
   for (const c of contacts) {
-    const archetype = archetypeById.get(c.submission_id);
+    const sub = subById.get(c.submission_id);
+    const archetype = sub?.archetype;
     if (!archetype) {
       await supabase.from('ai_native_contacts')
         .update({ kit_sync_attempts: (c.kit_sync_attempts ?? 0) + 1 }).eq('id', c.id);
       continue;
     }
     try {
-      // a. Upsert subscriber with custom fields.
+      // a. Upsert subscriber with custom fields (mirrors the day-0 email Liquid tokens:
+      //    {{ subscriber.archetype }} {{ subscriber.level }} {{ subscriber.climb_move }} {{ subscriber.report_url }}).
       const up = await kit('/subscribers', {
         email_address: c.email,
-        fields: { archetype, report_url: reportUrl(c.submission_id) },
+        fields: {
+          archetype,
+          level: sub?.level_band ?? '',
+          climb_move: CLIMB_MOVE[archetype] ?? '',
+          report_url: reportUrl(c.submission_id),
+        },
       }, kitKey);
       if (!up.ok) throw new Error(`subscriber upsert ${up.status}`);
 
