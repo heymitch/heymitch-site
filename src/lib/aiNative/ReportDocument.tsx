@@ -182,7 +182,7 @@ export function buildReport(result: ScoreResult): React.ReactElement {
         )}
 
         <View style={s.footer}>
-          <Text style={s.footerText}>How AI-Native Are You? · heymitch.ai/tools/ai-native</Text>
+          <Text style={s.footerText}>How AI-Native Are You? · heymitch.ai/ai-native</Text>
           <Text style={s.footerText}>1 / 5</Text>
         </View>
       </Page>
@@ -280,7 +280,7 @@ export function buildReport(result: ScoreResult): React.ReactElement {
         </Text>
 
         <View style={s.footer}>
-          <Text style={s.footerText}>heymitch.ai/tools/ai-native · share your archetype</Text>
+          <Text style={s.footerText}>heymitch.ai/ai-native · share your archetype</Text>
           <Text style={s.footerText}>5 / 5</Text>
         </View>
       </Page>

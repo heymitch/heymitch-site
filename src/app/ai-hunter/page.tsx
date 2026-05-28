@@ -311,7 +311,7 @@ export default function AIHunterTool() {
               reset sample
             </button>
           )}
-          <a href="/resources/ai-hunter-v2" style={{ fontSize: 12, color: C.orange, textDecoration: 'none', fontWeight: 600 }}>
+          <a href="/ai-hunter-skill" style={{ fontSize: 12, color: C.orange, textDecoration: 'none', fontWeight: 600 }}>
             Get the Cowork skill →
           </a>
         </div>

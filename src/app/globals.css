@@ -570,3 +570,18 @@ a:hover {
   border-top: 1px solid rgba(45, 33, 24, 0.1);
   margin: 2rem 0;
 }
+
+/* ── Floating AI Hunter CTA ─────────────────────────────────────────── */
+@keyframes ctaCardIn {
+  0%   { opacity: 0; transform: translateY(12px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ctaBotBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-3px) rotate(-6deg); }
+}
+.cta-card-in { animation: ctaCardIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.cta-bot-bob { animation: ctaBotBob 3.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .cta-card-in, .cta-bot-bob { animation: none; }
+}

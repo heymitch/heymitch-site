@@ -1,17 +1,17 @@
 [
   {
     "title": "AI Hunter 2.0",
-    "description": "Deterministic AI pattern scanner. Dual eval with 200+ experiments of research baked in. Scores your writing 0-100. Finds exactly which sentences to rewrite.",
+    "description": "Download the Cowork skill that hunts AI tells in your writing. Dual eval, 200+ experiments baked in. Scores you 0-100 and flags exactly what to rewrite.",
     "image": "/products/ai-hunter.png",
-    "url": "/tools/ai-hunter",
-    "category": "tool",
+    "url": "/ai-hunter-skill",
+    "category": "skill",
     "published": true
   },
   {
     "title": "BrowserMonkey",
     "description": "Sniff once, Replay forever. Browser automation that skips the UI — intercepts fetch/XHR calls on any site and replays them 10-100x faster than clicking. Works on the 90% of SaaS that won't give you an API.",
     "image": "/products/browser-monkey-floppy.png",
-    "url": "/resources/browser-monkey",
+    "url": "/browser-monkey",
     "category": "skill",
     "published": true
   },
