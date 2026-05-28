@@ -129,8 +129,11 @@ export function buildReport(result: ScoreResult): React.ReactElement {
   const altitudePct = pct(result.altitude);
   const band = bandForAltitude(result.altitude);
 
+  // Guard against older stored results that predate the selectedTools / willingness fields.
+  const selectedTools: string[] = result.selectedTools ?? [];
+
   const toolLabel = (id: string) => MARQUEE_TOOLS.find(t => t.id === id)?.label ?? id;
-  const usesByLabel = new Set(result.selectedTools.map(toolLabel));
+  const usesByLabel = new Set(selectedTools.map(toolLabel));
   const owns = (name: string) => usesByLabel.has(name);
 
   // Data-driven "where you are" line (autonomy vs openness balance).
@@ -231,9 +234,9 @@ export function buildReport(result: ScoreResult): React.ReactElement {
         <Text style={s.pageTitle}>Your toolset, and the gap</Text>
 
         <Text style={s.sectionLabel}>Tools you told us you use</Text>
-        {result.selectedTools.length > 0 ? (
+        {selectedTools.length > 0 ? (
           <View style={s.chipRow}>
-            {result.selectedTools.map(id => (
+            {selectedTools.map(id => (
               <Text key={id} style={s.chip}>{toolLabel(id)}</Text>
             ))}
           </View>
