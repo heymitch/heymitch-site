@@ -11,8 +11,8 @@ function LoginForm() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (pw === 'white liquor') {
-      document.cookie = 'signal_auth=granted; path=/; max-age=2592000; samesite=strict';
-      const from = params.get('from') ?? '/signal';
+      document.cookie = 'dash_auth=granted; path=/; max-age=2592000; samesite=strict';
+      const from = params.get('from') ?? '/dashboard';
       router.push(from);
     } else {
       setError(true);
@@ -22,11 +22,9 @@ function LoginForm() {
 
   return (
     <div style={{ width: 340, padding: '40px 32px', background: '#1C1612', border: '1px solid rgba(232,104,42,0.2)', borderRadius: 2 }}>
-      {/* Scan line overlay */}
       <div style={{ position: 'absolute', inset: 0, borderRadius: 2, pointerEvents: 'none', background: 'repeating-linear-gradient(to bottom, transparent 0px, transparent 4px, rgba(28,22,18,0.4) 4px, rgba(28,22,18,0.4) 5px)' }} />
-      {/* Panel title bar */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, background: '#100E0C', borderBottom: '1px solid #413226', padding: '6px 12px', fontFamily: "'Silkscreen', monospace", fontSize: 9, letterSpacing: '0.2em', color: '#6E604E', borderRadius: '2px 2px 0 0' }}>
-        PROJECT INSIGHT
+        MARKETING OPS
       </div>
       <div style={{ marginTop: 20 }}>
         <div style={{ color: '#F0E4D0', fontSize: 22, fontFamily: "'Jura', sans-serif", fontWeight: 300, marginBottom: 24 }}>Access Required</div>
@@ -55,7 +53,7 @@ function LoginForm() {
   );
 }
 
-export default function SignalLogin() {
+export default function DashboardLogin() {
   return (
     <main style={{ background: '#16120E', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'JetBrains Mono', monospace" }}>
       <Suspense fallback={<div style={{ color: 'rgba(240,228,208,0.3)', fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>loading...</div>}>

@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 
 const TOOL_URL = "/ai-hunter";
 
+// Don't float the CTA on the AI Hunter pages (redundant) or behind the
+// private gated dashboards (/signal, /dashboard) where it just overlaps data.
+const HIDDEN_ON = ["/ai-hunter", "/signal", "/dashboard"];
+
 export default function AiHunterCTA() {
   const pathname = usePathname();
   const [showCard, setShowCard] = useState(false);
@@ -16,8 +20,7 @@ export default function AiHunterCTA() {
     return () => clearTimeout(t);
   }, []);
 
-  // Don't promote the tool while you're already on an AI Hunter page.
-  if (pathname?.startsWith("/ai-hunter")) return null;
+  if (HIDDEN_ON.some((p) => pathname?.startsWith(p))) return null;
 
   function dismiss(e: React.MouseEvent) {
     e.preventDefault();

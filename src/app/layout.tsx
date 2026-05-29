@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import AiHunterCTA from "@/components/AiHunterCTA";
 
 const spaceGrotesk = Space_Grotesk({
@@ -44,6 +45,7 @@ export default function RootLayout({
       >
         {children}
         <AiHunterCTA />
+        <Analytics />
       </body>
     </html>
   );
