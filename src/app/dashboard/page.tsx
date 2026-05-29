@@ -58,9 +58,9 @@ function StatCard({ label, value, sub, color = '#F0E4D0', source }: { label: str
     <div style={panelStyle}>
       <ScanOverlay />
       <PanelTitleBar title={label} source={source} />
-      <div style={{ padding: '20px 24px' }}>
-        <div style={{ color, fontSize: 34, fontFamily: "'Jura', sans-serif", fontWeight: 300, lineHeight: 1 }}>{value}</div>
-        {sub && <div style={{ color: '#82C896', fontSize: 11, marginTop: 8, fontFamily: "'JetBrains Mono', monospace" }}>{sub}</div>}
+      <div style={{ padding: '18px 16px' }}>
+        <div style={{ color, fontSize: 27, fontFamily: "'Jura', sans-serif", fontWeight: 300, lineHeight: 1, whiteSpace: 'nowrap' }}>{value}</div>
+        {sub && <div style={{ color: '#82C896', fontSize: 10, marginTop: 8, fontFamily: "'JetBrains Mono', monospace" }}>{sub}</div>}
       </div>
     </div>
   );
@@ -115,9 +115,10 @@ export default function MarketingOps() {
         {err && <div style={{ color: '#FF5555', marginBottom: 24, fontSize: 12 }}>{err}</div>}
 
         {/* Stat strip */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 32 }}>
-          <StatCard label="NET REVENUE — 30D" value={money(rev?.net_30d)} sub={rev ? `${int(rev.sales_30d)} sales` : undefined} color="#FFB86C" source={src.revenue} />
-          <StatCard label="NET REVENUE — 90D" value={money(rev?.net_90d)} sub={rev ? `${int(rev.sales_90d)} sales · ${money(rev.refunded_90d)} refunded` : undefined} color="#E8682A" source={src.revenue} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginBottom: 32 }}>
+          <StatCard label="NET REVENUE · 30D" value={money(rev?.net_30d)} sub={rev ? `${int(rev.sales_30d)} sales` : undefined} color="#FFB86C" source={src.revenue} />
+          <StatCard label="NET REVENUE · 90D" value={money(rev?.net_90d)} sub={rev ? `${int(rev.sales_90d)} sales · ${money(rev.refunded_90d)} refunded` : undefined} color="#E8682A" source={src.revenue} />
+          <StatCard label="SITE VISITORS · 30D" value={int(tr?.visits_30d)} sub={tr ? `${int(tr.pageviews_30d)} page views` : undefined} color="#4A9DB8" source={src.traffic} />
           <StatCard label="EMAIL SUBSCRIBERS" value={int(em?.total_subscribers)} sub={em?.net_new_90d != null ? `+${int(em.net_new_90d)} last 90d` : undefined} source={src.emails} />
           <StatCard label="QUIZ OPT-IN RATE" value={pct(fun?.optin_rate)} sub={fun ? `${int(fun.optins)} / ${int(fun.quiz_submits)} completed` : undefined} color="#82C896" source={src.funnel} />
         </div>
