@@ -85,6 +85,7 @@ export default function MarketingOps() {
   const fun = d?.funnel;
   const em = d?.emails;
   const src = d?.sources ?? {};
+  const tr = d?.traffic;
   const li = d?.manual?.linkedin_followers;
 
   return (
@@ -155,8 +156,8 @@ export default function MarketingOps() {
               { key: 'revenue', label: 'SamCart revenue', detail: 'Supabase · sam_cart_transactions' },
               { key: 'funnel', label: 'Quiz funnel', detail: 'Supabase · ai_native_*' },
               { key: 'emails', label: 'Kit email', detail: em ? `${int(em.total_subscribers)} subscribers` : 'snapshot pending' },
-              { key: 'traffic', label: 'Vercel site traffic', detail: 'add analytics token' },
-              { key: 'linkedin', label: 'LinkedIn reach', detail: li ? `${int(li.value)} followers` : 'manual entry — never automate' },
+              { key: 'traffic', label: 'Vercel site traffic', detail: tr ? `${int(tr.visits_30d)} visitors · ${int(tr.pageviews_30d)} views (30d)` : 'add analytics token' },
+              { key: 'linkedin', label: 'LinkedIn reach', detail: li ? `${int(li.value)} followers` : 'manual entry, never automate' },
             ].map((row, i, arr) => {
               const s = src[row.key];
               const live = s?.status === 'live';
