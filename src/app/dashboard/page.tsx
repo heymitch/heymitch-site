@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 
 // ─── Contract types (from /api/metrics) ───────────────────
 type Source = { status: 'live' | 'pending'; note: string };
@@ -29,6 +29,13 @@ type Metrics = {
   } | null;
   sources: Record<string, Source>;
 };
+type History = {
+  days: number;
+  daily: { day: string; optins: number; submits: number; revenue: number }[];
+  traffic: { captured_at: string; visits: number; pageviews: number }[];
+  subscribers: { captured_at: string; total: number }[];
+  live: boolean;
+};
 
 // ─── Formatters: null → —, never a fake 0 ─────────────────
 const money = (n: number | null | undefined) =>
@@ -37,6 +44,10 @@ const int = (n: number | null | undefined) =>
   n == null || Number.isNaN(n) ? '—' : new Intl.NumberFormat('en-US').format(Math.round(n));
 const pct = (n: number | null | undefined) =>
   n == null || Number.isNaN(n) ? '—' : n + '%';
+const shortDay = (s: string | number) => {
+  const d = new Date(typeof s === 'string' && s.length <= 10 ? s + 'T00:00:00' : s);
+  return Number.isNaN(d.getTime()) ? '' : `${d.getMonth() + 1}/${d.getDate()}`;
+};
 
 // ─── Shared styles (inherited from /signal design system) ──
 const SCAN_LINE = 'repeating-linear-gradient(to bottom, transparent 0px, transparent 4px, rgba(28,22,18,0.4) 4px, rgba(28,22,18,0.4) 5px)';
@@ -120,6 +131,19 @@ export default function MarketingOps() {
 
   useEffect(() => { load(); }, [load]);
 
+  const [hist, setHist] = useState<History | null>(null);
+  const [range, setRange] = useState(30);
+  const [histLoading, setHistLoading] = useState(false);
+  const loadHistory = useCallback((days: number) => {
+    setHistLoading(true);
+    fetch(`/api/history?days=${days}`, { credentials: 'same-origin', cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : null))
+      .then(j => { if (j) setHist(j); })
+      .catch(() => {})
+      .finally(() => setHistLoading(false));
+  }, []);
+  useEffect(() => { loadHistory(range); }, [range, loadHistory]);
+
   const rev = d?.revenue;
   const fun = d?.funnel;
   const em = d?.emails;
@@ -142,7 +166,7 @@ export default function MarketingOps() {
           <span style={{ fontSize: 10, color: '#6E604E', fontFamily: "'JetBrains Mono', monospace" }}>
             {d ? `updated ${new Date(d.generated_at).toLocaleString()}` : 'loading…'}
           </span>
-          <button onClick={load} disabled={loading} style={{
+          <button onClick={() => { load(); loadHistory(range); }} disabled={loading} style={{
             padding: '5px 12px', background: loading ? 'transparent' : '#E8682A', color: loading ? '#6E604E' : '#16120E',
             border: '1px solid #413226', cursor: loading ? 'default' : 'pointer',
             fontFamily: "'Silkscreen', monospace", fontSize: 8, letterSpacing: '0.15em',
@@ -162,11 +186,107 @@ export default function MarketingOps() {
           <StatCard label="QUIZ OPT-IN RATE" value={pct(fun?.optin_rate)} sub={fun ? `${int(fun.optins)} / ${int(fun.quiz_submits)} completed` : undefined} color="#82C896" source={src.funnel} />
         </div>
 
+        {/* Trends over time (range-controlled) */}
+        <div style={{ marginBottom: 32 }}>
+          <div style={{ background: '#100E0C', border: '1px solid #413226', borderBottom: 'none', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontFamily: "'Silkscreen', monospace", fontSize: 10, letterSpacing: '0.2em', color: '#6E604E' }}>TRENDS</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              {histLoading && <span style={{ fontSize: 9, color: '#6E604E', fontFamily: "'JetBrains Mono', monospace" }}>loading…</span>}
+              <select value={range} onChange={e => setRange(Number(e.target.value))} style={{ background: '#16120E', color: '#F0E4D0', border: '1px solid #413226', borderRadius: 2, padding: '4px 8px', fontFamily: "'JetBrains Mono', monospace", fontSize: 11, cursor: 'pointer' }}>
+                <option value={7}>Last 7 days</option>
+                <option value={30}>Last 30 days</option>
+                <option value={90}>Last 90 days</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#413226', border: '1px solid #413226', borderTop: 'none' }}>
+            <div style={{ ...panelStyle, border: 'none', borderRadius: 0 }}>
+              <ScanOverlay />
+              <PanelTitleBar title="OPT-INS & QUIZ SUBMITS · DAILY" source={src.funnel} />
+              <div style={{ padding: '16px 16px 8px' }}>
+                <ResponsiveContainer width="100%" height={200}>
+                  <LineChart data={hist?.daily ?? []} margin={{ left: -16, right: 8, top: 8 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(65,50,38,0.5)" vertical={false} />
+                    <XAxis dataKey="day" tickFormatter={shortDay} tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={24} />
+                    <YAxis allowDecimals={false} tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} width={32} />
+                    <Tooltip contentStyle={tooltipStyle} labelFormatter={(l) => shortDay(l as string)} />
+                    <Legend wrapperStyle={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace" }} />
+                    <Line type="monotone" dataKey="optins" name="Opt-ins" stroke="#82C896" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="submits" name="Submits" stroke="#E8682A" strokeWidth={2} dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div style={{ ...panelStyle, border: 'none', borderRadius: 0 }}>
+              <ScanOverlay />
+              <PanelTitleBar title="REVENUE · DAILY" source={src.revenue} />
+              <div style={{ padding: '16px 16px 8px' }}>
+                <ResponsiveContainer width="100%" height={200}>
+                  <AreaChart data={hist?.daily ?? []} margin={{ left: -8, right: 8, top: 8 }}>
+                    <defs>
+                      <linearGradient id="revFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#FFB86C" stopOpacity={0.5} />
+                        <stop offset="100%" stopColor="#FFB86C" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(65,50,38,0.5)" vertical={false} />
+                    <XAxis dataKey="day" tickFormatter={shortDay} tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={24} />
+                    <YAxis tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} width={44} tickFormatter={(v) => '$' + (v >= 1000 ? (v / 1000) + 'k' : v)} />
+                    <Tooltip contentStyle={tooltipStyle} labelFormatter={(l) => shortDay(l as string)} formatter={(v) => money(Number(v))} />
+                    <Area type="monotone" dataKey="revenue" name="Revenue" stroke="#FFB86C" strokeWidth={2} fill="url(#revFill)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#413226', border: '1px solid #413226', borderTop: 'none' }}>
+            <div style={{ ...panelStyle, border: 'none', borderRadius: 0 }}>
+              <ScanOverlay />
+              <PanelTitleBar title="SITE TRAFFIC · SNAPSHOTS" source={src.traffic} />
+              <div style={{ padding: '16px 16px 8px' }}>
+                {(hist?.traffic?.length ?? 0) > 0 ? (
+                  <ResponsiveContainer width="100%" height={160}>
+                    <LineChart data={hist?.traffic ?? []} margin={{ left: -16, right: 8, top: 8 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(65,50,38,0.5)" vertical={false} />
+                      <XAxis dataKey="captured_at" tickFormatter={shortDay} tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={24} />
+                      <YAxis allowDecimals={false} tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} width={32} />
+                      <Tooltip contentStyle={tooltipStyle} labelFormatter={(l) => shortDay(l as string)} />
+                      <Line type="monotone" dataKey="visits" name="Visitors" stroke="#4A9DB8" strokeWidth={2} dot={{ r: 3, fill: '#4A9DB8' }} />
+                      <Line type="monotone" dataKey="pageviews" name="Page views" stroke="#6E604E" strokeWidth={1} dot={{ r: 2 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div style={{ height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6E604E', fontSize: 11 }}>fills as snapshots accrue</div>
+                )}
+              </div>
+            </div>
+            <div style={{ ...panelStyle, border: 'none', borderRadius: 0 }}>
+              <ScanOverlay />
+              <PanelTitleBar title="EMAIL SUBSCRIBERS · SNAPSHOTS" source={src.emails} />
+              <div style={{ padding: '16px 16px 8px' }}>
+                {(hist?.subscribers?.length ?? 0) > 0 ? (
+                  <ResponsiveContainer width="100%" height={160}>
+                    <LineChart data={hist?.subscribers ?? []} margin={{ left: 0, right: 8, top: 8 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(65,50,38,0.5)" vertical={false} />
+                      <XAxis dataKey="captured_at" tickFormatter={shortDay} tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={24} />
+                      <YAxis domain={['dataMin - 5', 'dataMax + 5']} tick={{ fill: '#6E604E', fontSize: 9, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} width={40} />
+                      <Tooltip contentStyle={tooltipStyle} labelFormatter={(l) => shortDay(l as string)} />
+                      <Line type="monotone" dataKey="total" name="Subscribers" stroke="#82C896" strokeWidth={2} dot={{ r: 3, fill: '#82C896' }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div style={{ height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6E604E', fontSize: 11 }}>fills as snapshots accrue</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Revenue by line + Funnel */}
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 32 }}>
           <div style={panelStyle}>
             <ScanOverlay />
-            <PanelTitleBar title="REVENUE BY LINE — 90D" source={src.revenue} />
+            <PanelTitleBar title="REVENUE BY LINE · 90D" source={src.revenue} />
             <div style={{ padding: '20px 24px' }}>
               <ResponsiveContainer width="100%" height={240}>
                 <BarChart data={rev?.by_line ?? []} layout="vertical" margin={{ left: 8 }}>
