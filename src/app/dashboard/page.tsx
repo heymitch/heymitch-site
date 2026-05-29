@@ -120,7 +120,7 @@ export default function MarketingOps() {
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(65,50,38,0.6)" horizontal={false} />
                   <XAxis type="number" tick={{ fill: '#6E604E', fontSize: 10, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} tickFormatter={(v) => '$' + (v / 1000) + 'k'} />
                   <YAxis type="category" dataKey="line" tick={{ fill: '#B4A690', fontSize: 11, fontFamily: "'JetBrains Mono', monospace" }} axisLine={false} tickLine={false} width={130} />
-                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => money(v)} cursor={{ fill: 'rgba(232,104,42,0.08)' }} />
+                  <Tooltip contentStyle={tooltipStyle} formatter={(v) => money(Number(v))} cursor={{ fill: 'rgba(232,104,42,0.08)' }} />
                   <Bar dataKey="net_90d" fill="#E8682A" radius={[0, 2, 2, 0]} />
                 </BarChart>
               </ResponsiveContainer>
