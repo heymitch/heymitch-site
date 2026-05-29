@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
@@ -69,17 +69,22 @@ function StatCard({ label, value, sub, color = '#F0E4D0', source }: { label: str
 export default function MarketingOps() {
   const [d, setD] = useState<Metrics | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/metrics', { credentials: 'same-origin' })
+  const load = useCallback(() => {
+    setLoading(true);
+    fetch('/api/metrics', { credentials: 'same-origin', cache: 'no-store' })
       .then(r => {
         if (r.status === 401) { window.location.href = '/dashboard/login?from=/dashboard'; return null; }
         if (!r.ok) throw new Error('metrics endpoint error');
         return r.json();
       })
-      .then(j => { if (j) setD(j); })
-      .catch(() => setErr('Failed to load metrics.'));
+      .then(j => { if (j) { setD(j); setErr(null); } })
+      .catch(() => setErr('Failed to load metrics.'))
+      .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => { load(); }, [load]);
 
   const rev = d?.revenue;
   const fun = d?.funnel;
@@ -94,9 +99,16 @@ export default function MarketingOps() {
       <nav style={{ background: '#100E0C', borderBottom: '1px solid #413226', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 32 }}>
         <span style={{ fontFamily: "'Silkscreen', monospace", fontSize: 10, color: '#6E604E', letterSpacing: '0.2em' }}>◈ MARKETING OPS</span>
         <Link href="/signal" style={{ color: '#6E604E', textDecoration: 'none', fontFamily: "'Silkscreen', monospace", fontSize: 9, letterSpacing: '0.15em' }}>SIGNAL ↗</Link>
-        <span style={{ marginLeft: 'auto', fontSize: 10, color: '#6E604E', fontFamily: "'JetBrains Mono', monospace" }}>
-          {d ? `updated ${new Date(d.generated_at).toLocaleString()}` : 'loading…'}
-        </span>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span style={{ fontSize: 10, color: '#6E604E', fontFamily: "'JetBrains Mono', monospace" }}>
+            {d ? `updated ${new Date(d.generated_at).toLocaleString()}` : 'loading…'}
+          </span>
+          <button onClick={load} disabled={loading} style={{
+            padding: '5px 12px', background: loading ? 'transparent' : '#E8682A', color: loading ? '#6E604E' : '#16120E',
+            border: '1px solid #413226', cursor: loading ? 'default' : 'pointer',
+            fontFamily: "'Silkscreen', monospace", fontSize: 8, letterSpacing: '0.15em',
+          }}>{loading ? 'SYNCING' : '↻ REFRESH'}</button>
+        </div>
       </nav>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 32px' }}>

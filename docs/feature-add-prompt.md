@@ -83,6 +83,10 @@ Stop after this step and show me the resolved methods before continuing.
   in a muted color with a pending dot. The section header carries a small
   "source, status" line that flips live or pending from the contract.
 - Cardless by default for stat strips. Use a chart only where the shape needs one.
+- Include a refresh control by default: a button that re-fetches the projection
+  endpoint (cache: no-store) without a full page reload, with a loading state and a
+  visible "updated <time>" stamp. It re-reads the snapshots, it does not re-sync the
+  upstream sources.
 
 ### Step 4: Verify before calling it done
 
