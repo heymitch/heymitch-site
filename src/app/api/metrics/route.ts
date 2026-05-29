@@ -6,6 +6,9 @@ import { getSupabase } from '@/lib/supabase';
 // null = "no connector yet" (UI shows —). 0 = "live and really zero".
 
 export const dynamic = 'force-dynamic';
+// Never cache the Supabase fetch: metrics must reflect the latest snapshots,
+// not a build-time copy. Without this, Next's Data Cache freezes /api/metrics.
+export const fetchCache = 'force-no-store';
 
 // Demo mode: serve illustrative revenue instead of the real SamCart figures.
 // The dashboard is shown publicly (session/recording) and real revenue stays private.
