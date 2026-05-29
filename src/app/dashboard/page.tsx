@@ -17,6 +17,16 @@ type Metrics = {
   emails: { total_subscribers: number | null; net_new_30d: number | null; net_new_90d: number | null; open_rate: number | null; click_rate: number | null } | null;
   traffic: { visits_30d: number | null; pageviews_30d: number | null } | null;
   manual: Record<string, { label: string; value: number | null; unit: string | null; note: string | null }> | null;
+  quiz: {
+    total_submissions: number | null;
+    total_optins: number | null;
+    converted_submissions: number | null;
+    avg_altitude: number | null;
+    optin_rate: number | null;
+    by_archetype: { archetype: string; submissions: number; optins: number; optin_rate: number | null }[];
+    by_willingness: { willingness: string; submissions: number }[];
+    by_level: { level_band: string; submissions: number }[];
+  } | null;
   sources: Record<string, Source>;
 };
 
@@ -66,6 +76,30 @@ function StatCard({ label, value, sub, color = '#F0E4D0', source }: { label: str
   );
 }
 
+// HorizontalBar: token-matched row bar with label, value-scaled fill, count, optional badge.
+function HorizontalBar({
+  label, value, max, count, badge, badgeColor = '#82C896', fill = '#E8682A',
+}: {
+  label: string; value: number; max: number; count: string;
+  badge?: string; badgeColor?: string; fill?: string;
+}) {
+  const w = max > 0 ? Math.max(2, Math.round((value / max) * 100)) : 0;
+  return (
+    <div style={{ padding: '10px 0', borderBottom: '1px solid rgba(65,50,38,0.4)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#F0E4D0' }}>{label}</span>
+        <span style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+          {badge && <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: badgeColor }}>{badge}</span>}
+          <span style={{ fontFamily: "'Jura', sans-serif", fontWeight: 300, fontSize: 18, color: '#F0E4D0' }}>{count}</span>
+        </span>
+      </div>
+      <div style={{ height: 6, background: 'rgba(65,50,38,0.4)', borderRadius: 1, overflow: 'hidden' }}>
+        <div style={{ width: `${w}%`, height: '100%', background: fill, transition: 'width 0.4s ease' }} />
+      </div>
+    </div>
+  );
+}
+
 export default function MarketingOps() {
   const [d, setD] = useState<Metrics | null>(null);
   const [err, setErr] = useState<string | null>(null);
@@ -92,6 +126,11 @@ export default function MarketingOps() {
   const src = d?.sources ?? {};
   const tr = d?.traffic;
   const li = d?.manual?.linkedin_followers;
+  const qz = d?.quiz;
+  const archMax = Math.max(1, ...(qz?.by_archetype ?? []).map(a => a.submissions));
+  const willMax = Math.max(1, ...(qz?.by_willingness ?? []).map(w => w.submissions));
+  const lvlMax = Math.max(1, ...(qz?.by_level ?? []).map(l => l.submissions));
+  const isHotIntent = (w: string) => /critical|building/i.test(w);
 
   return (
     <div style={{ background: '#16120E', minHeight: '100vh', color: '#F0E4D0', fontFamily: "'JetBrains Mono', monospace" }}>
@@ -183,6 +222,87 @@ export default function MarketingOps() {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* ── Quiz Results Insights ─────────────────────────── */}
+        <div style={{ marginTop: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 18 }}>
+            <span style={{ fontFamily: "'Silkscreen', monospace", fontSize: 11, letterSpacing: '0.2em', color: '#E8682A' }}>QUIZ INSIGHTS</span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#6E604E' }}>Supabase · ai_native_* · live</span>
+          </div>
+
+          {/* Stat strip */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+            <StatCard label="TOTAL SUBMISSIONS" value={int(qz?.total_submissions)} color="#F0E4D0" />
+            <StatCard label="EMAIL OPT-INS" value={int(qz?.total_optins)} sub={qz?.converted_submissions != null ? `${int(qz.converted_submissions)} submissions converted` : undefined} color="#82C896" />
+            <StatCard label="AVG ALTITUDE" value={qz?.avg_altitude != null ? String(qz.avg_altitude) : '—'} color="#4A9DB8" />
+            <StatCard label="OPT-IN RATE" value={pct(qz?.optin_rate)} sub={qz?.converted_submissions != null && qz?.total_submissions != null ? `${int(qz.converted_submissions)} of ${int(qz.total_submissions)} submissions` : undefined} color="#FFB86C" />
+          </div>
+
+          {/* Three panels: by archetype, intent split, level band */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', gap: 24 }}>
+            {/* By archetype */}
+            <div style={panelStyle}>
+              <ScanOverlay />
+              <PanelTitleBar title="BY ARCHETYPE" source={src.quiz} />
+              <div style={{ padding: '14px 20px 18px' }}>
+                {qz?.by_archetype?.length ? qz.by_archetype.map(a => (
+                  <HorizontalBar
+                    key={a.archetype}
+                    label={a.archetype}
+                    value={a.submissions}
+                    max={archMax}
+                    count={int(a.submissions)}
+                    badge={`${pct(a.optin_rate)} opt-in`}
+                    badgeColor={a.optin_rate != null && a.optin_rate > 0 ? '#82C896' : '#6E604E'}
+                  />
+                )) : <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#6E604E', fontSize: 12 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FFB86C', opacity: 0.7 }} />—</span>}
+              </div>
+            </div>
+
+            {/* Intent split (willingness) */}
+            <div style={panelStyle}>
+              <ScanOverlay />
+              <PanelTitleBar title="INTENT SPLIT" source={src.quiz} />
+              <div style={{ padding: '14px 20px 18px' }}>
+                {qz?.by_willingness?.length ? qz.by_willingness.map(w => (
+                  <HorizontalBar
+                    key={w.willingness}
+                    label={w.willingness}
+                    value={w.submissions}
+                    max={willMax}
+                    count={int(w.submissions)}
+                    badge={isHotIntent(w.willingness) ? 'HOT' : undefined}
+                    badgeColor="#E8682A"
+                    fill={isHotIntent(w.willingness) ? '#E8682A' : '#6E604E'}
+                  />
+                )) : <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#6E604E', fontSize: 12 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FFB86C', opacity: 0.7 }} />—</span>}
+              </div>
+            </div>
+
+            {/* Level band */}
+            <div style={panelStyle}>
+              <ScanOverlay />
+              <PanelTitleBar title="LEVEL BAND" source={src.quiz} />
+              <div style={{ padding: '14px 20px 18px' }}>
+                {qz?.by_level?.length ? qz.by_level.map(l => (
+                  <HorizontalBar
+                    key={l.level_band}
+                    label={l.level_band}
+                    value={l.submissions}
+                    max={lvlMax}
+                    count={int(l.submissions)}
+                    fill="#4A9DB8"
+                  />
+                )) : <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#6E604E', fontSize: 12 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FFB86C', opacity: 0.7 }} />—</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Honesty caption: leads vs converted submissions, and thin-data note */}
+          <div style={{ marginTop: 16, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#6E604E', lineHeight: 1.6 }}>
+            Opt-ins count distinct emails captured; opt-in rate is submission-based (submissions that produced at least one email). Bars fill as quiz traffic grows.
           </div>
         </div>
       </div>

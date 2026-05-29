@@ -47,6 +47,19 @@ export async function GET(req: NextRequest) {
     ownDataLive = false;
   }
 
+  // Quiz Results Insights: own data, so read it directly via a SECURITY DEFINER
+  // aggregate (dashboard_quiz_insights). A failure here degrades only the quiz
+  // tile to null/pending; it never blocks revenue or funnel.
+  let quiz: Record<string, unknown> | null = null;
+  let quizLive = true;
+  try {
+    const { data, error } = await getSupabase().rpc('dashboard_quiz_insights');
+    if (error || !data) quizLive = false;
+    else quiz = data as Record<string, unknown>;
+  } catch {
+    quizLive = false;
+  }
+
   const revenue = DEMO_REVENUE ? DEMO_REVENUE_DATA : ((m.revenue as Record<string, unknown>) ?? null);
   const funnel = (m.funnel as Record<string, unknown>) ?? null;
   const emails = (m.emails as Record<string, unknown>) ?? null;
@@ -69,6 +82,9 @@ export async function GET(req: NextRequest) {
     linkedin: manual?.linkedin_followers
       ? { status: 'live', note: 'LinkedIn · manual entry' }
       : { status: 'pending', note: 'LinkedIn · manual entry (never automate)' },
+    quiz: quizLive
+      ? { status: 'live', note: 'Supabase · ai_native_* · live' }
+      : { status: 'pending', note: 'Supabase RPC unreachable' },
   };
 
   return NextResponse.json({
@@ -78,6 +94,7 @@ export async function GET(req: NextRequest) {
     emails,
     traffic,
     manual,
+    quiz,
     sources,
   });
 }
