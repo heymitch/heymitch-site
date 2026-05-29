@@ -13,7 +13,7 @@ export const fetchCache = 'force-no-store';
 // Demo mode: serve illustrative revenue instead of the real SamCart figures.
 // The dashboard is shown publicly (session/recording) and real revenue stays private.
 // Real data is untouched in Supabase via dashboard_metrics(); flip to false to surface it.
-const DEMO_REVENUE = true;
+const DEMO_REVENUE = false;
 const DEMO_REVENUE_DATA = {
   net_30d: 18400,
   net_90d: 52700,
