@@ -7,6 +7,25 @@ import { getSupabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
+// Demo mode: serve illustrative revenue instead of the real SamCart figures.
+// The dashboard is shown publicly (session/recording) and real revenue stays private.
+// Real data is untouched in Supabase via dashboard_metrics(); flip to false to surface it.
+const DEMO_REVENUE = true;
+const DEMO_REVENUE_DATA = {
+  net_30d: 18400,
+  net_90d: 52700,
+  gross_90d: 54200,
+  refunded_90d: 1500,
+  sales_30d: 42,
+  sales_90d: 128,
+  by_line: [
+    { line: 'Bootcamp', net_90d: 31000, sales_90d: 60 },
+    { line: 'Membership', net_90d: 12500, sales_90d: 40 },
+    { line: 'Workshop', net_90d: 6200, sales_90d: 18 },
+    { line: 'Templates', net_90d: 3000, sales_90d: 10 },
+  ],
+};
+
 type SourceStatus = { status: 'live' | 'pending'; note: string };
 
 export async function GET(req: NextRequest) {
@@ -25,7 +44,7 @@ export async function GET(req: NextRequest) {
     ownDataLive = false;
   }
 
-  const revenue = (m.revenue as Record<string, unknown>) ?? null;
+  const revenue = DEMO_REVENUE ? DEMO_REVENUE_DATA : ((m.revenue as Record<string, unknown>) ?? null);
   const funnel = (m.funnel as Record<string, unknown>) ?? null;
   const emails = (m.emails as Record<string, unknown>) ?? null;
   const traffic = (m.traffic as Record<string, unknown>) ?? null;
