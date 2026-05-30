@@ -1,10 +1,18 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  // Manual override via [data-theme="dark"]; OS default handled by CSS vars.
+  darkMode: ["selector", '[data-theme="dark"]'],
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
+        // ── Role-based, theme-aware tokens (flip via CSS vars in globals.css) ──
+        page: "rgb(var(--c-page) / <alpha-value>)", // page background
+        ink: "rgb(var(--c-ink) / <alpha-value>)", // primary text + hairlines
+        surface: "rgb(var(--c-surface) / <alpha-value>)", // raised cards
+
+        // ── Fixed brand colors (intentionally do NOT flip) ──
         cream: {
           DEFAULT: "#F0E4D0",
           dark: "#E0D4BE",

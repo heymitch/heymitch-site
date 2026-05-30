@@ -11,7 +11,6 @@ const SCANLINE_WIDTH = 3;    // full-width scanline thickness (rows)
 const SCANLINE_BOOST = 0.15; // scanline brightness boost
 const BUBBLE_RADIUS = 10;   // hover bubble radius (chars)
 const BUBBLE_BOOST = 0.22;  // hover bubble brightness boost
-const ASCII_COLOR = "#4a4a4a";
 
 export default function AsciiPortrait() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -226,13 +225,14 @@ export default function AsciiPortrait() {
     >
       <pre
         ref={preRef}
+        className="ascii-portrait"
         style={{
           position: "absolute",
           inset: 0,
           margin: 0,
           padding: 0,
           background: "transparent",
-          color: ASCII_COLOR,
+          color: "var(--ascii-portrait, #4a4a4a)",
           fontFamily: "'Courier New', monospace",
           overflow: "hidden",
           whiteSpace: "pre",

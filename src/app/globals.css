@@ -3,6 +3,40 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════
+   THEME TOKENS — light default, dark = inverted MR
+   OS default via prefers-color-scheme; manual
+   override via [data-theme] (toggle + localStorage).
+   Values are space-separated RGB for Tailwind alpha.
+   ═══════════════════════════════════════════════ */
+:root {
+  --c-page:    240 228 208;  /* #F0E4D0 cream  */
+  --c-ink:      45  33  24;  /* #2D2118 brown  */
+  --c-surface: 224 212 190;  /* #E0D4BE cream-dark */
+  --ascii-portrait: #4a4a4a;
+  --link:       #2B6B8A;
+  --link-hover: #E8682A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-page:     30  25  20;  /* #1E1914 bakelite */
+    --c-ink:     240 228 208;  /* #F0E4D0 cream    */
+    --c-surface:  42  36  32;  /* #2A2420 raised   */
+    --ascii-portrait: #FFB86C; /* amber            */
+    --link:       #4A9DB8;
+  }
+}
+
+:root[data-theme="dark"] {
+  --c-page:     30  25  20;
+  --c-ink:     240 228 208;
+  --c-surface:  42  36  32;
+  --ascii-portrait: #FFB86C;
+  --link:       #4A9DB8;
+}
+
+
+/* ═══════════════════════════════════════════════
    BASE STYLES — Editorial Foundation
    ═══════════════════════════════════════════════ */
 
@@ -13,17 +47,31 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F0E4D0;
-  color: #2D2118;
+  background-color: rgb(var(--c-page));
+  color: rgb(var(--c-ink));
+  transition: background-color 250ms ease, color 250ms ease;
 }
 
 a {
-  color: #2B6B8A;
+  color: var(--link);
   transition: color 200ms;
 }
 
 a:hover {
-  color: #E8682A;
+  color: var(--link-hover);
+}
+
+/* ASCII hero portrait — color flips via --ascii-portrait; subtle amber glow in dark */
+.ascii-portrait {
+  transition: color 250ms ease;
+}
+:root[data-theme="dark"] .ascii-portrait {
+  text-shadow: 0 0 6px rgba(255, 184, 108, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ascii-portrait {
+    text-shadow: 0 0 6px rgba(255, 184, 108, 0.18);
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -584,4 +632,69 @@ a:hover {
 .cta-bot-bob { animation: ctaBotBob 3.2s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .cta-card-in, .cta-bot-bob { animation: none; }
+}
+
+/* ═══════════════════════════════════════════════
+   THEME TOGGLE — fixed sun/moon button
+   ═══════════════════════════════════════════════ */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 60;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgb(var(--c-surface));
+  color: rgb(var(--c-ink));
+  border: 1px solid rgb(var(--c-ink) / 0.15);
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgb(var(--c-ink) / 0.12), 0 3px 8px rgba(0, 0, 0, 0.18);
+  transition: transform 140ms, box-shadow 140ms, background 250ms, color 250ms;
+  -webkit-tap-highlight-color: transparent;
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 rgb(var(--c-ink) / 0.12), 0 6px 12px rgba(0, 0, 0, 0.22);
+}
+.theme-toggle:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgb(var(--c-ink) / 0.12);
+}
+.theme-toggle svg {
+  grid-area: 1 / 1;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 220ms ease,
+    transform 320ms cubic-bezier(0.5, 1.4, 0.5, 1);
+}
+/* light active → show moon */
+.theme-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+.theme-toggle .icon-moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+/* dark active → show sun (amber) */
+.theme-toggle.is-dark .icon-sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+  color: #ffb86c;
+}
+.theme-toggle.is-dark .icon-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle svg {
+    transition: opacity 220ms ease;
+    transform: none !important;
+  }
 }
