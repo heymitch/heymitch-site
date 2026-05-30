@@ -17,7 +17,7 @@ export default function ResourceCard({
     <a
       href={url}
       {...(isInternal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-      className="group block rounded-xl border border-brown/10 bg-cream-dark/30 p-5 transition-all duration-300 hover:border-brown/20 hover:bg-cream-dark/50"
+      className="group block rounded-xl border border-ink/10 bg-surface/30 p-5 transition-all duration-300 hover:border-ink/20 hover:bg-surface/50"
     >
       <div className="flex justify-center mb-4">
         <img
@@ -27,9 +27,9 @@ export default function ResourceCard({
         />
       </div>
 
-      <h3 className="font-bold text-brown text-lg mb-1.5">{title}</h3>
+      <h3 className="font-bold text-ink text-lg mb-1.5">{title}</h3>
 
-      <p className="text-brown/50 text-sm leading-relaxed mb-3">{description}</p>
+      <p className="text-ink/50 text-sm leading-relaxed mb-3">{description}</p>
 
       <span className="inline-flex items-center gap-2 text-orange text-sm font-semibold group-hover:gap-3 transition-all duration-200">
         Get it free

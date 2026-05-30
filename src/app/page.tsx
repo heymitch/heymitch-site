@@ -37,14 +37,14 @@ const socials = [
 
 export default function Home() {
   return (
-    <div className="bg-cream">
+    <div className="bg-page">
       {/* ASCII Portrait — fixed to viewport, right half, sits behind everything */}
       <div className="hidden lg:block fixed top-0 right-0 w-1/2 h-screen z-0">
         <AsciiPortrait />
       </div>
 
       {/* ═══ HERO ═══ */}
-      <main className="relative min-h-screen bg-cream lg:bg-transparent">
+      <main className="relative min-h-screen bg-page lg:bg-transparent">
 
         {/* LEFT: Content */}
         <div className="relative z-10 lg:w-1/2 flex flex-col items-center lg:items-start justify-center min-h-screen px-6 lg:px-16 xl:px-24 py-16">
@@ -53,11 +53,11 @@ export default function Home() {
               <RetroStripes />
             </div>
 
-            <h1 className="font-sans text-6xl sm:text-8xl font-bold tracking-tight text-brown mb-3">
+            <h1 className="font-sans text-6xl sm:text-8xl font-bold tracking-tight text-ink mb-3">
               hey<span className="text-orange">mitch</span>
             </h1>
 
-            <p className="font-mono text-sm sm:text-base text-brown/60 tracking-wide mb-10">
+            <p className="font-mono text-sm sm:text-base text-ink/60 tracking-wide mb-10">
               AI skills you can actually use. Newsletters, bootcamps, free tools.
             </p>
 
@@ -147,7 +147,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="text-brown/25 hover:text-orange transition-colors duration-200"
+                  className="text-ink/25 hover:text-orange transition-colors duration-200"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -170,17 +170,17 @@ export default function Home() {
       </main>
 
       {/* ═══ FREE TOOLS & SKILLS — card gallery ═══ */}
-      <section className="relative z-10 bg-cream border-t border-brown/10 px-6 py-20 lg:py-24">
+      <section className="relative z-10 bg-page border-t border-ink/10 px-6 py-20 lg:py-24">
         <div className="max-w-[1080px] mx-auto">
           <div className="max-w-[240px] mb-8">
             <RetroStripes />
           </div>
 
           <div className="mb-10">
-            <h2 className="font-sans text-4xl sm:text-5xl font-bold tracking-tight text-brown mb-3">
+            <h2 className="font-sans text-4xl sm:text-5xl font-bold tracking-tight text-ink mb-3">
               Free <span className="text-orange">tools &amp; skills</span>
             </h2>
-            <p className="font-mono text-sm text-brown/55 max-w-xl leading-relaxed">
+            <p className="font-mono text-sm text-ink/55 max-w-xl leading-relaxed">
               Browser tools and agent skills you can use today. No account, no
               cost. Each one installs in minutes.
             </p>
