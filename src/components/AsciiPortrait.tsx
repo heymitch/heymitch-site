@@ -35,6 +35,17 @@ export default function AsciiPortrait() {
     let lastTime = 0;
     let running = true;
 
+    // Ramp polarity. Glyph density reads as "darker" on a light background but
+    // "brighter" on a dark one — so on dark themes we invert the luminance
+    // lookup to keep the portrait tonally positive instead of photo-negative.
+    const resolveDark = () => {
+      const forced = document.documentElement.getAttribute("data-theme");
+      if (forced === "dark") return true;
+      if (forced === "light") return false;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    };
+    let darkMode = resolveDark();
+
     function computeGrid(img: HTMLImageElement) {
       const w = container!.offsetWidth;
       const h = container!.offsetHeight;
@@ -143,7 +154,8 @@ export default function AsciiPortrait() {
             }
           }
 
-          let charIndex = Math.floor((1 - lum) * rampLen);
+          const tone = darkMode ? lum : 1 - lum;
+          let charIndex = Math.floor(tone * rampLen);
           if (Math.random() < SHIMMER_RATE) {
             charIndex += Math.random() < 0.5 ? 1 : -1;
             charIndex = Math.max(0, Math.min(rampLen, charIndex));
@@ -207,12 +219,24 @@ export default function AsciiPortrait() {
       if (img.complete && img.naturalWidth > 0) computeGrid(img);
     };
 
+    // Re-evaluate polarity when the theme flips (manual toggle or OS change).
+    const syncDark = () => { darkMode = resolveDark(); };
+    const themeObserver = new MutationObserver(syncDark);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    const colorSchemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+    colorSchemeMq.addEventListener("change", syncDark);
+
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("resize", onResize);
 
     return () => {
       running = false;
       cancelAnimationFrame(rafRef.current);
+      themeObserver.disconnect();
+      colorSchemeMq.removeEventListener("change", syncDark);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
     };
