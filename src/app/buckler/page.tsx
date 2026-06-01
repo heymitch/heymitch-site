@@ -1,23 +1,25 @@
 import type { Metadata } from "next";
 import BucklerWaitlistForm from "./BucklerWaitlistForm";
 
+const REPO = "https://github.com/heymitch/buckler";
+
 export const metadata: Metadata = {
   title:
-    "Buckler: Own your LinkedIn analytics. Shield's local-first replacement.",
+    "Buckler: Own your LinkedIn analytics. The free, open-source Shield replacement.",
   description:
-    "Shield is winding down. Buckler is the local-first, open-source replacement: import your export, keep every metric, and own your data because it lives in your database, not ours.",
+    "Shield is winding down. Buckler is the free, open-source replacement: import your export, keep every metric, run the whole thing yourself. No subscription, no lock-in, your data lives in your database.",
   openGraph: {
     title:
-      "Buckler: Own your LinkedIn analytics. Shield's local-first replacement.",
+      "Buckler: the free, open-source Shield replacement for LinkedIn analytics.",
     description:
-      "The local-first, open-source replacement for Shield. Import your export, keep every metric, own your data.",
+      "Import your export, keep every metric, self-host it, own your data. Free and open source.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Buckler: Own your LinkedIn analytics.",
+    title: "Buckler: own your LinkedIn analytics.",
     description:
-      "The local-first, open-source replacement for Shield. Import, keep every metric, own your data.",
+      "The free, open-source Shield replacement. Import, keep every metric, self-host, own your data.",
   },
 };
 
@@ -50,16 +52,16 @@ const whatBucklerIs = [
   },
   {
     n: "03",
-    title: "Open source. You own it.",
-    body: "Run the hosted version or self-host the whole stack. Your numbers sit in your database. No lock-in, no hostage situation when the next tool sunsets.",
+    title: "Free. Open. Yours.",
+    body: "Open source, top to bottom. Clone it, build it with your agent, run it on your own machine. Your numbers live in your database, not a vendor's. Nothing to cancel, nothing to lose when the next tool sunsets.",
   },
 ];
 
-const foundingBullets = [
-  "Import + live dashboard",
-  "Passive capture extension",
-  "Self-host option",
-  "Shape the roadmap",
+const getItSteps = [
+  "Clone the repo",
+  "Build it with your agent (the README has the prompt)",
+  "Import your Shield or LinkedIn export",
+  "Self-host it, own your data",
 ];
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -85,6 +87,20 @@ function SectionRule({ label }: { label: string }) {
       </span>
       <div className="flex-1 h-px" style={{ background: HAIR }} />
     </div>
+  );
+}
+
+function GitHubButton({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={REPO}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`inline-flex items-center justify-center gap-2 font-mono text-sm uppercase tracking-[0.18em] px-6 py-3 transition-colors ${className}`}
+      style={{ background: YELLOW, color: "#0d1116" }}
+    >
+      Get the code on GitHub &rarr;
+    </a>
   );
 }
 
@@ -125,10 +141,15 @@ export default function BucklerPage() {
               </h1>
 
               <p className="font-sans text-lg sm:text-xl text-ink/80 leading-relaxed mb-8">
-                Buckler is the local-first replacement for Shield. Import your
-                export, keep every metric, and own your data, because it lives in
-                your database, not ours.
+                Buckler is the free, open-source replacement for Shield. Import
+                your export, keep every metric, and run the whole thing yourself.
+                No subscription, no lock-in, no company holding your data
+                hostage.
               </p>
+
+              <div className="mb-8">
+                <GitHubButton />
+              </div>
 
               {/* Mobile form */}
               <div className="lg:hidden">
@@ -137,8 +158,8 @@ export default function BucklerPage() {
                   className="font-mono text-xs leading-relaxed mt-4 max-w-md"
                   style={{ color: MUTED }}
                 >
-                  Founding price locked for life. No card yet. We email you the
-                  moment your spot opens.
+                  Free and open source. The email gets you the build walkthrough
+                  and the occasional update. No card, no spam.
                 </p>
               </div>
             </div>
@@ -158,16 +179,19 @@ export default function BucklerPage() {
                     className="font-mono text-[10px] uppercase tracking-[0.25em]"
                     style={{ color: YELLOW }}
                   >
-                    Founding List Open
+                    Free + Open Source
                   </span>
                 </div>
+                <p className="font-mono text-[11px] leading-relaxed mb-4" style={{ color: MUTED }}>
+                  Want the build walkthrough? Drop your email.
+                </p>
                 <BucklerWaitlistForm id="hero-d" />
                 <p
                   className="font-mono text-[11px] leading-relaxed mt-4"
                   style={{ color: MUTED }}
                 >
-                  Founding price locked for life. No card yet. We email you the
-                  moment your spot opens.
+                  The step-by-step build, plus updates when it gets better. No
+                  card, no spam.
                 </p>
               </div>
             </div>
@@ -239,31 +263,31 @@ export default function BucklerPage() {
         </div>
       </section>
 
-      {/* ─── FOUNDING ACCESS ─── */}
+      {/* ─── GET BUCKLER ─── */}
       <section className="bg-page px-6 lg:px-12 py-20 lg:py-24">
         <div className="max-w-[1080px] mx-auto">
-          <SectionRule label="Founding Access" />
+          <SectionRule label="Get Buckler" />
 
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
-            {/* LEFT: price + bullets */}
+            {/* LEFT: price + how to get it */}
             <div className="flex-1 w-full max-w-xl">
               <div className="flex items-baseline gap-4 mb-2">
                 <span
                   className="font-mono font-bold text-6xl sm:text-7xl"
                   style={{ color: YELLOW }}
                 >
-                  $19/mo
+                  $0
                 </span>
               </div>
               <p
                 className="font-mono text-xs uppercase tracking-[0.25em] mb-10"
                 style={{ color: MUTED }}
               >
-                locked for life for the first cohort
+                open source. yours to run, fork, and keep.
               </p>
 
               <ul className="space-y-4 mb-10">
-                {foundingBullets.map((b) => (
+                {getItSteps.map((b) => (
                   <li key={b} className="flex gap-3 items-start">
                     <span
                       className="font-mono text-lg leading-none mt-0.5"
@@ -277,6 +301,8 @@ export default function BucklerPage() {
                   </li>
                 ))}
               </ul>
+
+              <GitHubButton className="mb-10" />
 
               {/* Honest note */}
               <div
@@ -294,11 +320,11 @@ export default function BucklerPage() {
                   Straight talk, from Mitch
                 </p>
                 <p className="font-sans text-base text-ink/80 leading-relaxed">
-                  Straight talk: Buckler is early, and this is a founding list,
-                  not a checkout page. I am gauging who actually wants a Shield
-                  replacement before I build the billing and onboarding. Get on
-                  the list and you are first in, at the lowest price it will ever
-                  be.
+                  I am not selling this. Shield left a hole and I could fill it
+                  in an afternoon, so I did, and open-sourced it. Intelligence
+                  tools should not be hostages. Take it, build your own, make it
+                  better. The email list is just so I can send you the build
+                  walkthrough and tell you when it gets better.
                 </p>
               </div>
             </div>
@@ -309,16 +335,16 @@ export default function BucklerPage() {
                 className="p-6"
                 style={{ background: "#161a21", border: `1px solid ${HAIR}` }}
               >
-                <Eyebrow>Reserve Your Spot</Eyebrow>
+                <Eyebrow>Get The Build Walkthrough</Eyebrow>
                 <div className="mt-5">
-                  <BucklerWaitlistForm id="founding" />
+                  <BucklerWaitlistForm id="get" />
                 </div>
                 <p
                   className="font-mono text-[11px] leading-relaxed mt-4"
                   style={{ color: MUTED }}
                 >
-                  Founding price locked for life. No card yet. We email you the
-                  moment your spot opens.
+                  Free and open. The email gets you the step-by-step build and
+                  updates. No card, ever.
                 </p>
               </div>
             </div>

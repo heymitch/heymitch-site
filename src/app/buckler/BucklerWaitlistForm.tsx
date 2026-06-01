@@ -56,10 +56,10 @@ export default function BucklerWaitlistForm({ id }: { id?: string }) {
           className="font-mono text-xs uppercase tracking-[0.25em] mb-3"
           style={{ color: "#facc15" }}
         >
-          Spot reserved
+          You&apos;re in
         </p>
         <p className="font-mono text-base leading-relaxed text-ink">
-          You&apos;re on the founding list. Watch your inbox.
+          The build walkthrough is on its way. Watch your inbox.
         </p>
       </div>
     );
@@ -133,7 +133,7 @@ export default function BucklerWaitlistForm({ id }: { id?: string }) {
         disabled={status === "loading"}
         className="buckler-submit font-mono text-sm uppercase tracking-[0.2em] font-bold px-6 py-3.5 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        {status === "loading" ? "Reserving..." : "Reserve my spot"}
+        {status === "loading" ? "Sending..." : "Send me the walkthrough"}
       </button>
 
       {status === "error" && (
