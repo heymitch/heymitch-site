@@ -16,10 +16,9 @@ const nextConfig = {
       { source: '/resources/ai-hunter-v2', destination: '/ai-hunter-skill', permanent: true },
       // Retired local Snaptastic page → canonical external app
       { source: '/resources/snaptastic', destination: 'https://snaptastic.vercel.app', permanent: true, basePath: false },
-      // Buckler (LinkedIn analytics) → standalone gated Vercel app. "For now" (302).
-      { source: '/buckler', destination: 'https://buckler-heymitchs-projects.vercel.app/buckler', permanent: false, basePath: false },
-      // Old Signal mock dashboard superseded by Buckler
-      { source: '/signal', destination: 'https://buckler-heymitchs-projects.vercel.app/buckler', permanent: false, basePath: false },
+      // /buckler now serves the demand-test landing page (src/app/buckler) — no redirect.
+      // Old Signal mock dashboard → Buckler landing page.
+      { source: '/signal', destination: '/buckler', permanent: false },
       // Redundant index pages → home
       { source: '/tools', destination: '/', permanent: true },
       { source: '/resources', destination: '/', permanent: true },
