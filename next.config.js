@@ -17,9 +17,9 @@ const nextConfig = {
       // Retired local Snaptastic page → canonical external app
       { source: '/resources/snaptastic', destination: 'https://snaptastic.vercel.app', permanent: true, basePath: false },
       // Buckler (LinkedIn analytics) → standalone gated Vercel app. "For now" (302).
-      { source: '/buckler', destination: 'https://buckler-heymitchs-projects.vercel.app', permanent: false, basePath: false },
+      { source: '/buckler', destination: 'https://buckler-heymitchs-projects.vercel.app/buckler', permanent: false, basePath: false },
       // Old Signal mock dashboard superseded by Buckler
-      { source: '/signal', destination: 'https://buckler-heymitchs-projects.vercel.app', permanent: false, basePath: false },
+      { source: '/signal', destination: 'https://buckler-heymitchs-projects.vercel.app/buckler', permanent: false, basePath: false },
       // Redundant index pages → home
       { source: '/tools', destination: '/', permanent: true },
       { source: '/resources', destination: '/', permanent: true },
