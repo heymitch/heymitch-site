@@ -28,6 +28,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-space-grotesk)", "Space Grotesk", "sans-serif"],
         mono: ["var(--font-ibm-plex-mono)", "IBM Plex Mono", "monospace"],
+        serif: ["Newsreader", "Georgia", "serif"],
         terminal: ["'VT323'", "monospace"],
       },
     },

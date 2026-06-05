@@ -1,6 +1,7 @@
 [
   {
     "title": "AI Hunter 2.0",
+    "job": "Catch the AI tells in your writing before anyone else does.",
     "description": "Download the Cowork skill that hunts AI tells in your writing. Dual eval, 200+ experiments baked in. Scores you 0-100 and flags exactly what to rewrite.",
     "image": "/products/ai-hunter-floppy.png",
     "url": "/ai-hunter-skill",
@@ -9,6 +10,7 @@
   },
   {
     "title": "BrowserMonkey",
+    "job": "Automate any site with no API, 10-100x faster than clicking.",
     "description": "Sniff once, Replay forever. Browser automation that skips the UI — intercepts fetch/XHR calls on any site and replays them 10-100x faster than clicking. Works on the 90% of SaaS that won't give you an API.",
     "image": "/products/browser-monkey-floppy.png",
     "url": "/browser-monkey",
@@ -17,6 +19,7 @@
   },
   {
     "title": "Unbundle",
+    "job": "Turn any vague skill into atomic actions you can practice.",
     "description": "Break any bundled concept into trainable, atomic actions. Turn vague terms like 'charisma' or 'leadership' into concrete behaviors you can practice today.",
     "image": "/unbundle/unbundle-anything-floppy-web.png",
     "url": "/unbundle",
@@ -24,7 +27,8 @@
     "published": true
   },
   {
-    "title": "📷 Snaptastic",
+    "title": "Snaptastic",
+    "job": "Beautiful screenshots, auto-generated, zero clicks.",
     "description": "Free, open-source screenshot beautifier. Auto-watches your folder, adds backgrounds, corners, shadows. 8 templates. Install with your agent.",
     "image": "/products/snaptastic-bg-removed.png",
     "url": "https://snaptastic.vercel.app",
@@ -33,6 +37,7 @@
   },
   {
     "title": "Sifu",
+    "job": "Record your workflow once, get the SOP automatically.",
     "description": "Free, open-source action logger for macOS. Records your workflows, detects patterns, generates SOPs automatically. Privacy-first.",
     "image": "/products/sifu-turtle.png",
     "url": "https://sifu-lander.vercel.app",
@@ -41,6 +46,7 @@
   },
   {
     "title": "Google Drive Skill",
+    "job": "Read docs, analyze sheets, build slides through your agent.",
     "description": "Read docs, analyze sheets, build slides — all through your Cowork agent. Install in 2 minutes.",
     "image": "/products/drive-skill.png",
     "url": "https://heymitch-drive-skill.vercel.app",

@@ -1,0 +1,65 @@
+[
+  {
+    "title": "How I Run My Business On One Agent Loop",
+    "dek": "Trigger, ingest, analyze, generate, act, remember. The whole thing fits on a napkin, and it runs while I sleep.",
+    "author": "Mitch Harris",
+    "category": "The Stack",
+    "date": "Jun 5, 2026",
+    "accent": "#E8682A",
+    "href": "#"
+  },
+  {
+    "title": "Stop Renting Intelligence. Build One You Own.",
+    "dek": "Why a personal agent that learns you beats every subscription, and why the moat is the compounding, not the setup.",
+    "author": "Mitch Harris",
+    "category": "Agents",
+    "date": "Jun 4, 2026",
+    "accent": "#2B6B8A",
+    "href": "#"
+  },
+  {
+    "title": "The Friction Is The Curriculum",
+    "dek": "Everyone wants the one-click agent. The setup you skip is the exact skill that makes it yours.",
+    "author": "Mitch Harris",
+    "category": "Bootcamp",
+    "date": "Jun 3, 2026",
+    "accent": "#5B8C5A",
+    "href": "#"
+  },
+  {
+    "title": "Ground In The Source, Never A Summary",
+    "dek": "The one discipline that keeps agents from drifting, looping, and confidently shipping the wrong thing.",
+    "author": "Mitch Harris",
+    "category": "Context Window",
+    "date": "Jun 1, 2026",
+    "accent": "#2D2118",
+    "href": "#"
+  },
+  {
+    "title": "Open Source Must Win",
+    "dek": "Intelligence cannot be allowed to create castes. Sovereign compute, local-first, and why it matters now.",
+    "author": "Mitch Harris",
+    "category": "Manifesto",
+    "date": "May 29, 2026",
+    "accent": "#E8682A",
+    "href": "#"
+  },
+  {
+    "title": "Be The Signal, Not The Hands",
+    "dek": "When you run six agents, your job is taste and direction. The rare thing in the loop is your judgment.",
+    "author": "Mitch Harris",
+    "category": "The Stack",
+    "date": "May 27, 2026",
+    "accent": "#2B6B8A",
+    "href": "#"
+  },
+  {
+    "title": "Sell The Agent You Already Run",
+    "dek": "Managed retainers, zero SaaS. The recurring business hiding inside the thing you built for yourself.",
+    "author": "Mitch Harris",
+    "category": "Services",
+    "date": "May 24, 2026",
+    "accent": "#5B8C5A",
+    "href": "#"
+  }
+]

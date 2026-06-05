@@ -12,7 +12,7 @@ const SCANLINE_BOOST = 0.15; // scanline brightness boost
 const BUBBLE_RADIUS = 10;   // hover bubble radius (chars)
 const BUBBLE_BOOST = 0.22;  // hover bubble brightness boost
 
-export default function AsciiPortrait() {
+export default function AsciiPortrait({ density = BASE_ROWS }: { density?: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
   const rafRef = useRef<number>(0);
@@ -35,12 +35,27 @@ export default function AsciiPortrait() {
     let lastTime = 0;
     let running = true;
 
+    // Theme-aware tonal inversion: on a dark background, invert the luminance
+    // ramp so the portrait reads as a positive instead of a photographic negative.
+    const detectDark = () => {
+      const t = document.documentElement.getAttribute("data-theme");
+      if (t === "dark") return true;
+      if (t === "light") return false;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    };
+    let dark = detectDark();
+    const themeObserver = new MutationObserver(() => { dark = detectDark(); });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const schemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onScheme = () => { dark = detectDark(); };
+    schemeMq.addEventListener("change", onScheme);
+
     function computeGrid(img: HTMLImageElement) {
       const w = container!.offsetWidth;
       const h = container!.offsetHeight;
       if (w === 0 || h === 0) return false;
 
-      rows = BASE_ROWS;
+      rows = density;
       cols = Math.round(rows * (w / h) / CHAR_ASPECT);
 
       const imgAspect = img.width / img.height;
@@ -143,7 +158,7 @@ export default function AsciiPortrait() {
             }
           }
 
-          let charIndex = Math.floor((1 - lum) * rampLen);
+          let charIndex = Math.floor((dark ? lum : 1 - lum) * rampLen);
           if (Math.random() < SHIMMER_RATE) {
             charIndex += Math.random() < 0.5 ? 1 : -1;
             charIndex = Math.max(0, Math.min(rampLen, charIndex));
@@ -215,8 +230,10 @@ export default function AsciiPortrait() {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
+      themeObserver.disconnect();
+      schemeMq.removeEventListener("change", onScheme);
     };
-  }, []);
+  }, [density]);
 
   return (
     <div
