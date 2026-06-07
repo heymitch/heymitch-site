@@ -42,11 +42,11 @@
     }
     .brand { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; }
     .brand .seal-mark {
-      width: 22px; height: 22px; border: 1.4px solid var(--stamp); color: var(--stamp);
+      width: 38px; height: 38px; border: 1.6px solid var(--accent); color: var(--accent);
       border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 500; font-family: 'IBM Plex Sans','Hiragino Sans',sans-serif;
+      font-size: 23px; font-weight: 500; font-family: 'IBM Plex Sans','Hiragino Sans',sans-serif;
     }
-    .brand-name { font-weight: 500; font-size: 19px; letter-spacing: -0.02em; color: var(--fg-1); }
+    .brand-name { font-weight: 500; font-size: 20px; letter-spacing: -0.02em; color: var(--fg-1); }
     .site-nav { display: flex; gap: 26px; align-items: center; }
     .site-nav a { font-size: 14px; color: var(--fg-1); text-decoration: none; transition: color 120ms; }
     .site-nav a:hover { color: var(--accent); }
@@ -261,6 +261,129 @@
     .panel-pre { font-family: var(--font-mono); font-size: 12px; line-height: 1.6; background: var(--bg-deep); border: 1px solid var(--rule); padding: 24px 28px; overflow-x: auto; margin: 0 0 20px; white-space: pre-wrap; word-break: break-word; color: var(--fg-1); border-radius: var(--r-2); }
     .panel-footnote { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em; }
 
+    /* ---------- Scrollytelling ---------- */
+    .scrolly { max-width: var(--max-w-wide); margin: 0 auto; padding: 88px var(--sp-7) 40px; }
+    .scrolly-head { margin-bottom: 8px; }
+    .scrolly-inner { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: var(--sp-8); align-items: start; }
+    .scrolly-stage-wrap { position: sticky; top: 88px; }
+    .scrolly-stage {
+      position: relative; height: 392px; border: 1px solid var(--rule); background: var(--bg-soft);
+      border-radius: var(--r-2); overflow: hidden;
+    }
+    .scrolly-stage::after { /* faint baseline grid, asymmetric */
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--rule); opacity: 0.6;
+    }
+    .stage-tag {
+      position: absolute; top: 12px; left: 14px; z-index: 5; font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3);
+    }
+    .stage-step-id {
+      position: absolute; top: 12px; right: 14px; z-index: 5; font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.1em; color: var(--accent);
+    }
+    .scene {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(16px) scale(0.985); pointer-events: none;
+      transition: opacity 460ms var(--ease-standard), transform 460ms var(--ease-standard);
+    }
+    .scene.is-active { opacity: 1; transform: none; }
+    .scene:not(.is-active) * { animation-play-state: paused !important; }
+
+    /* steps column */
+    .scrolly-steps { padding-top: 4vh; }
+    .sstep {
+      min-height: 74vh; display: flex; flex-direction: column; justify-content: center;
+      padding-left: 44px; position: relative; opacity: 0.32; transition: opacity 320ms var(--ease-standard);
+    }
+    .sstep.is-active { opacity: 1; }
+    .sstep::before { content: ""; position: absolute; left: 13px; top: 0; bottom: 0; width: 1px; background: var(--rule); }
+    .sstep:first-child::before { top: 50%; }
+    .sstep:last-child::before { bottom: 50%; }
+    .snode {
+      position: absolute; left: 7px; top: 50%; transform: translateY(-50%); width: 13px; height: 13px;
+      border-radius: 50%; border: 1.5px solid var(--rule-strong); background: var(--bg);
+      transition: all 320ms var(--ease-standard); z-index: 1;
+    }
+    .sstep.is-active .snode { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 4px rgba(45,74,135,0.12); }
+    .snum { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--stamp); margin-bottom: 16px; }
+    .sh { font-family: var(--font-sans); font-weight: 500; font-size: 32px; letter-spacing: -0.02em; line-height: 1.08; color: var(--fg-1); margin: 0 0 14px; max-width: 16ch; }
+    .sp { font-size: 16px; line-height: 1.6; color: var(--fg-2); margin: 0; max-width: 38ch; }
+    .sp b { color: var(--fg-1); font-weight: 500; }
+    .agent-chip { display: inline-block; font-family: var(--font-mono); font-size: 11px; color: var(--fg-1); border: 1px solid var(--rule); border-radius: var(--r-pill); padding: 4px 10px; margin: 12px 6px 0 0; }
+
+    /* ===== Scene 1 — click start ===== */
+    .sc1 { width: 320px; position: relative; }
+    .menubar { display: flex; align-items: center; gap: 14px; height: 26px; padding: 0 12px; background: var(--bg-deep); border: 1px solid var(--rule); border-radius: var(--r-1); font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+    .mb-seal { color: var(--stamp); font-family: 'IBM Plex Sans','Hiragino Sans',sans-serif; font-weight: 500; }
+    .mb-spacer { flex: 1; }
+    .mb-dim { color: var(--fg-3); }
+    .sc1-pop { position: absolute; top: 36px; left: 6px; width: 168px; background: var(--bg); border: 1px solid var(--rule); border-radius: var(--r-2); box-shadow: 0 14px 30px rgba(31,31,31,0.12); padding: 12px; opacity: 0; transform: translateY(-6px); animation: popIn 4s ease-in-out infinite; }
+    .sc1-recbtn { display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #fff; background: var(--accent); border-radius: var(--r-1); padding: 10px; animation: recDepress 4s ease-in-out infinite; }
+    .sc1-recbtn .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+    .sc1-cursor { position: absolute; left: 150px; top: 70px; width: 16px; height: 16px; animation: cur1 4s ease-in-out infinite; }
+    .sc1-cursor svg { display: block; }
+    @keyframes cur1 {
+      0% { left: 200px; top: 90px; opacity: 0; } 12% { opacity: 1; }
+      30% { left: 12px; top: 6px; } 36% { left: 12px; top: 6px; transform: scale(0.82); }
+      42% { transform: scale(1); } 100% { left: 12px; top: 6px; opacity: 1; }
+    }
+    @keyframes popIn { 0%,34% { opacity: 0; transform: translateY(-6px); } 44%,100% { opacity: 1; transform: translateY(0); } }
+    @keyframes recDepress { 0%,60% { background: var(--accent); transform: none; } 66% { transform: scale(0.95); }
+      72%,100% { background: var(--stamp); transform: none; } }
+
+    /* ===== Scene 2 — work normally ===== */
+    .sc2 { width: 340px; height: 230px; position: relative; }
+    .win { position: absolute; border: 1px solid var(--rule); background: var(--bg); border-radius: var(--r-1); box-shadow: 0 8px 20px rgba(31,31,31,0.06); }
+    .win .bar { height: 16px; border-bottom: 1px solid var(--rule-soft); display: flex; align-items: center; gap: 4px; padding: 0 7px; }
+    .win .bar i { width: 5px; height: 5px; border-radius: 50%; background: var(--rule); display: inline-block; }
+    .win .body { padding: 12px 12px; }
+    .win .ln { height: 4px; border-radius: 2px; background: var(--rule-soft); margin-bottom: 7px; }
+    .win .ln.ind { background: var(--accent); opacity: 0.5; width: 60%; }
+    .win-a { left: 8px; top: 26px; width: 168px; height: 120px; }
+    .win-b { right: 6px; top: 64px; width: 176px; height: 132px; }
+    .sc2-cursor { position: absolute; width: 16px; height: 16px; z-index: 4; animation: cur2 5s ease-in-out infinite; }
+    .ripple { position: absolute; width: 8px; height: 8px; border: 1.5px solid var(--accent); border-radius: 50%; opacity: 0; animation: ripple 5s ease-in-out infinite; }
+    .rip-a { left: 60px; top: 86px; } .rip-b { right: 70px; top: 120px; animation-delay: -2.5s; }
+    .caret { position: absolute; left: 26px; top: 64px; width: 1.5px; height: 12px; background: var(--accent); animation: caret 1s steps(1) infinite; }
+    .sc2-rec { position: absolute; right: 8px; top: 6px; display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--accent); }
+    .sc2-rec .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: blink 1.1s ease-in-out infinite; }
+    .sc2-bar { position: absolute; left: 8px; bottom: -2px; width: 120px; height: 4px; background: var(--rule-soft); border-radius: 2px; overflow: hidden; }
+    .sc2-bar i { display: block; height: 100%; width: 0; background: var(--accent); animation: fillbar 5s linear infinite; }
+    @keyframes cur2 { 0% { left: 60px; top: 86px; } 25% { left: 250px; top: 120px; } 26% { transform: scale(0.85); } 30% { transform: scale(1); }
+      55% { left: 30px; top: 64px; } 80% { left: 250px; top: 150px; } 100% { left: 60px; top: 86px; } }
+    @keyframes ripple { 0%,18% { opacity: 0; transform: scale(0.4); } 24% { opacity: 0.9; } 40% { opacity: 0; transform: scale(2.6); } 100% { opacity: 0; } }
+    @keyframes caret { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
+    @keyframes blink { 0%,60% { opacity: 1; } 80% { opacity: 0.25; } 100% { opacity: 1; } }
+    @keyframes fillbar { 0% { width: 0; } 100% { width: 100%; } }
+
+    /* ===== Scene 3 — hand to your agent ===== */
+    .sc3 { width: 340px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .sc3-toast { display: flex; align-items: center; gap: 9px; background: var(--bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: var(--r-2); box-shadow: 0 12px 26px rgba(31,31,31,0.1); padding: 10px 14px; font-size: 12px; color: var(--fg-1); animation: toastIn 5s ease-in-out infinite; }
+    .sc3-toast .ts { color: var(--stamp); font-family: 'IBM Plex Sans','Hiragino Sans',sans-serif; font-weight: 500; }
+    .sc3-toast .ok { color: var(--accent); font-family: var(--font-mono); }
+    .sc3-payload { width: 150px; border: 1px solid var(--accent); background: var(--bg-deep); border-radius: var(--r-1); padding: 8px 10px; font-family: var(--font-mono); font-size: 9px; color: var(--fg-2); animation: payloadFlow 5s ease-in-out infinite; }
+    .sc3-payload .h { color: var(--fg-1); font-weight: 700; }
+    .sc3-agents { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; max-width: 320px; }
+    .sc3-agents span { font-family: var(--font-mono); font-size: 10px; color: var(--fg-1); border: 1px solid var(--rule); border-radius: var(--r-pill); padding: 5px 11px; background: var(--bg); animation: chipGlow 5s ease-in-out infinite; }
+    .sc3-agents span:nth-child(2) { animation-delay: 0.25s; }
+    .sc3-agents span:nth-child(3) { animation-delay: 0.5s; }
+    .sc3-agents span:nth-child(4) { animation-delay: 0.75s; }
+    .sc3-skills { display: flex; gap: 8px; height: 26px; }
+    .sk { width: 22px; height: 22px; background: var(--accent); border-radius: 3px; position: relative; opacity: 0; animation: skPop 5s ease-in-out infinite; }
+    .sk::before { content: ""; position: absolute; top: 3px; left: 4px; width: 11px; height: 5px; background: var(--bg); }
+    .sk::after { content: ""; position: absolute; bottom: 3px; right: 3px; width: 5px; height: 5px; background: var(--stamp); }
+    .sk:nth-child(2) { animation-delay: 0.4s; } .sk:nth-child(3) { animation-delay: 0.8s; }
+    @keyframes toastIn { 0% { opacity: 0; transform: translateY(-10px); } 14%,40% { opacity: 1; transform: none; } 56% { opacity: 0.5; } 100% { opacity: 0.5; } }
+    @keyframes payloadFlow { 0%,30% { opacity: 0; transform: translateY(-8px); } 44% { opacity: 1; transform: translateY(0); } 64% { opacity: 1; } 76%,100% { opacity: 0; transform: translateY(10px); } }
+    @keyframes chipGlow { 0%,58% { border-color: var(--rule); color: var(--fg-1); } 70% { border-color: var(--accent); color: var(--accent); } 86%,100% { border-color: var(--rule); color: var(--fg-1); } }
+    @keyframes skPop { 0%,72% { opacity: 0; transform: translateY(8px) scale(0.6); } 84% { opacity: 1; transform: none; } 100% { opacity: 1; transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scene * { animation: none !important; }
+      .sc1-pop, .sc3-toast, .sc3-payload { opacity: 1 !important; transform: none !important; }
+      .sk { opacity: 1 !important; transform: none !important; }
+    }
+
     /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; gap: var(--sp-7); padding-top: 40px; }
@@ -459,6 +582,82 @@
   </div>
 </section>
 
+<!-- ===================== SCROLLYTELLING ===================== -->
+<section id="how" class="scrolly ruled">
+  <div class="scrolly-head">
+    <div class="section-kicker">What actually happens</div>
+    <h2 class="section-title">Three steps. That's the whole thing.</h2>
+  </div>
+  <div class="scrolly-inner">
+    <div class="scrolly-stage-wrap">
+      <div class="scrolly-stage">
+        <span class="stage-tag">SIFU · LIVE</span>
+        <span class="stage-step-id" id="stage-id">STEP 01 / 03</span>
+
+        <!-- Scene 1 — click start -->
+        <div class="scene is-active" data-scene="1">
+          <div class="sc1">
+            <div class="menubar">
+              <span class="mb-seal">&#24107;</span>
+              <span class="mb-dim">Sifu</span>
+              <span class="mb-spacer"></span>
+              <span class="mb-dim">9:41</span>
+            </div>
+            <div class="sc1-pop"><div class="sc1-recbtn"><span class="dot"></span> RECORD</div></div>
+            <div class="sc1-cursor">
+              <svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 1 L2 13 L5 10 L7.5 15 L9.5 14 L7 9 L11 9 Z" fill="#1F1F1F"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scene 2 — work normally -->
+        <div class="scene" data-scene="2">
+          <div class="sc2">
+            <span class="sc2-rec"><span class="dot"></span> REC</span>
+            <div class="win win-a"><div class="bar"><i></i><i></i></div><div class="body"><div class="ln"></div><div class="ln"></div><div class="ln ind"></div></div></div>
+            <div class="caret"></div>
+            <div class="win win-b"><div class="bar"><i></i><i></i></div><div class="body"><div class="ln"></div><div class="ln ind"></div><div class="ln"></div></div></div>
+            <span class="ripple rip-a"></span><span class="ripple rip-b"></span>
+            <div class="sc2-cursor"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 1 L2 13 L5 10 L7.5 15 L9.5 14 L7 9 L11 9 Z" fill="#1F1F1F"/></svg></div>
+            <div class="sc2-bar"><i></i></div>
+          </div>
+        </div>
+
+        <!-- Scene 3 — hand to your agent -->
+        <div class="scene" data-scene="3">
+          <div class="sc3">
+            <div class="sc3-toast"><span class="ts">&#24107;</span> Workflow composed <span class="ok">· copied &check;</span></div>
+            <div class="sc3-payload"><span class="h"># Workflow: Chrome, Slack</span><br>4 steps · staged for your agent</div>
+            <div class="sc3-agents"><span>Claude Code</span><span>Hermes</span><span>OpenClaw</span><span>Codex</span></div>
+            <div class="sc3-skills"><span class="sk"></span><span class="sk"></span><span class="sk"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scrolly-steps">
+      <div class="sstep is-active" data-step="1">
+        <span class="snode"></span>
+        <div class="snum">STEP 01</div>
+        <h3 class="sh">Click Start.</h3>
+        <p class="sp">One click in the menu bar &mdash; the <b>師</b> seal up top. Sifu starts watching, locally. Nothing to configure.</p>
+      </div>
+      <div class="sstep" data-step="2">
+        <span class="snode"></span>
+        <div class="snum">STEP 02</div>
+        <h3 class="sh">Do your work. Normally.</h3>
+        <p class="sp">No narrating, no scripting. Just the real task &mdash; clicks, typing, the apps you move through. Sifu records every step.</p>
+      </div>
+      <div class="sstep" data-step="3">
+        <span class="snode"></span>
+        <div class="snum">STEP 03</div>
+        <h3 class="sh">Hand it to your agent.</h3>
+        <p class="sp">When Sifu tells you the workflow's composed, give it to <b>Claude Code, Hermes, OpenClaw, or Codex</b>. It builds the skills for you &mdash; automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== BOOKEND ===================== -->
 <section class="bookend ruled">
   <div class="bookend-grid">
@@ -470,35 +669,6 @@
     <div class="bk">
       <span class="lab">Where Sifu puts you</span>
       <p class="bk-then">You do it once, on camera, and <b>your agent owns it</b> from then on.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== LOOP ===================== -->
-<section id="how" class="loop ruled">
-  <div class="section-kicker">The two clicks</div>
-  <h2 class="section-title">Record it once. Keep it forever.</h2>
-  <p class="section-lede">No scripting, no prompt-engineering a workflow you can barely describe. You do the work; Sifu watches; your agent does the building.</p>
-  <div class="loop-grid">
-    <div class="loop-step">
-      <div class="loop-num"><span class="click">CLICK 1</span> 01</div>
-      <h3 class="loop-verb">Press record</h3>
-      <p class="loop-body">One click in the menu bar. Sifu starts watching &mdash; clicks, keystrokes, the apps and pages you move through. Locally.</p>
-    </div>
-    <div class="loop-step">
-      <div class="loop-num">02</div>
-      <h3 class="loop-verb">Work normally</h3>
-      <p class="loop-body">Just do the task the way you always do. Nothing to narrate, nothing to set up. Sifu records the real thing.</p>
-    </div>
-    <div class="loop-step">
-      <div class="loop-num"><span class="click">CLICK 2</span> 03</div>
-      <h3 class="loop-verb">Press copy</h3>
-      <p class="loop-body">Stop, and the compiled workflow lands on your clipboard &mdash; steps, screenshots, and how to rebuild it as a skill.</p>
-    </div>
-    <div class="loop-step">
-      <div class="loop-num">04</div>
-      <h3 class="loop-verb">Your agent builds it</h3>
-      <p class="loop-body">Paste into Claude Code or Codex. It writes a reusable skill &mdash; or a human SOP &mdash; on your own subscription.</p>
     </div>
   </div>
 </section>
@@ -745,6 +915,23 @@ decision belongs to the user.</code></pre>
         setTimeout(function () { statusEl.classList.remove('is-visible'); }, 1800); }
     });
   }
+
+  /* ---------- Scrollytelling: drive the sticky stage from the active step ---------- */
+  (function () {
+    var steps = document.querySelectorAll('.sstep');
+    var scenes = document.querySelectorAll('.scene');
+    var stageId = document.getElementById('stage-id');
+    if (!steps.length) return;
+    function activate(n) {
+      steps.forEach(function (s) { s.classList.toggle('is-active', s.getAttribute('data-step') === n); });
+      scenes.forEach(function (sc) { sc.classList.toggle('is-active', sc.getAttribute('data-scene') === n); });
+      if (stageId) stageId.textContent = 'STEP 0' + n + ' / 03';
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.getAttribute('data-step')); });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    steps.forEach(function (s) { io.observe(s); });
+  })();
 </script>
 </body>
 </html>
