@@ -58,33 +58,28 @@
     <span class="crop tl" style="top:24px;left:24px"></span><span class="crop tr" style="top:24px;right:24px"></span>
     <span class="crop bl" style="bottom:24px;left:24px"></span><span class="crop br" style="bottom:24px;right:24px"></span>
 
-    <div class="hero-grid">
-      <!-- LEFT: the wall -->
-      <div>
-        <div class="rise d1">
-          <span class="pow-chip"><span class="led led-a"></span>Powered by Hermes</span>
-          <p class="kicker">Managed &middot; Branded &middot; In your Slack</p>
-        </div>
-        <div style="position:relative">
-          <h1 class="wall rise d2">YOUR<span class="o">WINGMAN</span></h1>
-          <span class="series-tag rise d3">W/01<br>Series</span>
-        </div>
-        <p class="hero-sub rise d3">A personal AI agent that runs your work in Slack. You bring the AI account you already pay for. I set it up under your name and keep it running.</p>
-        <div class="hero-ctas rise d4">
-          <a class="fire-btn" href="#pricing"><span class="face">Get your Wingman <span aria-hidden="true">&rarr;</span></span></a>
-          <a class="fire-btn ghost" href="#how"><span class="face">How it works <span aria-hidden="true">&rarr;</span></span></a>
-        </div>
-        <p class="trust rise d5">Live in 48 hours &middot; 5 onboarding slots per month &middot; $1,500 + $149/mo</p>
-      </div>
+    <!-- the flight: full-bleed live micro-ascii backdrop, the hero IS the magic -->
+    <div class="flight-stage" id="flight-stage" title="Click to replay">
+      <canvas id="flight-canvas" aria-label="Your Wingman flies into formation beside your jet"></canvas>
+      <div class="crew" id="crew"></div>
+      <p class="coords">// Done For You &middot; Maintained Forever</p>
+    </div>
 
-      <!-- RIGHT: your Wingman flies in (live micro-ascii 3D), convo starts below -->
-      <div class="rise d4 panel-col">
-        <div class="flight-stage" id="flight-stage" title="Click to replay">
-          <canvas id="flight-canvas" aria-label="Your Wingman flies into formation beside your jet"></canvas>
-          <div class="crew" id="crew"></div>
-        </div>
-        <p class="coords">// Done For You &middot; Maintained Forever<br>X: 107.221 &middot; Y: 45.662 &middot; Z: 12.009</p>
+    <!-- copy floats above the sky -->
+    <div class="hero-copy">
+      <div class="rise d1">
+        <span class="pow-chip"><span class="led led-a"></span>Powered by Hermes</span>
       </div>
+      <div style="position:relative">
+        <h1 class="wall rise d2">YOUR<span class="o">WINGMAN</span></h1>
+        <span class="series-tag rise d3">W/01<br>Series</span>
+      </div>
+      <p class="hero-sub rise d3">A personal AI agent that runs your work in Slack. You bring the AI account you already pay for. I set it up under your name and keep it running.</p>
+      <div class="hero-ctas rise d4">
+        <a class="fire-btn" href="#pricing"><span class="face">Get your Wingman <span aria-hidden="true">&rarr;</span></span></a>
+        <a class="fire-btn ghost" href="#how"><span class="face">How it works <span aria-hidden="true">&rarr;</span></span></a>
+      </div>
+      <p class="trust rise d5">Live in 48 hours &middot; 5 onboarding slots per month &middot; $1,500 + $149/mo</p>
     </div>
   </div>
 </section>

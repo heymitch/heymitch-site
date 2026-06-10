@@ -592,3 +592,26 @@ html.js .reveal.in { opacity: 1; transform: none; }
   .hud-msg { display: none; }
   .hud-portrait { width: 60px; height: 60px; }
 }
+
+/* ============================================================
+   HERO V2 — full-bleed flight behind the copy
+   ============================================================ */
+.hero-shell { min-height: min(86vh, 820px); padding-top: 64px; padding-bottom: 56px; }
+.flight-stage {
+  position: absolute; inset: 0; z-index: 1;
+}
+.flight-stage canvas { width: 100%; height: 100%; display: block; }
+.flight-stage .coords {
+  position: absolute; right: 26px; bottom: 16px; margin: 0;
+  text-align: right;
+}
+.hero-copy { position: relative; z-index: 2; max-width: 640px; pointer-events: none; }
+.hero-copy .fire-btn { pointer-events: auto; }
+.crew { left: auto; right: 26px; bottom: 44px; }
+
+@media (max-width: 960px) {
+  .hero-shell { min-height: 0; display: block; }
+  .flight-stage { position: relative; inset: auto; aspect-ratio: 5 / 4; margin-top: 30px; }
+  .hero-copy { max-width: 100%; }
+  .crew { right: 10px; bottom: 10px; }
+}

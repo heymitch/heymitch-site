@@ -21,8 +21,13 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 function setup() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const cssW = Math.max(300, stage.clientWidth);
+  const cssH = stage.clientHeight > 80 ? stage.clientHeight : cssW * 0.68;
   W = Math.round(cssW * dpr);
-  H = Math.round(W * 0.68);
+  H = Math.round(cssH * dpr);
+  // wide hero canvas: the front camera faces +z, so screen-x is MIRRORED —
+  // aiming at +x pushes the formation to the screen's RIGHT, clear of the copy
+  if (W / H > 1.4) LOOK.set(12, -0.8, -19);
+  else LOOK.set(0, -3.5, -19);
   cv.width = W; cv.height = H;
   FS = 4 * dpr; CH = 5 * dpr;
   ctx.font = `${FS}px "IBM Plex Mono", monospace`;
@@ -74,7 +79,7 @@ function buildF14() {
     g.add(intake);
     const wing = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.14, 1.9), M_BODY);
     wing.position.set(s * 3.6, 0.18, 0.9);
-    wing.rotation.y = s * 0.56;
+    wing.rotation.y = -s * 0.56; // swept BACK: friendly, not aggro
     g.add(wing);
     const tail = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.7, 1.6), M_DARK);
     tail.position.set(s * 1.1, 0.95, 3.0);
@@ -83,7 +88,7 @@ function buildF14() {
     g.add(tail);
     const stab = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.1, 1.2), M_BODY);
     stab.position.set(s * 2.1, 0.05, 3.2);
-    stab.rotation.y = s * 0.38;
+    stab.rotation.y = -s * 0.38;
     g.add(stab);
   }
   return g;
@@ -108,6 +113,7 @@ scene.add(lead);
 
 /* ================= choreography ================= */
 const FC = new THREE.Vector3(0, -3.5, -19);
+const LOOK = new THREE.Vector3(0, -3.5, -19); // camera aim (x shifts on wide canvases)
 const CAM = new THREE.Vector3(0, 2.2, -31); // front view: the call, close in
 const path = new THREE.CatmullRomCurve3([
   new THREE.Vector3(60, 10, -200),
@@ -155,7 +161,7 @@ function flyJet(now) {
     CAM.y + Math.sin(now / 1600) * 0.3 + mouseY * 0.8,
     CAM.z
   );
-  camera.lookAt(FC);
+  camera.lookAt(LOOK);
 }
 
 /* ================= glyph pass (micro-ascii, 3 ink colors) ================= */
