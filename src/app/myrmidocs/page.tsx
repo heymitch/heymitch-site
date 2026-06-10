@@ -46,6 +46,20 @@ const steps = [
   { k: "You approve.", d: "Nothing final until you say so." },
 ];
 
+const compareTools = ["Myrmidocs", "Notion", "Asana", "Google Docs", "Obsidian"];
+
+// "yes" | "partial" | "no", first cell is always Myrmidocs.
+const compareRows: { label: string; cells: ("yes" | "partial" | "no")[] }[] = [
+  { label: "Docs and notes, edited together live", cells: ["yes", "yes", "partial", "yes", "no"] },
+  { label: "A task board for your projects", cells: ["yes", "yes", "yes", "no", "no"] },
+  { label: "Hand tasks to your AI like a teammate", cells: ["yes", "no", "no", "no", "no"] },
+  { label: "Every change shows who did it, person or AI", cells: ["yes", "partial", "partial", "partial", "no"] },
+  { label: "Approve your AI's work before it is final", cells: ["yes", "no", "no", "no", "no"] },
+  { label: "Unlimited AI, no per-message fees", cells: ["yes", "no", "no", "no", "no"] },
+  { label: "Your files stay yours, plain and portable", cells: ["yes", "no", "no", "partial", "yes"] },
+  { label: "Bring your own AI", cells: ["yes", "no", "no", "no", "no"] },
+];
+
 const tiers = [
   {
     name: "Team",
@@ -109,6 +123,38 @@ function CheckTick() {
       />
     </svg>
   );
+}
+
+function CompareMark({ state }: { state: "yes" | "partial" | "no" }) {
+  if (state === "yes") {
+    return (
+      <svg
+        className="myr-mark-svg"
+        width="15"
+        height="15"
+        viewBox="0 0 16 16"
+        fill="none"
+        role="img"
+        aria-label="Yes"
+      >
+        <path
+          d="M3 8.5l3 3 7-8"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+  if (state === "partial") {
+    return (
+      <span className="myr-mark-dash" aria-label="Limited">
+        –
+      </span>
+    );
+  }
+  return <span className="myr-mark-no" aria-label="No" />;
 }
 
 export default function MyrmidocsPage() {
@@ -210,8 +256,67 @@ export default function MyrmidocsPage() {
         </div>
       </section>
 
-      {/* ─────────── PRICING ─────────── */}
+      {/* ─────────── COMPARISON ─────────── */}
       <section className="myr-section">
+        <div className="myr-shell">
+          <div className="myr-rule">
+            <span>How we compare</span>
+          </div>
+          <p className="myr-compare-lead">
+            Everything a modern team needs in one place, plus your AI as a real
+            teammate. The other tools do some of this. Myrmidocs does all of it.
+          </p>
+          <div className="myr-compare-scroll">
+            <table className="myr-compare">
+              <thead>
+                <tr>
+                  <th className="myr-compare-feat" aria-hidden="true" />
+                  {compareTools.map((t, i) => (
+                    <th
+                      key={t}
+                      scope="col"
+                      className={`myr-compare-tool${i === 0 ? " is-myr" : ""}`}
+                    >
+                      {t}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {compareRows.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row" className="myr-compare-feat">
+                      {row.label}
+                    </th>
+                    {row.cells.map((c, i) => (
+                      <td
+                        key={i}
+                        className={`myr-compare-cell${i === 0 ? " is-myr" : ""}`}
+                      >
+                        <CompareMark state={c} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="myr-compare-legend font-mono">
+            <span>
+              <CompareMark state="yes" /> Yes
+            </span>
+            <span>
+              <CompareMark state="partial" /> Limited
+            </span>
+            <span>
+              <CompareMark state="no" /> No
+            </span>
+          </p>
+        </div>
+      </section>
+
+      {/* ─────────── PRICING ─────────── */}
+      <section className="myr-section myr-section-warm">
         <div className="myr-shell">
           <div className="myr-rule">
             <span>Pricing</span>
