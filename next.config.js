@@ -6,6 +6,7 @@ const nextConfig = {
       { source: '/unbundle', destination: '/unbundle/index.html' },
       { source: '/unbundle/thanks', destination: '/unbundle/thanks/index.html' },
       { source: '/sifu', destination: '/sifu/index.html' },
+      { source: '/wingman', destination: '/wingman/index.html' },
     ]
   },
   async redirects() {

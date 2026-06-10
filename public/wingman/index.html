@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wingman: a personal AI agent in your Slack, done for you</title>
+<meta name="description" content="Installed, branded, and maintained for you. You bring the AI account you already pay for. Live in your Slack within 48 hours. $1,500 setup + $149/mo.">
+<meta property="og:title" content="Wingman: a personal AI agent in your Slack, done for you">
+<meta property="og:description" content="Installed, branded, and maintained for you. Live in 48 hours. 5 onboarding slots per month.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://heymitch.ai/wingman">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2316110d'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23E8682A' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..500&display=swap">
+<link rel="stylesheet" href="styles.css">
+<!--
+  WINGMAN — done-for-you managed personal agent lander.
+  Spec: wingman repo, docs/superpowers/specs/2026-06-09-wingman-landing-page-design.md
+  TODO[stripe]: replace #stripe-checkout-placeholder with the live Stripe payment link.
+-->
+</head>
+<body>
+
+<!-- registration crosshairs -->
+<div class="reg-mark reg-tl"></div><div class="reg-mark reg-tr"></div>
+<div class="reg-mark reg-bl"></div><div class="reg-mark reg-br"></div>
+
+<!-- ========================================================== NAV -->
+<header class="nav" id="nav">
+  <div class="shell nav-inner">
+    <a class="wordmark" href="https://heymitch.ai">hey<span class="o">mitch</span><span class="wm-sub">/ Wingman</span></a>
+    <nav class="nav-links">
+      <a href="#work">What it does</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><span class="led led-g"></span>Onboarding open<br>5 slots / mo</span>
+      <a class="fire-btn sm" href="#pricing"><span class="face">Get your Wingman <span aria-hidden="true">&rarr;</span></span></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ========================================================== HERO -->
+<section class="hero">
+  <div class="readout">
+    <div class="in">
+      <span class="o">01 / Wingman &middot; Done For You</span>
+      <span class="grp"><span>Sys: W/01</span><span>Grid: 8&times;5</span><span>MMXXVI</span></span>
+    </div>
+  </div>
+
+  <div class="shell hero-shell">
+    <span class="crop tl" style="top:24px;left:24px"></span><span class="crop tr" style="top:24px;right:24px"></span>
+    <span class="crop bl" style="bottom:24px;left:24px"></span><span class="crop br" style="bottom:24px;right:24px"></span>
+
+    <div class="hero-grid">
+      <!-- LEFT: the wall -->
+      <div>
+        <div class="rise d1">
+          <span class="pow-chip"><span class="led led-a"></span>Powered by Hermes</span>
+          <p class="kicker">Managed &middot; Branded &middot; In your Slack</p>
+        </div>
+        <div style="position:relative">
+          <h1 class="wall rise d2">YOUR<span class="o">WINGMAN</span></h1>
+          <span class="series-tag rise d3">W/01<br>Series</span>
+        </div>
+        <p class="hero-sub rise d3">A personal AI agent that runs your work in Slack. You bring the AI account you already pay for. I install it, brand it, and keep it running.</p>
+        <div class="hero-ctas rise d4">
+          <a class="fire-btn" href="#pricing"><span class="face">Get your Wingman <span aria-hidden="true">&rarr;</span></span></a>
+          <a class="fire-btn ghost" href="#how"><span class="face">How it works <span aria-hidden="true">&rarr;</span></span></a>
+        </div>
+        <p class="trust rise d5">Live in 48 hours &middot; 5 onboarding slots per month &middot; $1,500 + $149/mo</p>
+      </div>
+
+      <!-- RIGHT: the agent at work, badge clipped on -->
+      <div class="rise d4 panel-col">
+        <div class="badge-wrap" aria-hidden="true">
+          <div class="lanyard"></div>
+          <div class="idbadge">
+            <div class="id-head"><span>hey<b>mitch</b></span><span>WMN/01</span></div>
+            <div class="id-photo">W</div>
+            <div class="id-name">(Your Name)'s<br>Wingman</div>
+            <div class="id-role">AI employee &middot; Full time</div>
+            <span class="barcode id-bc"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <span>On shift &middot; Today</span>
+            <span class="live"><span class="led led-g"></span> Live</span>
+          </div>
+          <div class="screenbox" aria-label="A sample day of Wingman activity">
+            <div class="logline"><span class="t">07:00</span> morning brief posted to <span class="hl">#wingman</span></div>
+            <div class="logline"><span class="t">07:18</span> 3 replies drafted <span class="t">&middot; awaiting your approval</span></div>
+            <div class="logline"><span class="t">09:02</span> research memo delivered: <span class="hl">competitor pricing</span></div>
+            <div class="logline"><span class="t">11:40</span> calendar conflict caught, reschedule proposed</div>
+            <div class="logline"><span class="t">16:55</span> end-of-day summary queued</div>
+            <div class="logline"><span class="ok">&#10003; all systems nominal</span></div>
+          </div>
+          <div class="panel-foot">
+            <span>Maintained by heymitch</span>
+            <span class="wave" style="color:var(--sig-teal);width:120px" aria-hidden="true">
+              <i style="height:40%"></i><i style="height:65%"></i><i style="height:35%"></i><i style="height:72%"></i><i style="height:50%"></i><i style="height:44%"></i><i style="height:66%"></i><i style="height:38%"></i><i style="height:78%"></i><i style="height:52%"></i><i style="height:46%"></i><i style="height:70%"></i><i style="height:40%"></i><i style="height:58%"></i>
+            </span>
+          </div>
+          <div class="screws"><span class="screw"></span><span class="screw"></span></div>
+        </div>
+        <p class="coords">// Done For You &middot; Maintained Forever<br>X: 107.221 &middot; Y: 45.662 &middot; Z: 12.009</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== TICKER -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-track">
+    <div class="mq-group">
+      <span class="mq-item">Slack</span>
+      <span class="mq-item">Gmail</span>
+      <span class="mq-item">Calendar</span>
+      <span class="mq-item">Briefs</span>
+      <span class="mq-item">Drafts</span>
+      <span class="mq-item">Research</span>
+      <span class="mq-item">Memory</span>
+      <span class="mq-item">Maintained</span>
+      <span class="mq-item">Your model</span>
+    </div>
+    <div class="mq-group">
+      <span class="mq-item">Slack</span>
+      <span class="mq-item">Gmail</span>
+      <span class="mq-item">Calendar</span>
+      <span class="mq-item">Briefs</span>
+      <span class="mq-item">Drafts</span>
+      <span class="mq-item">Research</span>
+      <span class="mq-item">Memory</span>
+      <span class="mq-item">Maintained</span>
+      <span class="mq-item">Your model</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================== THESIS (dark plate) -->
+<section class="plate-band">
+  <div class="shell plate-inner">
+    <div class="sec-meta reveal"><span class="idx">/002</span><span class="lab">The point</span></div>
+    <div class="thesis-grid">
+      <h2 class="reveal">You don't need to learn to build agents. You need one <em>running</em>.</h2>
+      <div class="reveal">
+        <div class="thesis-body">
+          <p>Every busy owner I know has the same two tabs open: an AI chat they keep meaning to use better, and the work it was supposed to help with. A chat waits for you. A Wingman doesn't. It wakes up, reads, drafts, and reports in your Slack whether you remembered it exists or not.</p>
+          <p>Standing one up takes evenings you don't have: a server, a Slack app, connections, upkeep. So don't. I build it, brand it with your name, wire it to your tools, and keep it running. You meet your Wingman, not the plumbing.</p>
+        </div>
+        <p class="thesis-aside">Rather build your own? <a href="https://heymitch.ai">I teach that too</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== WHAT IT DOES -->
+<section class="sec" id="work">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-meta"><span class="idx">/003</span><span class="lab">What it does</span></div>
+        <h2 class="sec-title">A working day, off your plate.</h2>
+      </div>
+    </div>
+
+    <div class="job-grid reveal">
+      <article class="job span2">
+        <span class="n">/01</span>
+        <h3>Wakes you up with a brief: your inbox, your calendar, what matters today.</h3>
+        <div class="mini-screen" aria-hidden="true">
+          <span class="av">W</span>
+          <div class="msg">
+            <b>Wingman</b> <span class="t">App &middot; 7:00 AM</span><br>
+            Morning brief: 3 emails need you, 2 meetings today, 1 conflict already fixed.
+          </div>
+        </div>
+        <span class="who">Morning brief</span>
+      </article>
+      <article class="job">
+        <span class="n">/02</span>
+        <h3>Drafts replies and content in your voice, queued for your approval.</h3>
+        <span class="who">Drafts &middot; your voice</span>
+      </article>
+      <article class="job">
+        <span class="n">/03</span>
+        <h3>Runs the research you keep postponing and delivers it as a memo.</h3>
+        <span class="who">Research &middot; on schedule</span>
+      </article>
+      <article class="job">
+        <span class="n">/04</span>
+        <h3>Custom skills, built for your work: the workflows you repeat become buttons you press.</h3>
+        <span class="who">Custom skills &middot; yours</span>
+      </article>
+      <article class="job">
+        <span class="n">/05</span>
+        <h3>Ships loaded with the agent-native tools I build and run in my own business.</h3>
+        <span class="who">The toolkit &middot; included</span>
+      </article>
+      <article class="job span2">
+        <span class="n">/06</span>
+        <h3>It remembers: your context, your preferences, your history. It gets more yours every week.</h3>
+        <span class="who">Memory &middot; the moat</span>
+      </article>
+    </div>
+    <p class="job-cap reveal">// Example workloads, not testimonials. Yours gets wired to your actual work during onboarding.</p>
+  </div>
+</section>
+
+<!-- ========================================================== HOW IT WORKS -->
+<section class="sec" id="how" style="padding-top:0">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-meta"><span class="idx">/004</span><span class="lab">How it works</span></div>
+        <h2 class="sec-title">Three steps. One of them is yours.</h2>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <span class="sn">01 &middot; You check out</span>
+        <h3>Buy it, then tell me about you</h3>
+        <p>Checkout takes a minute. The intake takes fifteen: your agent's name, your Slack workspace, the apps you want connected, and how you like your mornings briefed.</p>
+        <p class="fine">// Your part ends here.</p>
+      </div>
+      <div class="step reveal">
+        <span class="sn">02 &middot; I build</span>
+        <h3>Your Wingman gets assembled</h3>
+        <p>I create your branded Slack agent, connect your apps through secure connect links you approve yourself, and link the AI account you already pay for via OAuth. No passwords handed over, no API keys passing through me.</p>
+      </div>
+      <div class="step reveal">
+        <span class="sn">03 &middot; It goes to work</span>
+        <h3>Live in 48 hours, maintained forever</h3>
+        <p>Your Wingman shows up in your Slack and starts the job. From then on I keep it updated, monitored, and repaired. When the models change, I am the one who notices, not you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== PROOF -->
+<section class="sec" style="padding-top:0">
+  <div class="shell">
+    <div class="proof-grid">
+      <div class="reveal">
+        <div class="sec-meta"><span class="idx">/005</span><span class="lab">Receipts</span></div>
+        <h2>The agent that runs my business is the <em>same agent</em>.</h2>
+      </div>
+      <div class="proof-body reveal">
+        <p>This is not a product I read about. My own Wingman posts my morning brief, drafts my content, and runs my research every day. The setup I sell you is the setup I live in.</p>
+        <p>I tend mine daily, and that is exactly what the retainer buys: a person who runs these in production, keeping yours in production.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== PRICING -->
+<section class="sec" id="pricing" style="padding-top:0">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-meta"><span class="idx">/006</span><span class="lab">The offer</span></div>
+        <h2 class="sec-title">One agent. Fully managed.</h2>
+      </div>
+    </div>
+
+    <div class="price-wrap">
+      <div class="price-pitch reveal">
+        <p>The setup fee covers the white glove build: your branded agent, your connections, your voice, live onboarding with me. The monthly keeps it alive: updates, monitoring, repairs, and a priority line to a human who knows your setup.</p>
+        <div class="bring">
+          <span class="lab">You bring</span>
+          <p>The AI subscription you already pay for (ChatGPT or Claude) and a Slack workspace. That's the whole list.</p>
+        </div>
+      </div>
+
+      <div class="price-panel reveal">
+        <div class="panel">
+          <div class="panel-head">
+            <span>Your Wingman &middot; Managed</span>
+            <span class="live"><span class="led led-g"></span> Slots open</span>
+          </div>
+          <div class="price-row">
+            <span class="amt">$1,500</span><span class="per">setup</span>
+            <span class="plus">+</span>
+            <span class="amt">$149</span><span class="per">/ month</span>
+          </div>
+          <div class="screenbox stack-screen">
+            <div><span class="ck">&#10003;</span>Your branded Slack agent: <span class="hl">(Your Name)'s Wingman</span></div>
+            <div><span class="ck">&#10003;</span>White glove onboarding, live with me</div>
+            <div><span class="ck">&#10003;</span>Gmail, Calendar, and your apps connected</div>
+            <div><span class="ck">&#10003;</span>Custom skills built around your workflows</div>
+            <div><span class="ck">&#10003;</span>My agent-native toolkit, included</div>
+            <div><span class="ck">&#10003;</span>Voice and memory set up around your work</div>
+            <div><span class="ck">&#10003;</span>Updates, monitoring, and repairs, ongoing</div>
+            <div><span class="ck">&#10003;</span>Priority line to me</div>
+          </div>
+          <div class="slots"><span class="led led-y"></span>5 onboarding slots per month &middot; first come, first served</div>
+          <div class="price-cta">
+            <!-- TODO[stripe]: swap for the live Stripe payment link before launch -->
+            <a class="fire-btn" href="#stripe-checkout-placeholder"><span class="face">Get your Wingman <span aria-hidden="true">&rarr;</span></span></a>
+            <span class="price-note">Secure checkout via Stripe &middot; cancel anytime</span>
+          </div>
+          <div class="screws"><span class="screw"></span><span class="screw"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== FAQ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-meta"><span class="idx">/007</span><span class="lab">Questions</span></div>
+        <h2 class="sec-title">Honest answers, before you ask.</h2>
+      </div>
+    </div>
+
+    <div class="faq reveal">
+      <details>
+        <summary>Is my data safe?</summary>
+        <div class="a"><p>Your Wingman runs on your accounts. Your apps connect through scoped grants you approve yourself and can revoke anytime, and your AI account links the same way. I never hold your passwords or your API keys. I manage the machine and the agent; the access stays yours.</p></div>
+      </details>
+      <details>
+        <summary>Why do I bring my own AI account?</summary>
+        <div class="a"><p>Three reasons. It's cheaper: no markup on every token you use. It's cleaner: your conversations stay inside the account you already trust. And there's no lock-in: cancel me and your AI account is untouched. You're probably paying for ChatGPT or Claude already. Your Wingman runs on that.</p></div>
+      </details>
+      <details>
+        <summary>What can't it do?</summary>
+        <div class="a"><p>It won't replace your judgment. Anything consequential ships as a draft for your approval: it proposes, you decide. And it's a personal agent, not a team platform. One owner, one Slack, your work.</p></div>
+      </details>
+      <details>
+        <summary>How fast is setup, really?</summary>
+        <div class="a"><p>48 hours from checkout to live, counting from when you finish the intake and click your connect links. Your part takes about fifteen minutes. The rest of those two days is me building.</p></div>
+      </details>
+      <details>
+        <summary>Can I cancel?</summary>
+        <div class="a"><p>Anytime, no minimum. When the retainer ends I decommission the agent. Your accounts, your data, and your AI subscription stay yours. They were never mine to keep.</p></div>
+      </details>
+      <details>
+        <summary>Why Slack?</summary>
+        <div class="a"><p>Because you already live there. No new app, no new tab to forget. Your Wingman is a teammate in the sidebar: DM it, mention it, give it a channel. Not on Slack? A free workspace takes five minutes and I'll set it up with you during onboarding.</p></div>
+      </details>
+      <details>
+        <summary>Do I need to be technical?</summary>
+        <div class="a"><p>No. That is the entire point of this offer. If you can send a Slack message and click an approve button, you can run a Wingman. The technical parts are my job, permanently.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== FINAL CTA -->
+<section class="cta-band">
+  <div class="shell cta-inner">
+    <div class="sec-meta reveal"><span class="idx">/008</span><span class="lab">Start</span></div>
+    <h2 class="reveal">Running in<br><span class="o">48 hours.</span></h2>
+    <p class="cta-sub reveal">Check out today, spend fifteen minutes on the intake, and meet your Wingman in your Slack two days from now.</p>
+    <div class="hero-ctas reveal">
+      <a class="fire-btn" href="#pricing"><span class="face">Get your Wingman <span aria-hidden="true">&rarr;</span></span></a>
+    </div>
+    <p class="trust reveal">5 onboarding slots per month &middot; $1,500 setup + $149/mo &middot; cancel anytime</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ========================================================== FOOTER -->
+<footer class="footer">
+  <div class="shell footer-inner">
+    <a class="fwm" href="https://heymitch.ai">hey<span class="o">mitch</span></a>
+    <span>WMN &mdash; 2606 &mdash; 01</span>
+    <span class="barcode" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <span>&copy; MMXXVI &middot; heymitch</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
