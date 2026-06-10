@@ -6,6 +6,7 @@ const COOKIE_VALUE = 'granted';
 const GATES = [
   { base: '/signal', cookie: 'signal_auth', login: '/signal/login' },
   { base: '/dashboard', cookie: 'dash_auth', login: '/dashboard/login' },
+  { base: '/pab-landing', cookie: 'pab_auth', login: '/pab-landing/login' },
 ];
 
 export function middleware(request: NextRequest) {
@@ -27,5 +28,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/signal', '/signal/:path*', '/dashboard', '/dashboard/:path*'],
+  matcher: ['/signal', '/signal/:path*', '/dashboard', '/dashboard/:path*', '/pab-landing', '/pab-landing/:path*'],
 };
