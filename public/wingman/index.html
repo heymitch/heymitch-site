@@ -77,28 +77,11 @@
         <p class="trust rise d5">Live in 48 hours &middot; 5 onboarding slots per month &middot; $1,500 + $149/mo</p>
       </div>
 
-      <!-- RIGHT: the agent at work -->
+      <!-- RIGHT: your Wingman flies in (live micro-ascii 3D), convo starts below -->
       <div class="rise d4 panel-col">
-        <div class="panel">
-          <div class="panel-head">
-            <span>(Your Name)'s Wingman &middot; On shift</span>
-            <span class="live"><span class="led led-g"></span> Live</span>
-          </div>
-          <div class="screenbox" aria-label="A sample day of Wingman activity">
-            <div class="logline"><span class="t">07:00</span> morning brief posted to <span class="hl">#wingman</span></div>
-            <div class="logline"><span class="t">07:18</span> 3 replies drafted <span class="t">&middot; awaiting your approval</span></div>
-            <div class="logline"><span class="t">09:02</span> research memo delivered: <span class="hl">competitor pricing</span></div>
-            <div class="logline"><span class="t">11:40</span> calendar conflict caught, reschedule proposed</div>
-            <div class="logline"><span class="t">16:55</span> end-of-day summary queued</div>
-            <div class="logline"><span class="ok">&#10003; all systems nominal</span></div>
-          </div>
-          <div class="panel-foot">
-            <span>Maintained by heymitch</span>
-            <span class="wave" style="color:var(--sig-teal);width:120px" aria-hidden="true">
-              <i style="height:40%"></i><i style="height:65%"></i><i style="height:35%"></i><i style="height:72%"></i><i style="height:50%"></i><i style="height:44%"></i><i style="height:66%"></i><i style="height:38%"></i><i style="height:78%"></i><i style="height:52%"></i><i style="height:46%"></i><i style="height:70%"></i><i style="height:40%"></i><i style="height:58%"></i>
-            </span>
-          </div>
-          <div class="screws"><span class="screw"></span><span class="screw"></span></div>
+        <div class="flight-stage" id="flight-stage" title="Click to replay">
+          <canvas id="flight-canvas" aria-label="Your Wingman flies into formation beside your jet"></canvas>
+          <div class="crew" id="crew"></div>
         </div>
         <p class="coords">// Done For You &middot; Maintained Forever<br>X: 107.221 &middot; Y: 45.662 &middot; Z: 12.009</p>
       </div>
@@ -373,5 +356,9 @@
 </footer>
 
 <script src="/wingman/app.js"></script>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js" } }
+</script>
+<script type="module" src="/wingman/flight.js"></script>
 </body>
 </html>
