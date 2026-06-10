@@ -4,7 +4,7 @@
 // Prototyped in the wingman repo: design-system/hero-flight.html.
 import * as THREE from 'three';
 
-const PAPER = '#F1EEEA', INK = '#2D2118', ORANGE = '#E8682A', ICE = '#4FA8D8';
+const PAPER = '#F1EEEA', INK = '#2D2118', ORANGE = '#DEA821', ICE = '#4FA8D8';
 const RAMP = " `'.,:;i!l~+x*uoahkbdwOZ#MW&8%B@";
 const BLANK_T = 0.16, SS = 2;
 
@@ -60,7 +60,7 @@ scene.add(new THREE.AmbientLight(0xf1eeea, 0.4));
 
 const M_BODY  = new THREE.MeshLambertMaterial({ color: 0x8A7965 });
 const M_DARK  = new THREE.MeshLambertMaterial({ color: 0x4A3A28 });
-const M_GLASS = new THREE.MeshLambertMaterial({ color: 0xE8682A }); // wingman: orange
+const M_GLASS = new THREE.MeshLambertMaterial({ color: 0xDEA821 }); // wingman: mustard
 const M_ICE   = new THREE.MeshLambertMaterial({ color: 0x8FD4F0 }); // you: ice
 
 function buildF14() {
