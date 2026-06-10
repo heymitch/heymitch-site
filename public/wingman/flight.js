@@ -25,8 +25,9 @@ function setup() {
   W = Math.round(cssW * dpr);
   H = Math.round(cssH * dpr);
   // wide hero canvas: the front camera faces +z, so screen-x is MIRRORED —
-  // aiming at +x pushes the formation to the screen's RIGHT, clear of the copy
-  if (W / H > 1.4) LOOK.set(12, -0.8, -19);
+  // aiming at +x pushes the formation to the screen's RIGHT, clear of the copy.
+  // Modest shift: the formation spans ~25 units, push too far and a jet clips.
+  if (W / H > 1.4) LOOK.set(6, -1.0, -19);
   else LOOK.set(0, -3.5, -19);
   cv.width = W; cv.height = H;
   FS = 4 * dpr; CH = 5 * dpr;
@@ -114,7 +115,7 @@ scene.add(lead);
 /* ================= choreography ================= */
 const FC = new THREE.Vector3(0, -3.5, -19);
 const LOOK = new THREE.Vector3(0, -3.5, -19); // camera aim (x shifts on wide canvases)
-const CAM = new THREE.Vector3(0, 2.2, -31); // front view: the call, close in
+const CAM = new THREE.Vector3(0, 2.2, -37); // front view: room for the whole pair
 const path = new THREE.CatmullRomCurve3([
   new THREE.Vector3(60, 10, -200),
   new THREE.Vector3(36, 6, -110),
