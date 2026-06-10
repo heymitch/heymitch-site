@@ -320,7 +320,7 @@ export default function PabLandingPage() {
             <span role="listitem">Week-One Guarantee</span>
           </div>
           <Cta label="Enroll in the Personal Agent Bootcamp" first />
-          <p className="pab-note">{`Enrollment closes at kickoff, Monday June 22.`}</p>
+          <p className="pab-note">{`Enrollment closes Sunday, June 21 at 11:59 PM.`}</p>
         </div>
       </header>
 
@@ -495,7 +495,7 @@ export default function PabLandingPage() {
               </li>
             ))}
           </ul>
-          <p className="pab-expires-head">{`EXPIRES WITH ENROLLMENT (gone when enrollment closes Monday, June 22)`}</p>
+          <p className="pab-expires-head">{`EXPIRES WITH ENROLLMENT (gone when enrollment closes Sunday, June 21 at 11:59 PM)`}</p>
           <ul className="pab-bonus pab-bonus--expires">
             {expiringBonuses.map((b) => (
               <li key={b.lead}>
@@ -525,7 +525,7 @@ export default function PabLandingPage() {
                 </li>
               ))}
             </ul>
-            <p className="pab-p">{`This is a live build, with a cohort, on a clock. Enrollment closes at kickoff on Monday, June 22. After that, the doors are shut for this cohort.`}</p>
+            <p className="pab-p">{`This is a live build, with a cohort, on a clock. Enrollment closes Sunday, June 21 at 11:59 PM. After that, the doors are shut for this cohort.`}</p>
           </div>
         </div>
       </section>
@@ -628,7 +628,7 @@ export default function PabLandingPage() {
             <p className="pab-eyebrow">Last nudge</p>
             <h2 className="pab-nudge-h">{`Two weeks from now, you own an agent that does your work. And an offer that sells it.`}</h2>
             <p className="pab-p">{`By Day 1 it's alive and answering you. By the end of week one it's doing your actual work. By the end of week two you have a productized offer, an offer page, and Looms in front of real prospects.`}</p>
-            <p className="pab-p">{`Enrollment closes at kickoff, Monday June 22. The SOUL.md Templates and the Trend Jacking Agent Pack 2.0 expire with it. Miss the window and you miss this cohort.`}</p>
+            <p className="pab-p">{`Enrollment closes Sunday, June 21 at 11:59 PM. The SOUL.md Templates and the Trend Jacking Agent Pack 2.0 expire with it. Miss the window and you miss this cohort.`}</p>
             <Cta label="Enroll in the Personal Agent Bootcamp: $800" />
           </div>
         </div>
@@ -676,7 +676,7 @@ export default function PabLandingPage() {
             <p className="pab-p">{`Install the agent for yourself and complete the first three sessions. If you then decide this isn't for your business, email us and you get a full refund.`}</p>
             <p className="pab-p">{`That's the whole condition. We ask you to actually stand the agent up and sit through the first half of the camp because that's where you find out what it does for your work. If the answer is "not for my business," the $800 comes back to you.`}</p>
             <Cta label="Enroll in the Personal Agent Bootcamp: $800" />
-            <p className="pab-note">{`Enrollment closes at kickoff, Monday June 22.`}</p>
+            <p className="pab-note">{`Enrollment closes Sunday, June 21 at 11:59 PM.`}</p>
           </div>
         </div>
       </section>
