@@ -588,3 +588,98 @@
 .myr-footer-mark {
   font-size: 16px;
 }
+
+/* ─────────── COMPARISON ─────────── */
+.myr-compare-lead {
+  max-width: 48ch;
+  margin: -16px 0 36px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--myr-muted);
+}
+.myr-compare-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.myr-compare {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 660px;
+}
+.myr-compare th,
+.myr-compare td {
+  padding: 15px 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--myr-hair);
+}
+.myr-compare-feat {
+  text-align: left;
+  font-family: var(--myr-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--myr-ink);
+  width: 40%;
+  min-width: 250px;
+}
+.myr-compare thead .myr-compare-feat {
+  border-bottom: none;
+}
+.myr-compare-tool {
+  font-family: var(--myr-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--myr-faint);
+  font-weight: 500;
+  vertical-align: bottom;
+  padding-bottom: 16px;
+}
+.myr-compare-tool.is-myr {
+  color: var(--myr-paper);
+  background: var(--myr-teal);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+.myr-compare-cell.is-myr {
+  background: color-mix(in srgb, var(--myr-teal) 8%, transparent);
+}
+.myr-compare tbody tr:last-child .myr-compare-cell.is-myr {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.myr-mark-svg {
+  color: var(--myr-teal-lt);
+  display: inline-block;
+  vertical-align: middle;
+}
+.myr-compare-cell.is-myr .myr-mark-svg {
+  color: var(--myr-teal);
+}
+.myr-mark-dash {
+  color: var(--myr-faint);
+  font-size: 18px;
+  line-height: 1;
+}
+.myr-mark-no::before {
+  content: "·";
+  color: var(--myr-hair);
+  font-size: 22px;
+  line-height: 1;
+}
+.myr-compare-legend {
+  display: flex;
+  gap: 22px;
+  margin: 22px 0 0;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--myr-faint);
+  flex-wrap: wrap;
+}
+.myr-compare-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
