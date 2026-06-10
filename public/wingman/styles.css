@@ -610,3 +610,128 @@ html.js .reveal.in { opacity: 1; transform: none; }
   .hero-copy { max-width: 100%; }
   .crew { right: 10px; bottom: 10px; }
 }
+
+/* ============================================================
+   HERO SUB v2 — the promotion line is longer; give it room
+   ============================================================ */
+.hero-sub { max-width: 48ch; font-size: clamp(17px, 1.9vw, 24px); line-height: 1.5; }
+
+/* ============================================================
+   SHOW — the giant working Slack (ported from the PAB waitlist;
+   format with a tip of the cap to Every's Plus One)
+   ============================================================ */
+.slack-wrap { max-width: 920px; margin: 0 auto; }
+.slack {
+  background: #fff; border: 1px solid var(--ink-15); border-radius: 12px;
+  box-shadow: 0 44px 80px -38px rgba(0, 0, 0, .45);
+  overflow: hidden; cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.slack-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #3f0e40; }
+.slack-head .dots { display: flex; gap: 7px; }
+.slack-head .d { width: 12px; height: 12px; border-radius: 50%; }
+.slack-head .d.r { background: #ff5f57; } .slack-head .d.y { background: #febc2e; } .slack-head .d.g { background: #28c840; }
+.slack-head .tb { display: flex; align-items: center; gap: 11px; color: rgba(255, 255, 255, .5); }
+.slack-head .tb svg { width: 16px; height: 16px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.slack-head .search {
+  flex: 1; display: flex; align-items: center; gap: 8px;
+  background: rgba(0, 0, 0, .22); border: 1px solid rgba(255, 255, 255, .12); border-radius: 7px;
+  padding: 6px 12px; color: rgba(255, 255, 255, .5); font-size: 12.5px;
+}
+.slack-head .search svg { width: 14px; height: 14px; flex: none; }
+.slack-head .me { width: 22px; height: 22px; border-radius: 5px; object-fit: cover; border: 1.5px solid rgba(255, 255, 255, .5); }
+.slack-head .chev { color: rgba(255, 255, 255, .5); font-size: 10px; }
+.slack-head .help { width: 20px; height: 20px; border: 1.5px solid rgba(255, 255, 255, .4); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: rgba(255, 255, 255, .55); }
+.slack-body { height: 560px; overflow: hidden; padding: 16px 18px; background: #fff; }
+
+.slack .msg { display: flex; gap: 12px; padding: 10px 10px; border-radius: 8px; }
+.slack .msg.agent { background: #F4F9DC; }
+.slack .msg .av { width: 42px; height: 42px; border-radius: 9px; flex: none; overflow: hidden; }
+.slack .msg .av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.slack .msg .body { min-width: 0; }
+.slack .msg .h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1px; }
+.slack .msg .name { font-weight: 700; font-size: 15px; color: #1d1c1d; }
+.slack .msg .badge { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; background: #e6e6e6; color: #616061; padding: 2px 6px; border-radius: 3px; }
+.slack .msg.agent .badge { background: var(--acid); color: #1d1c1d; }
+.slack .msg .badge.auto { background: #fde9c8; color: #9a6a12; }
+.slack .msg .ts { font-size: 11px; color: #9b9b9b; }
+.slack .msg .text { font-size: 15px; line-height: 1.5; color: #1d1c1d; }
+.slack .msg .text .at { color: #1264a3; background: #e8f5fb; border-radius: 3px; padding: 0 2px; }
+.slack .msg .text .ok { color: #2a7d2a; font-weight: 700; }
+.slack .msg .text .stream-cur { display: inline-block; width: 7px; height: 15px; background: #1d1c1d; vertical-align: -2px; margin-left: 1px; }
+
+.slack .msg .extras { margin: 2px 0 3px; }
+.slack .msg .tools { font-family: var(--mono); font-size: 12px; color: #8a8a8a; line-height: 1.8; }
+.slack .msg .tcall { white-space: pre-wrap; }
+.slack .msg .tcall .ok { color: #2a7d2a; font-weight: 700; }
+.slack .msg .name.working {
+  background: linear-gradient(90deg, #C5331C 0%, #ff9270 50%, #C5331C 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: nameshimmer 1.15s linear infinite;
+}
+@keyframes nameshimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+.slack .typing { display: inline-flex; gap: 4px; align-items: center; padding: 3px 0; }
+.slack .typing .dot { width: 6px; height: 6px; border-radius: 50%; background: #b3b3b3; animation: tdot 1.1s infinite; }
+.slack .typing .dot:nth-child(2) { animation-delay: .15s; }
+.slack .typing .dot:nth-child(3) { animation-delay: .3s; }
+@keyframes tdot { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+.slack .msg .appicons { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.slack .msg .appicons .lbl { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #9b9b9b; margin-right: 2px; }
+.slack .msg .ai { width: 22px; height: 22px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .2); }
+
+.slack-div { display: flex; align-items: center; gap: 10px; margin: 18px 2px 10px; }
+.slack-div .ln { flex: 1; height: 1px; background: #e8e8e8; }
+.slack-div .t { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #9b9b9b; white-space: nowrap; }
+
+.slack-wrap .job-cap a { color: var(--ink-55); }
+.slack-wrap .job-cap a:hover { color: var(--orange); }
+
+@media (max-width: 640px) {
+  .slack-body { height: 460px; padding: 12px 10px; }
+  .slack .msg .text { font-size: 14px; }
+}
+
+/* ============================================================
+   FEATURES — three standalone cards
+   ============================================================ */
+.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+@media (max-width: 900px) { .feat-grid { grid-template-columns: 1fr; } }
+.feat {
+  border: 1px solid var(--ink-15); background: var(--paper);
+  padding: 30px 28px 28px;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: border-color .2s;
+}
+.feat:hover { border-color: var(--ink-55); }
+.feat .n { font-family: var(--mono); font-size: 11px; color: var(--orange); letter-spacing: .14em; margin-bottom: 12px; }
+.feat h3 { font-family: var(--sans); font-weight: 700; font-size: 25px; letter-spacing: -.01em; line-height: 1.15; }
+.feat .tagline { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-45); margin-bottom: 12px; }
+.feat .benefit { font-size: 15px; line-height: 1.7; color: var(--ink-55); }
+
+/* ============================================================
+   COLLABORATION GRID — the acid section
+   ============================================================ */
+.acid-band { background: var(--acid); color: #0D0F0E; }
+.acid-band .sec-meta .idx { color: #0D0F0E; }
+.acid-band .lab { color: rgba(13, 15, 14, .55); }
+.acid-band .sec-title { color: #0D0F0E; }
+.collab-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border: 1px solid rgba(13, 15, 14, .35);
+}
+@media (max-width: 900px) { .collab-grid { grid-template-columns: 1fr; } }
+.cg {
+  padding: 28px 26px; min-height: 170px;
+  border-right: 1px solid rgba(13, 15, 14, .35);
+  border-bottom: 1px solid rgba(13, 15, 14, .35);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.cg h4 { font-family: var(--sans); font-weight: 700; font-size: 19px; letter-spacing: -.01em; }
+.cg p { font-size: 14.5px; line-height: 1.65; color: rgba(13, 15, 14, .72); }
+.cg-cta { justify-content: center; align-items: flex-start; gap: 14px; }
+.cg-cta .lab { color: rgba(13, 15, 14, .55); }
+.acid-band .fire-btn .face { background: #0D0F0E; color: var(--acid); }
+.acid-band .fire-btn:hover .face { background: #23251f; }
