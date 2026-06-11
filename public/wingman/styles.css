@@ -605,9 +605,10 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .crew { left: auto; right: 26px; bottom: 44px; }
 
 @media (max-width: 960px) {
-  .hero-shell { min-height: 0; display: block; }
-  .flight-stage { position: relative; inset: auto; aspect-ratio: 5 / 4; margin-top: 30px; }
-  .hero-copy { max-width: 100%; }
+  /* mobile: copy first (title, sub, CTA), planes below */
+  .hero-shell { min-height: 0; display: flex; flex-direction: column; }
+  .hero-copy { order: 1; max-width: 100%; }
+  .flight-stage { order: 2; position: relative; inset: auto; aspect-ratio: 5 / 4; margin-top: 30px; }
   .crew { right: 10px; bottom: 10px; }
 }
 
@@ -692,6 +693,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
 @media (max-width: 640px) {
   .slack-body { height: 460px; padding: 12px 10px; }
   .slack .msg .text { font-size: 14px; }
+  .slack-head .search { visibility: hidden; }
 }
 
 /* ============================================================
