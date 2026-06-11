@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import MyrLogo from "./MyrLogo";
 import EarlyAccessForm from "./EarlyAccessForm";
+import AgentSnippet from "./AgentSnippet";
 import "./myrmidocs.css";
 
 export const metadata: Metadata = {
@@ -190,6 +191,8 @@ export default function MyrmidocsPage() {
             works in it together, and so does your AI. Hand it a task, it does
             the work, and you see exactly what it did before anything is final.
           </p>
+
+          <AgentSnippet />
 
           <div className="myr-hero-cta">
             <div className="myr-hero-form">
