@@ -810,3 +810,6 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .plate-band .thesis-aside { color: rgba(241, 238, 234, .65); border-top-color: rgba(241, 238, 234, .25); }
 .plate-band .thesis-aside a { color: rgba(241, 238, 234, .9); }
 .plate-band .thesis-aside a:hover { color: var(--acid); }
+
+/* section subtitle under sec-title */
+.sec-sub { font-size: clamp(16px, 1.6vw, 20px); color: var(--ink-55); margin-top: 10px; }
