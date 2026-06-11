@@ -800,3 +800,13 @@ html.js .reveal.in { opacity: 1; transform: none; }
   margin-top: 34px;
 }
 .plate-band .thesis-aside { max-width: 56ch; }
+
+/* thesis band: Top Gun blue */
+.plate-band { background: #1F6FB2; }
+.plate-band .sec-meta .idx { color: var(--acid); }
+.plate-band .lab { color: rgba(241, 238, 234, .6); }
+.thesis-big { color: #F1EEEA; }
+.thesis-lead { color: rgba(241, 238, 234, .85); }
+.plate-band .thesis-aside { color: rgba(241, 238, 234, .65); border-top-color: rgba(241, 238, 234, .25); }
+.plate-band .thesis-aside a { color: rgba(241, 238, 234, .9); }
+.plate-band .thesis-aside a:hover { color: var(--acid); }
