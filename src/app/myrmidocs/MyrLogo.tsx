@@ -1,13 +1,17 @@
-// Myrmidocs mark. Uses currentColor so it recolors to teal / ink / paper via
-// the surrounding text color. Source: docs/superpowers/design/myrmidocs-brand/myr-logo.svg
+// Myrmidocs mark. Uses currentColor so it recolors via the surrounding
+// text color. Source: docs/superpowers/design/myrmidocs-brand/myr-logo.svg
+// With `sigil`, the mark sits inside a static frozen-glint chrome ring
+// (Starstruck's .sigil treatment: the chrome never rotates).
 export default function MyrLogo({
   className,
   title = "Myrmidocs",
+  sigil = false,
 }: {
   className?: string;
   title?: string;
+  sigil?: boolean;
 }) {
-  return (
+  const mark = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 256 256"
@@ -30,4 +34,9 @@ export default function MyrLogo({
       />
     </svg>
   );
+
+  if (sigil) {
+    return <span className="myr-sigil">{mark}</span>;
+  }
+  return mark;
 }

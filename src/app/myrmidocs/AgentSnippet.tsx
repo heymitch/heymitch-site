@@ -46,34 +46,47 @@ export default function AgentSnippet() {
           font-size: 11px;
           letter-spacing: 0.28em;
           text-transform: uppercase;
-          color: var(--myr-teal-lt);
+          color: var(--myr-agent-text, #a9cfff);
           margin-bottom: 10px;
         }
+        /* iridescent hairline border: the mockup's gradient border-box trick */
         .myr-snippet-row {
           display: flex;
           align-items: center;
           gap: 10px;
           width: 100%;
-          background: rgba(252, 252, 253, 0.06);
-          border: 1px solid rgba(252, 252, 253, 0.15);
+          background:
+            linear-gradient(rgba(14, 17, 24, 0.8), rgba(11, 13, 19, 0.8))
+              padding-box,
+            conic-gradient(
+                from 250deg,
+                rgba(159, 200, 255, 0.32),
+                rgba(255, 255, 255, 0.14) 25%,
+                rgba(199, 157, 255, 0.26) 48%,
+                rgba(255, 217, 163, 0.22) 70%,
+                rgba(159, 200, 255, 0.32)
+              )
+              border-box;
+          border: 1px solid transparent;
           border-radius: 8px;
           padding: 12px 14px;
           cursor: pointer;
-          transition: border-color 0.18s ease, background 0.18s ease;
+          transition: box-shadow 0.18s ease;
           text-align: left;
         }
         .myr-snippet-row:hover {
-          background: rgba(74, 157, 184, 0.1);
-          border-color: var(--myr-teal-lt);
+          box-shadow:
+            -6px 0 14px -6px rgba(159, 200, 255, 0.35),
+            6px 0 14px -6px rgba(255, 217, 163, 0.3);
         }
         .myr-snippet-prompt {
-          color: var(--myr-teal-lt);
+          color: var(--myr-agent-text, #a9cfff);
           font-size: 13px;
           flex-shrink: 0;
         }
         .myr-snippet-cmd {
           font-size: 13px;
-          color: rgba(252, 252, 253, 0.88);
+          color: rgba(240, 242, 246, 0.92);
           flex: 1;
           white-space: nowrap;
           overflow: hidden;
@@ -83,13 +96,13 @@ export default function AgentSnippet() {
           font-size: 11px;
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: ${copied ? "var(--myr-teal-lt)" : "rgba(252,252,253,0.38)"};
+          color: ${copied ? "var(--myr-agent-text, #a9cfff)" : "rgba(233,235,239,0.38)"};
           flex-shrink: 0;
           transition: color 0.18s ease;
         }
         .myr-snippet-foot {
           font-size: 12.5px;
-          color: rgba(252, 252, 253, 0.46);
+          color: rgba(233, 235, 239, 0.5);
           margin-top: 10px;
           line-height: 1.5;
         }
