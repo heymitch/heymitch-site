@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import MyrLogo from "./MyrLogo";
 import EarlyAccessForm from "./EarlyAccessForm";
 import AgentSnippet from "./AgentSnippet";
+import DemoStage from "./DemoStage";
 import "./myrmidocs.css";
 
 export const metadata: Metadata = {
@@ -161,20 +162,23 @@ function CompareMark({ state }: { state: "yes" | "partial" | "no" }) {
 export default function MyrmidocsPage() {
   return (
     <div className="myr-root">
+      {/* the sky: sparse starfield + one blue-violet nebula */}
+      <div className="myr-cosmos" aria-hidden="true" />
+      <div className="myr-nebula" aria-hidden="true" />
+
       {/* ─────────── NAV ─────────── */}
       <nav className="myr-nav">
         <span className="myr-wordmark">
-          <MyrLogo className="myr-nav-logo" />
-          <span>Myrmidocs</span>
+          <MyrLogo className="myr-nav-logo" sigil />
+          <span className="myr-wordmark-metal">Myrmidocs</span>
         </span>
         <a href="#myr-final" className="myr-nav-cta">
           Get early access
         </a>
       </nav>
 
-      {/* ─────────── HERO (dark / ink) ─────────── */}
+      {/* ─────────── HERO (void) ─────────── */}
       <header className="myr-hero">
-        <div className="myr-hero-grid" aria-hidden="true" />
         <MyrLogo className="myr-hero-ghost" title="" />
 
         <div className="myr-shell myr-hero-inner">
@@ -196,7 +200,7 @@ export default function MyrmidocsPage() {
 
           <div className="myr-hero-cta">
             <div className="myr-hero-form">
-              <EarlyAccessForm id="hero" variant="dark" />
+              <EarlyAccessForm id="hero" variant="dark" glint />
             </div>
             <ul className="myr-hero-chips" aria-hidden="false">
               <li>Your team and your AI in one place</li>
@@ -206,6 +210,16 @@ export default function MyrmidocsPage() {
           </div>
         </div>
       </header>
+
+      {/* ─────────── DEMO STAGE ─────────── */}
+      <section className="myr-section">
+        <div className="myr-shell">
+          <div className="myr-rule">
+            <span>See it work</span>
+          </div>
+          <DemoStage url="myr.heymitch.ai" />
+        </div>
+      </section>
 
       {/* ─────────── FEATURE CARDS ─────────── */}
       <section className="myr-section">
@@ -361,9 +375,8 @@ export default function MyrmidocsPage() {
         </div>
       </section>
 
-      {/* ─────────── FINAL CTA (dark) ─────────── */}
+      {/* ─────────── FINAL CTA (void) ─────────── */}
       <section id="myr-final" className="myr-final">
-        <div className="myr-final-grid" aria-hidden="true" />
         <div className="myr-shell myr-final-inner">
           <Eyebrow>Get early access</Eyebrow>
           <h2 className="myr-final-h">
@@ -383,8 +396,8 @@ export default function MyrmidocsPage() {
       <footer className="myr-footer">
         <div className="myr-shell myr-footer-inner">
           <span className="myr-wordmark myr-footer-mark">
-            <MyrLogo className="myr-nav-logo" />
-            <span>Myrmidocs</span>
+            <MyrLogo className="myr-nav-logo" sigil />
+            <span className="myr-wordmark-metal">Myrmidocs</span>
           </span>
           <a href="/" className="myr-back">
             heymitch.ai
