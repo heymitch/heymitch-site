@@ -1,0 +1,51 @@
+[
+  {
+    "title": "How I Run My Business On One Agent Loop",
+    "dek": "Trigger, Act, Remember. The agent carries context across the loop, shows its work, and asks before consequential action.",
+    "category": "The Stack",
+    "accent": "#E8682A",
+    "href": "/dispatch"
+  },
+  {
+    "title": "Stop Renting Intelligence. Build One You Own.",
+    "dek": "Why a personal agent that learns you beats every subscription, and why the moat is the compounding, not the setup.",
+    "category": "Agents",
+    "accent": "#2B6B8A",
+    "href": "/dispatch"
+  },
+  {
+    "title": "The Friction Is The Curriculum",
+    "dek": "Everyone wants the one-click agent. The setup you skip is the exact skill that makes it yours.",
+    "category": "Bootcamp",
+    "accent": "#5B8C5A",
+    "href": "/dispatch"
+  },
+  {
+    "title": "Ground In The Source, Never A Summary",
+    "dek": "The one discipline that keeps agents from drifting, looping, and confidently shipping the wrong thing.",
+    "category": "Context Window",
+    "accent": "#2D2118",
+    "href": "/dispatch"
+  },
+  {
+    "title": "Open Source Must Win",
+    "dek": "Intelligence cannot be allowed to create castes. Sovereign compute, local-first, and why it matters now.",
+    "category": "Manifesto",
+    "accent": "#E8682A",
+    "href": "/dispatch"
+  },
+  {
+    "title": "Be The Signal, Not The Hands",
+    "dek": "When you run six agents, your job is taste and direction. The rare thing in the loop is your judgment.",
+    "category": "The Stack",
+    "accent": "#2B6B8A",
+    "href": "/dispatch"
+  },
+  {
+    "title": "Sell The Agent You Already Run",
+    "dek": "Managed retainers, zero SaaS. The recurring business hiding inside the thing you built for yourself.",
+    "category": "Services",
+    "accent": "#5B8C5A",
+    "href": "/dispatch"
+  }
+]
