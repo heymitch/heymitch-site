@@ -1,6 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ═══════════════════════════════════════════════
+   REDESIGN PROTOTYPE — analog instrument-panel kit
+   Signal accents used sparingly: red / yellow / teal.
+   ═══════════════════════════════════════════════ */
+:root { --sig-red: #CE3B26; --sig-yellow: #E8B23A; --sig-teal: #2B6B8A; --sig-green: #5FBF63; }
+
+/* registration crosshairs at page corners */
+.reg-mark { position: fixed; width: 18px; height: 18px; z-index: 40; pointer-events: none; opacity: .35; }
+.reg-mark::before, .reg-mark::after { content: ""; position: absolute; background: rgb(var(--c-ink)); }
+.reg-mark::before { left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-.5px); }
+.reg-mark::after { top: 50%; left: 0; height: 1px; width: 100%; transform: translateY(-.5px); }
+.reg-tl { top: 16px; left: 16px; } .reg-tr { top: 16px; right: 16px; }
+.reg-bl { bottom: 16px; left: 16px; } .reg-br { bottom: 16px; right: 16px; }
+
+/* FIRE BUTTON — red cockpit button seated in a dark plate casing */
+.fire-btn { display: inline-flex; padding: 6px; border-radius: 7px; border: 1px solid #000;
+  background: linear-gradient(#2a241f, #16110d); box-shadow: 0 2px 0 #000, inset 0 1px 0 rgba(255,255,255,.08); }
+.fire-btn .face { display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
+  font-family: var(--font-ibm-plex-mono), monospace; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: #fff;
+  background: linear-gradient(180deg, #EC5A30, #C5331C); padding: 14px 20px; border-radius: 4px; border: 1px solid #8f2414;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 7px rgba(0,0,0,.35); transition: filter .12s, transform .06s; }
+.fire-btn:hover .face { filter: brightness(1.07); }
+.fire-btn:active .face { transform: translateY(1px); box-shadow: inset 0 2px 7px rgba(0,0,0,.5); }
+.fire-btn.ghost { background: linear-gradient(#2a241f, #16110d); }
+.fire-btn.ghost .face { background: linear-gradient(180deg, #3a332b, #251f19); border-color: #000; color: rgb(var(--c-page)); }
+
+/* POWER square button */
+.power-btn { width: 50px; height: 50px; border-radius: 7px; border: 1px solid #7d2012;
+  background: linear-gradient(180deg, #EC5A30, #B72f1a);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.45), inset 0 -5px 9px rgba(0,0,0,.4), 0 2px 5px rgba(0,0,0,.4); }
+
+/* INSTRUMENT PANEL surfaces */
+.panel { background: linear-gradient(180deg, #efe9dd, #e3dccb); border: 1px solid #b9b09c; border-radius: 12px;
+  box-shadow: 0 24px 50px -28px rgba(0,0,0,.55), inset 0 1px 0 #fff; }
+.panel-screen { background: #14100b; border: 1px solid #000; border-radius: 7px; box-shadow: inset 0 2px 12px rgba(0,0,0,.75); }
+.screw { width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #cfc7b4, #7d7561); box-shadow: inset 0 0 0 1px rgba(0,0,0,.3); }
+
+/* KNOB */
+.knob { width: 46px; height: 46px; border-radius: 50%; position: relative; border: 1px solid #000;
+  background: radial-gradient(circle at 50% 32%, #514a40, #1b1712);
+  box-shadow: 0 2px 5px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.16); }
+.knob::after { content: ""; position: absolute; left: 50%; top: 6px; width: 2px; height: 13px; border-radius: 1px;
+  background: var(--sig-yellow); transform: translateX(-50%); }
+
+/* LEDs */
+.led { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.led-g { background: var(--sig-green); box-shadow: 0 0 8px 1px rgba(95,191,99,.75); }
+.led-r { background: var(--sig-red); box-shadow: 0 0 8px 1px rgba(206,59,38,.75); }
+.led-y { background: var(--sig-yellow); box-shadow: 0 0 8px 1px rgba(232,178,58,.75); }
+
+/* WAVEFORM bars */
+.wave { display: flex; align-items: flex-end; gap: 2px; height: 36px; }
+.wave i { flex: 1 1 auto; min-width: 2px; background: currentColor; opacity: .65; border-radius: 1px; }
+
+/* MICROGRAPHIC FURNITURE — blueprint grid, crop marks, barcode */
+.blueprint {
+  background-image:
+    linear-gradient(to right, rgb(var(--c-ink) / .08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--c-ink) / .08) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.crop { position: absolute; width: 14px; height: 14px; opacity: .55; pointer-events: none; z-index: 15; }
+.crop.tl { border-top: 1px solid rgb(var(--c-ink) / .55); border-left: 1px solid rgb(var(--c-ink) / .55); }
+.crop.tr { border-top: 1px solid rgb(var(--c-ink) / .55); border-right: 1px solid rgb(var(--c-ink) / .55); }
+.crop.bl { border-bottom: 1px solid rgb(var(--c-ink) / .55); border-left: 1px solid rgb(var(--c-ink) / .55); }
+.crop.br { border-bottom: 1px solid rgb(var(--c-ink) / .55); border-right: 1px solid rgb(var(--c-ink) / .55); }
+.barcode { display: inline-flex; align-items: flex-end; gap: 2px; height: 26px; }
+.barcode i { width: 2px; background: currentColor; }
+/* tick-marked hairline */
+.tickline { position: relative; height: 1px; background: rgb(var(--c-ink) / .15); }
+.tickline::before, .tickline::after { content: ""; position: absolute; top: -3px; width: 1px; height: 7px; background: rgb(var(--c-ink) / .3); }
+.tickline::before { left: 0; } .tickline::after { right: 0; }
+
+/* ── RACING ARMING PANEL (opt-in) — carbon plate, flip cover, toggles, engine-start ── */
+.carbon {
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.035) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.035) 0 2px, transparent 2px 5px),
+    linear-gradient(160deg, #24221f, #111010);
+  border: 1px solid #000; border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 8px 18px -10px rgba(0,0,0,.6);
+}
+/* engine-start button: dim+sunk until armed, then pops up + glows */
+.start-btn {
+  width: 64px; height: 64px; border-radius: 50%; color: #fff;
+  font-family: var(--font-ibm-plex-mono), monospace; font-size: 10px; letter-spacing: .1em; font-weight: 700;
+  background: radial-gradient(circle at 50% 34%, #f06a3f, #b62f1a); border: 2px solid #7d2012;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.4), inset 0 -4px 8px rgba(0,0,0,.4);
+  transition: transform .25s var(--ease), box-shadow .25s, filter .25s; filter: saturate(.45) brightness(.62);
+  transform: translateY(3px) scale(.95);
+}
+.start-btn.armed {
+  filter: none; transform: translateY(0) scale(1); cursor: pointer;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.45), inset 0 -4px 8px rgba(0,0,0,.4), 0 0 20px 3px rgba(236,90,48,.6);
+  animation: start-pulse 1.6s ease-in-out infinite;
+}
+@keyframes start-pulse { 0%,100% { box-shadow: inset 0 2px 0 rgba(255,255,255,.45), inset 0 -4px 8px rgba(0,0,0,.4), 0 0 16px 2px rgba(236,90,48,.5); } 50% { box-shadow: inset 0 2px 0 rgba(255,255,255,.45), inset 0 -4px 8px rgba(0,0,0,.4), 0 0 26px 5px rgba(236,90,48,.8); } }
+.start-btn.armed:active { transform: translateY(2px) scale(.97); }
+
+/* flip-up safety cover */
+.cover-wrap { perspective: 700px; }
+.flip-cover {
+  transform-origin: top center; transform: rotateX(0deg); transition: transform .55s cubic-bezier(.2,.85,.25,1);
+  /* square translucent racing cover — see the button through it; perspective makes the trapezoid on flip */
+  background: linear-gradient(180deg, rgba(236,78,52,.46) 0%, rgba(202,52,30,.54) 55%, rgba(126,26,14,.64) 100%);
+  border: 1.5px solid rgba(150,28,16,.85); border-radius: 8px;
+  /* molded 3D box: glass highlight on top, thick raised lip at the free edge, drop shadow */
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.6),
+    inset 0 -10px 14px rgba(120,20,10,.4),
+    inset 0 -3px 0 rgba(255,180,160,.3),
+    0 6px 12px rgba(0,0,0,.42);
+  pointer-events: none;
+}
+/* grip ridge near the hinge */
+.flip-cover::after { content: ""; position: absolute; left: 50%; top: 8px; transform: translateX(-50%); width: 18px; height: 3px; border-radius: 2px; background: rgba(255,255,255,.32); }
+.flip-cover.open { transform: rotateX(122deg); }
+
+/* vertical toggle switch */
+.tgl { width: 26px; height: 46px; border-radius: 13px; position: relative; border: 1px solid #000;
+  background: linear-gradient(#1a1714, #0b0a08); box-shadow: inset 0 2px 6px rgba(0,0,0,.7); }
+.tgl .lever { position: absolute; left: 50%; transform: translateX(-50%); bottom: 4px; width: 16px; height: 21px; border-radius: 5px;
+  background: linear-gradient(#d9d4c8, #8a8478); border: 1px solid #57534a;
+  box-shadow: 0 1px 2px rgba(0,0,0,.5); transition: bottom .32s cubic-bezier(.2,.85,.25,1), background .3s; }
+.tgl.on .lever { bottom: 21px; background: linear-gradient(#f0ebde, #b9b3a3); }
+.tgl .pip { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; border-radius: 50%; background: #3a3630; transition: background .3s, box-shadow .3s; }
+.tgl.on .pip { background: var(--tgl-c, var(--sig-green)); box-shadow: 0 0 7px 1px var(--tgl-c, var(--sig-green)); }
+
+/* engine-start (red physical button) arming states */
+.optin-go { filter: grayscale(.55) brightness(.72); transition: filter .3s; }
+.optin-go.armed { animation: go-pulse 1.7s ease-in-out infinite; }
+@keyframes go-pulse { 0%,100% { filter: drop-shadow(0 0 8px rgba(221,51,24,.5)); } 50% { filter: drop-shadow(0 0 17px rgba(221,51,24,.85)); } }
+
+
++
+/* Preview accessibility and narrow-screen behavior. */
+.fire-btn:focus-visible,
+.physical-btn:focus-visible,
+.optin-go:focus-visible,
+.mini-crt input:focus-visible {
+  outline: 3px solid var(--sig-yellow);
+  outline-offset: 4px;
+}
+
+@media (max-width: 639px) {
+  .fire-btn .face {
+    padding: 11px 12px;
+    font-size: 10px;
+    gap: 8px;
+  }
+
+  .metal-housing > .flex {
+    flex-wrap: wrap;
+  }
+
+  .metal-housing > .flex > .metal-well:nth-child(2) {
+    flex-basis: 100%;
+    order: -1;
+  }
+}
+
+
 
 /* ═══════════════════════════════════════════════
    THEME TOKENS — light default, dark = inverted MR
@@ -9,7 +174,7 @@
    Values are space-separated RGB for Tailwind alpha.
    ═══════════════════════════════════════════════ */
 :root {
-  --c-page:    240 228 208;  /* #F0E4D0 cream  */
+  --c-page:    241 238 234;  /* #F1EEEA paper */
   --c-ink:      45  33  24;  /* #2D2118 brown  */
   --c-surface: 224 212 190;  /* #E0D4BE cream-dark */
   --ascii-portrait: #4a4a4a;

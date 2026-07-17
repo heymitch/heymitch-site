@@ -17,18 +17,20 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "heymitch — AI. AI. Substack.",
+  title: "heymitch — Scaling With Agents",
   description:
-    "Level up your AI skills. Join the next Cowork Bootcamp, read the newsletters, grab free resources.",
+    "Build personal agents, explore managed agents for your team, and learn practical AI skills through field-tested training.",
   openGraph: {
-    title: "heymitch — AI. AI. Substack.",
-    description: "Level up your AI skills. Join the next Cowork Bootcamp.",
+    title: "heymitch — Scaling With Agents",
+    description:
+      "Personal agents, managed agents for teams, and practical AI training.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "heymitch — AI. AI. Substack.",
-    description: "Level up your AI skills. Join the next Cowork Bootcamp.",
+    title: "heymitch — Scaling With Agents",
+    description:
+      "Personal agents, managed agents for teams, and practical AI training.",
   },
 };
 

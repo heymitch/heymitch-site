@@ -1,207 +1,340 @@
-import PhysicalButton from "@/components/PhysicalButton";
-import CountdownCRT from "@/components/CountdownCRT";
-import RetroStripes from "@/components/RetroStripes";
-import SectionHeader from "@/components/SectionHeader";
-import ResourceCard from "@/components/ResourceCard";
-import resources from "@/data/resources.json";
 import dynamic from "next/dynamic";
+import resources from "@/data/resources.json";
+import feed from "@/data/feed.json";
+import OptinTerminal from "@/components/OptinTerminal";
 
-const publishedResources = resources.filter((r) => r.published);
+/*
+  Cloudflare preview branch: analog instrument-panel thought-leadership + services lander.
+  Ref: Mitch's "Agent Operations Module" mock. Bold spacing, brutalist USEFUL AI,
+  cockpit fire-button CTAs (red button in plate casing), instrument panels, metadata rails.
+  Signal accents (red / yellow / teal) used sparingly on LEDs, knobs, meters, status.
+  This page only links to routes and products that exist on the current main branch.
+*/
 
-const AsciiPortrait = dynamic(() => import("@/components/AsciiPortrait"), {
-  ssr: false,
-});
+const AsciiPortrait = dynamic(() => import("@/components/AsciiPortrait"), { ssr: false });
+const freeTools = resources.filter((r) => r.published);
 
-const socials = [
-  {
-    label: "YouTube",
-    href: "https://youtube.com/@heymitchh",
-    d: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814ZM9.545 15.568V8.432L15.818 12l-6.273 3.568Z",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/heymitchh",
-    d: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/heymitch",
-    d: "M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12",
-  },
-  {
-    label: "X",
-    href: "https://x.com/heymitch",
-    d: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z",
-  },
+const builds = [
+  { name: "Sifu", kind: "Open source", job: "Record your workflow once, get the SOP automatically.", href: "/sifu" },
+  { name: "Wingman", kind: "Managed agents", job: "Give your team personal agents that run real workflows.", href: "/wingman" },
+  { name: "Scaling With Agents", kind: "Publishing", job: "Field reports for operators building companies around agents.", href: "/dispatch" },
+  { name: "AI-Native", kind: "Assessment", job: "Benchmark how AI-native you are, then close the gap.", href: "/ai-native" },
+  { name: "Myrmidocs", kind: "Agent documentation", job: "Keep agent instructions synchronized with the code they govern.", href: "/myrmidocs" },
+  { name: "Buckler", kind: "Open source", job: "A practical security layer for AI-native operators.", href: "/buckler" },
+  { name: "AI Hunter", kind: "Skill", job: "Find the AI tells in your writing and show exactly what to rewrite.", href: "/ai-hunter-skill" },
 ];
 
-export default function Home() {
+const nav = [
+  { label: "Personal Agent", href: "#bootcamp" },
+  { label: "Writing", href: "#writing" },
+  { label: "Free Tools", href: "#tools" },
+  { label: "Services", href: "#builds" },
+  { label: "Scaling With Agents", href: "/dispatch" },
+  { label: "Disciple AI", href: "https://discipleai.substack.com/" },
+];
+
+const socials = [
+  { label: "YouTube", href: "https://youtube.com/@heymitchh" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/heymitchh" },
+  { label: "GitHub", href: "https://github.com/heymitch" },
+  { label: "X", href: "https://x.com/heymitch" },
+];
+
+const HERO_WAVE = [30, 55, 40, 70, 45, 60, 35, 80, 50, 65, 40, 75, 55, 45, 60, 35, 70, 50, 40, 62, 48, 72, 38, 58, 44, 68, 52, 42, 60, 36];
+const TELE_WAVE = [40, 60, 35, 72, 50, 44, 66, 38, 78, 52, 46, 70, 40, 58, 34, 64, 48, 74, 42, 56, 38, 68, 50, 60, 36, 72, 44, 54];
+
+function Wave({ data, className = "" }: { data: number[]; className?: string }) {
   return (
-    <div className="bg-page">
-      {/* ASCII Portrait — fixed to viewport, right half, sits behind everything */}
-      <div className="hidden lg:block fixed top-0 right-0 w-1/2 h-screen z-0">
-        <AsciiPortrait />
-      </div>
+    <div className={`wave ${className}`}>
+      {data.map((h, i) => (
+        <i key={i} style={{ height: `${h}%` }} />
+      ))}
+    </div>
+  );
+}
 
-      {/* ═══ HERO ═══ */}
-      <main className="relative min-h-screen bg-page lg:bg-transparent">
+function JobCard({ name, job, href, label }: { name: string; job: string; href: string; label?: string }) {
+  return (
+    <a href={href} className="group border border-ink/15 bg-page hover:border-ink transition-colors p-6 flex flex-col gap-3">
+      <h3 className="font-serif text-2xl leading-snug">{job}</h3>
+      <span className="font-mono text-[11px] tracking-[0.16em] uppercase text-ink/45">
+        {name}
+        {label ? <span className="text-ink/30"> · {label}</span> : null}
+      </span>
+      <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-orange mt-auto pt-3 group-hover:translate-x-1 transition-transform inline-block">
+        Try it →
+      </span>
+    </a>
+  );
+}
 
-        {/* LEFT: Content */}
-        <div className="relative z-10 lg:w-1/2 flex flex-col items-center lg:items-start justify-center min-h-screen px-6 lg:px-16 xl:px-24 py-16">
-          <div className="w-full max-w-[540px] text-center lg:text-left">
-            <div className="max-w-[280px] mx-auto lg:mx-0 mb-10">
-              <RetroStripes />
+export default function Redesign() {
+  const feature = feed[0];
+  const left = feed.slice(1, 3);
+  const recent = feed.slice(3, 7);
+
+  return (
+    <div className="bg-page text-ink min-h-screen">
+      {/* registration crosshairs */}
+      <div className="reg-mark reg-tl" /><div className="reg-mark reg-tr" />
+      <div className="reg-mark reg-bl" /><div className="reg-mark reg-br" />
+
+      {/* ═══ NAV ═══ */}
+      <header className="sticky top-0 z-50 bg-page/85 backdrop-blur border-b border-ink/10">
+        <div className="max-w-[1320px] mx-auto px-6 h-16 flex items-center justify-between gap-6">
+          <a href="#top" className="font-sans text-2xl font-bold tracking-tight">
+            hey<span className="text-orange">mitch</span>
+          </a>
+          <nav className="hidden lg:flex items-center gap-6">
+            {nav.map((n) => (
+              <a key={n.label} href={n.href} className="font-mono text-[12px] tracking-[0.12em] uppercase text-ink/55 hover:text-ink transition-colors">
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-center gap-5">
+            <div className="hidden xl:flex items-center gap-3">
+              <span className="led led-g" />
+              <span className="font-mono text-[10px] leading-tight tracking-[0.14em] uppercase text-ink/45">
+                SYS: A/01<br />GRID: 8&times;5
+              </span>
             </div>
+            <a href="https://personal-agent-bootcamp.vercel.app" className="fire-btn">
+              <span className="face">JOIN THE BOOTCAMP <span aria-hidden>→</span></span>
+            </a>
+          </div>
+        </div>
+      </header>
 
-            <h1 className="font-sans text-6xl sm:text-8xl font-bold tracking-tight text-ink mb-3">
-              hey<span className="text-orange">mitch</span>
-            </h1>
+      <main id="top">
+        {/* ═══ HERO ═══ */}
+        <section className="relative border-b border-ink/10 overflow-hidden">
+          {/* ascii portrait — big right-half backdrop, module sits on top */}
+          <div className="hidden lg:block absolute top-0 right-0 h-full w-[54%] z-0 opacity-90 pointer-events-none">
+            <AsciiPortrait density={130} />
+          </div>
 
-            <p className="font-mono text-sm sm:text-base text-ink/60 tracking-wide mb-10">
-              AI skills you can actually use. Newsletters, bootcamps, free tools.
+          {/* readout strip */}
+          <div className="relative z-10 border-b border-ink/10">
+            <div className="max-w-[1320px] mx-auto px-6 lg:px-12 py-2.5 flex items-center justify-between font-mono text-[10px] tracking-[0.16em] uppercase text-ink/45">
+              <span className="text-orange">01 / Useful AI</span>
+              <span className="hidden sm:flex items-center gap-5">
+                <span>Sys: A/01</span><span>Grid: 8&times;5</span><span>Lat 107.221</span><span>MMXXVI</span>
+              </span>
+            </div>
+          </div>
+
+          {/* left numeric rail */}
+          <div className="hidden xl:flex flex-col gap-3 absolute left-5 top-1/2 -translate-y-1/2 z-20">
+            {["01", "02", "03", "04", "05"].map((n, i) => (
+              <div key={n} className="flex items-center gap-2">
+                <span className={`font-mono text-[10px] ${i === 0 ? "text-orange" : "text-ink/35"}`}>{n}</span>
+                <span className="block w-5 h-px bg-ink/20" />
+              </div>
+            ))}
+          </div>
+
+          {/* right levels rail */}
+          <div className="hidden xl:flex flex-col items-end gap-6 absolute right-5 top-1/2 -translate-y-1/2 z-20 w-28">
+            <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-ink/45 text-right leading-relaxed">
+              // Human<br />Intelligence<br />Amplified
             </p>
+            <div className="font-mono text-[10px] text-ink/40 leading-relaxed text-right">
+              X: 107.221<br />Y: 45.662<br />Z: 12.009
+            </div>
+            <div className="w-full">
+              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-ink/45 mb-2">Levels</p>
+              {["100", "75", "50", "25", "00"].map((v, i) => (
+                <div key={v} className="flex items-center gap-2 mb-1.5">
+                  <span className="flex-1 h-px bg-ink/15" />
+                  {i === 0 ? <span className="led led-r" style={{ width: 7, height: 7 }} /> : null}
+                  <span className="font-mono text-[10px] text-ink/40 w-6 text-right">{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-            {/* Desktop: horizontal row */}
-            <div className="metal-housing hidden sm:inline-flex items-center gap-4 px-5 py-4 mb-6">
-              <div className="metal-well p-2.5 relative z-10">
-                <PhysicalButton
-                  href="https://ccmb-waitlist.vercel.app/"
-                  variant="red"
-                >
-                  <span className="sr-only">Join the next bootcamp</span>
-                </PhysicalButton>
-              </div>
-
-              <div className="metal-well p-1.5 relative z-10">
-                <div className="mini-crt px-6 py-3.5">
-                  <span className="mini-crt-text font-mono text-sm tracking-[0.2em] uppercase whitespace-nowrap">
-                    CHECK OUT THE NEXT BOOTCAMP
+          <div className="relative max-w-[1320px] mx-auto px-6 lg:px-12 pt-20 pb-24">
+            <span className="crop tl" style={{ top: 24, left: 24 }} /><span className="crop tr" style={{ top: 24, right: 24 }} />
+            <span className="crop bl" style={{ bottom: 24, left: 24 }} /><span className="crop br" style={{ bottom: 24, right: 24 }} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center min-h-[80vh]">
+              {/* LEFT: brutalist headline */}
+              <div>
+                <p className="font-mono text-[12px] tracking-[0.24em] uppercase text-ink/50 mb-5">
+                  AI Coach · Builder · Writer
+                </p>
+                <div className="relative">
+                  <h1 className="font-sans font-bold leading-[0.72] tracking-tighter text-[26vw] sm:text-[18vw] lg:text-[13.5rem]">
+                    USEFUL
+                    <span className="block text-orange">AI</span>
+                  </h1>
+                  <span className="absolute right-0 top-[44%] hidden sm:block border border-ink/30 px-2.5 py-1.5 font-mono text-[11px] tracking-[0.14em] uppercase text-ink/50 leading-tight">
+                    A/01<br />Series
                   </span>
+                </div>
+                <p className="font-serif text-3xl leading-snug text-ink/80 max-w-[36ch] mt-12">
+                  Personal agents, field-tested workflows, and practical training
+                  for operators who would rather use AI than talk about it.
+                </p>
+
+                {/* email opt-in plate (live-site metal aesthetic) under the subtitle */}
+                <div className="mt-9">
+                  <OptinTerminal />
+                </div>
+
+                <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-ink/45 mt-7">
+                  Built in the field. Published with receipts.
+                </p>
+                <div className="flex items-center gap-6 mt-5 text-ink/30">
+                  {["✳", "N", "△", "G"].map((g, i) => (
+                    <span key={i} className="font-sans text-2xl font-bold">{g}</span>
+                  ))}
                 </div>
               </div>
 
-              <div className="metal-well p-1.5 relative z-10">
-                <CountdownCRT />
+              {/* ascii portrait owns the right side (hero backdrop above) */}
+              <div className="hidden lg:block" aria-hidden />
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ BOOTCAMP MINI-SALES CARD + TELEMETRY ═══ */}
+        <section id="bootcamp" className="max-w-[1320px] mx-auto px-6 py-16">
+          <div className="bg-brown text-cream rounded-xl border border-ink/30 grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
+            {/* sell side */}
+            <div className="p-9 lg:p-12">
+              <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-orange mb-6">The Bootcamp · Flagship</p>
+              <h2 className="font-serif text-4xl sm:text-5xl leading-[1.04] tracking-tight">
+                Build a personal agent that runs real work with you in control.
+              </h2>
+              <p className="font-mono text-sm leading-relaxed text-cream/70 max-w-[58ch] mt-6">
+                Wire one useful loop to your actual job: Trigger, Act, Remember.
+                Your agent carries the context, completes repeatable work, shows
+                its receipts, and stops for approval before consequential action.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 mt-9">
+                <a href="https://personal-agent-bootcamp.vercel.app" className="fire-btn">
+                  <span className="face">Join the Bootcamp <span aria-hidden>→</span></span>
+                </a>
+                <a href="#writing" className="fire-btn ghost">
+                  <span className="face">Read the field notes <span aria-hidden>→</span></span>
+                </a>
               </div>
             </div>
-
-            {/* Mobile: vertical stack — CRT text top, button + countdown bottom */}
-            <div className="metal-housing sm:hidden inline-flex flex-col gap-3 px-4 py-3 mb-6">
-              <div className="metal-well p-1 relative z-10">
-                <div className="mini-crt px-4 py-2.5">
-                  <span className="mini-crt-text font-mono text-xs tracking-[0.15em] uppercase text-center block leading-relaxed">
-                    CHECK OUT<br />THE NEXT<br />BOOTCAMP
-                  </span>
-                </div>
+            {/* telemetry side */}
+            <div className="bg-[#16110d] p-9 lg:p-12 border-t lg:border-t-0 lg:border-l border-black/40">
+              <div className="flex items-center justify-between mb-7">
+                <span className="font-mono text-[11px] tracking-[0.18em] uppercase text-cream/60">System Telemetry</span>
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.14em] uppercase text-cream/30"><span className="led led-g" /> live method</span>
               </div>
-
-              <div className="flex items-center gap-3">
-                <div className="metal-well p-2 relative z-10">
-                  <PhysicalButton
-                    href="https://ccmb-waitlist.vercel.app/"
-                    variant="red"
-                  >
-                    <span className="sr-only">Join the next bootcamp</span>
-                  </PhysicalButton>
+              {[
+                { k: "Personal agent", v: "01", c: "text-orange" },
+                { k: "Operating loop", v: "LIVE", c: "text-orange" },
+                { k: "Human approval", v: "ARMED", c: "text-orange" },
+              ].map((r) => (
+                <div key={r.k} className="flex items-center justify-between border-b border-cream/10 py-3.5">
+                  <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-cream/55">{r.k}</span>
+                  <span className={`font-sans font-bold text-2xl ${r.c}`}>{r.v}</span>
                 </div>
-
-                <div className="metal-well p-1 relative z-10 flex-1">
-                  <CountdownCRT />
-                </div>
+              ))}
+              <div className="flex items-center justify-between py-3.5">
+                <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-cream/55">System online</span>
+                <span className="font-mono text-[12px] tracking-[0.1em] uppercase" style={{ color: "var(--sig-green)" }}>Approval required</span>
               </div>
+              <div className="mt-4" style={{ color: "var(--sig-teal)" }}>
+                <Wave data={TELE_WAVE} />
+              </div>
+              <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-cream/30 mt-3 text-right">Trigger · act · remember</p>
             </div>
+          </div>
+        </section>
 
-            <SectionHeader label="Newsletters" />
-
-            <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 secondary-btn-row">
-              <div className="flex-1">
-                <PhysicalButton
-                  href="/dispatch"
-                  variant="secondary"
-                  className="w-full"
-                >
-                  <span className="font-mono text-sm tracking-wide block text-center">
-                    AI Dispatch
-                  </span>
-                </PhysicalButton>
-              </div>
-
-              <div className="flex-1">
-                <PhysicalButton
-                  href="https://discipleai.substack.com/"
-                  variant="secondary"
-                  className="w-full"
-                >
-                  <span className="font-mono text-sm tracking-wide block text-center">
-                    Disciple AI
-                  </span>
-                </PhysicalButton>
-              </div>
+        {/* ═══ FIELD NOTE CONCEPTS ═══ */}
+        <section id="writing" className="max-w-[1320px] mx-auto px-6 py-16">
+          <div className="flex items-end justify-between border-b border-ink/15 pb-4 mb-9">
+            <div>
+              <h2 className="font-serif text-4xl sm:text-5xl tracking-tight">Field note concepts</h2>
+              <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink/45">Preview topics for Scaling With Agents, not published essays</p>
             </div>
-
-            <div className="flex items-center justify-center lg:justify-start gap-5 mt-10">
-              {socials.map(({ label, href, d }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="text-ink/25 hover:text-orange transition-colors duration-200"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d={d} />
-                  </svg>
+            <a href="/dispatch" className="font-mono text-[11px] tracking-[0.18em] uppercase text-ink/45 hover:text-ink">Open Dispatch →</a>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-3 flex flex-col gap-8 lg:border-r lg:border-ink/12 lg:pr-8">
+              {left.map((p) => (
+                <a key={p.title} href={p.href} className="group block">
+                  <div className="aspect-[16/10] mb-4 rounded-md" style={{ backgroundColor: p.accent }} />
+                  <p className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink/45 mb-2">Concept · {p.category}</p>
+                  <h3 className="font-serif text-2xl leading-tight group-hover:text-orange transition-colors">{p.title}</h3>
                 </a>
               ))}
             </div>
-
-            <div className="max-w-[280px] mx-auto lg:mx-0 mt-10">
-              <RetroStripes />
+            <div className="lg:col-span-6 lg:border-r lg:border-ink/12 lg:pr-8">
+              <a href={feature.href} className="group block">
+                <div className="aspect-[16/10] mb-6 rounded-md" style={{ backgroundColor: feature.accent }} />
+                <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-ink/45 mb-3 text-center">Featured concept · {feature.category}</p>
+                <h3 className="font-serif text-4xl sm:text-5xl leading-[1.05] tracking-tight text-center group-hover:text-orange transition-colors">{feature.title}</h3>
+                <p className="font-serif text-xl italic text-ink/65 mt-4 text-center max-w-[44ch] mx-auto">{feature.dek}</p>
+              </a>
+            </div>
+            <div className="lg:col-span-3">
+              <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-ink/45 mb-5">Concept queue</p>
+              <div className="flex flex-col divide-y divide-ink/12">
+                {recent.map((p) => (
+                  <a key={p.title} href={p.href} className="group flex gap-4 py-4 first:pt-0">
+                    <span className="w-16 h-16 flex-none rounded-md" style={{ backgroundColor: p.accent }} />
+                    <div>
+                      <h4 className="font-serif text-lg leading-tight group-hover:text-orange transition-colors">{p.title}</h4>
+                      <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-ink/45 mt-1.5">Preview</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </section>
 
-      {/* ═══ FREE TOOLS & SKILLS — card gallery ═══ */}
-      <section className="relative z-10 bg-page border-t border-ink/10 px-6 py-20 lg:py-24">
-        <div className="max-w-[1080px] mx-auto">
-          <div className="max-w-[240px] mb-8">
-            <RetroStripes />
+        {/* ═══ FREE TOOLS ═══ */}
+        <section id="tools" className="bg-surface/30 border-t border-ink/10">
+          <div className="max-w-[1320px] mx-auto px-6 py-16">
+            <div className="flex items-end justify-between border-b border-ink/15 pb-4 mb-9">
+              <h2 className="font-serif text-4xl sm:text-5xl tracking-tight">Free Tools</h2>
+              <span className="font-mono text-[11px] tracking-[0.18em] uppercase text-ink/45">No account, no cost</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {freeTools.map((r) => (
+                <JobCard key={r.url} name={r.title} job={r.description} href={r.url} label={r.category} />
+              ))}
+            </div>
           </div>
+        </section>
 
-          <div className="mb-10">
-            <h2 className="font-sans text-4xl sm:text-5xl font-bold tracking-tight text-ink mb-3">
-              Free <span className="text-orange">tools &amp; skills</span>
-            </h2>
-            <p className="font-mono text-sm text-ink/55 max-w-xl leading-relaxed">
-              Browser tools and agent skills you can use today. No account, no
-              cost. Each one installs in minutes.
-            </p>
+        {/* ═══ BUILDS ═══ */}
+        <section id="builds" className="max-w-[1320px] mx-auto px-6 py-16">
+          <div className="flex items-end justify-between border-b border-ink/15 pb-4 mb-9">
+            <h2 className="font-serif text-4xl sm:text-5xl tracking-tight">Services &amp; Courses</h2>
+            <span className="font-mono text-[11px] tracking-[0.18em] uppercase text-ink/45">What I ship</span>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {publishedResources.map((resource) => (
-              <ResourceCard key={resource.url} {...resource} />
+            {builds.map((b) => (
+              <JobCard key={b.name} name={b.name} job={b.job} href={b.href} label={b.kind} />
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* ═══ DARK FOOTER BAND — full width, transparent right half on desktop ═══ */}
-      <footer className="relative z-10 bg-brown px-6 py-8 text-center lg:bg-gradient-to-r lg:from-brown lg:from-50% lg:to-transparent lg:to-50%">
-        <p className="font-sans text-xs tracking-[0.25em] uppercase text-cream/40 lg:w-1/2 lg:text-left lg:pl-10 xl:pl-18">
-          By Mitch Harris
-        </p>
-        <p className="font-mono text-xs text-cream/25 mt-1 lg:w-1/2 lg:text-left lg:pl-10 xl:pl-18">
-          AI coach, builder, writer
-        </p>
+      {/* ═══ FOOTER ═══ */}
+      <footer className="bg-brown text-cream">
+        <div className="max-w-[1320px] mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="font-sans text-xl font-bold">hey<span className="text-orange">mitch</span></span>
+          <div className="flex flex-wrap justify-center gap-4 font-mono text-[10px] uppercase tracking-[0.16em] text-cream/50">
+            {socials.map((social) => (
+              <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" className="hover:text-orange">
+                {social.label}
+              </a>
+            ))}
+          </div>
+          <span className="barcode text-cream/40">{[14, 22, 9, 26, 12, 18, 7, 24, 16, 10, 20, 8, 23, 13, 19, 11].map((h, i) => (<i key={i} style={{ height: h }} />))}</span>
+        </div>
       </footer>
     </div>
   );

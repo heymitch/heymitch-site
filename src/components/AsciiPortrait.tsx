@@ -12,7 +12,7 @@ const SCANLINE_BOOST = 0.15; // scanline brightness boost
 const BUBBLE_RADIUS = 10;   // hover bubble radius (chars)
 const BUBBLE_BOOST = 0.22;  // hover bubble brightness boost
 
-export default function AsciiPortrait() {
+export default function AsciiPortrait({ density = BASE_ROWS }: { density?: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
   const rafRef = useRef<number>(0);
@@ -40,7 +40,7 @@ export default function AsciiPortrait() {
       const h = container!.offsetHeight;
       if (w === 0 || h === 0) return false;
 
-      rows = BASE_ROWS;
+      rows = density;
       cols = Math.round(rows * (w / h) / CHAR_ASPECT);
 
       const imgAspect = img.width / img.height;
@@ -216,7 +216,7 @@ export default function AsciiPortrait() {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [density]);
 
   return (
     <div
