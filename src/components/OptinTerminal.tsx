@@ -7,8 +7,8 @@ import { useState } from "react";
   Single line: arming toggles LEFT, email terminal CENTER, covered engine-start button RIGHT.
   Racing "arming" interaction: focus flips the cover up; each typing milestone arms a toggle
   (text -> ACC1, "@" -> ACC2, valid TLD -> ACC3); the red GO button pops live when the email is valid.
-  Terminal is email-entry only; course messaging lives elsewhere.
-  Submission continues to the live Scaling With Agents subscription page.
+  This is an honest launch-list signup while the five-day course is being built.
+  Submission continues to the current newsletter signup on Substack.
 */
 export default function OptinTerminal() {
   const [email, setEmail] = useState("");
@@ -35,7 +35,22 @@ export default function OptinTerminal() {
 
   return (
     <form onSubmit={submit} className="metal-housing w-full max-w-[600px] p-3">
-      <div className="flex items-stretch gap-3">
+      <div className="mb-4 px-1">
+        <p className="font-mono text-[9px] tracking-[0.18em] uppercase text-ink/45">
+          Free five-day practical email course
+        </p>
+        <h2 className="mt-1 font-serif text-2xl font-black leading-tight text-ink sm:text-3xl">
+          The Scaling With Agents Roadmap
+        </h2>
+        <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-ink/70">
+          Learn how agents work, what they can do, where to start, and how to scale their use across your business.
+        </p>
+        <p className="mt-2 font-mono text-[10px] leading-relaxed text-ink/50">
+          The course is being built now. Join the launch list and you&apos;ll get it when it launches.
+        </p>
+      </div>
+
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row">
           {/* arming toggles — LEFT */}
           <div className="metal-well flex items-end gap-3 px-3 py-3">
             {toggles.map((tg) => (
@@ -80,22 +95,22 @@ export default function OptinTerminal() {
               <button
                 type="submit"
                 disabled={!armed}
-                aria-label="Continue to newsletter subscription"
+                aria-label="Join The Scaling With Agents Roadmap launch list"
                 className={`physical-btn physical-btn-red optin-go ${armed ? "armed" : ""}`}
               >
                 <span className="physical-btn-shadow" />
                 <span className="physical-btn-edge" />
-                <span className="physical-btn-front font-mono text-[10px] font-bold tracking-[0.1em]">NEXT</span>
+                <span className="physical-btn-front font-mono text-[9px] font-bold tracking-[0.08em]">JOIN LIST</span>
               </button>
               <div className={`flip-cover absolute -inset-[10px] ${coverOpen ? "open" : ""}`} />
             </div>
-            <span className="font-mono text-[8px] tracking-[0.16em] uppercase text-ink/45">Start</span>
+            <span className="font-mono text-[8px] tracking-[0.16em] uppercase text-ink/45">Launch list</span>
           </div>
       </div>
 
-      <div className="flex items-center justify-between mt-3 px-1">
-        <span className="font-mono text-[8px] tracking-[0.16em] uppercase text-ink/35">Scaling With Agents</span>
-        <span className="font-mono text-[8px] tracking-[0.16em] uppercase text-ink/35">No spam · unsubscribe</span>
+      <div className="mt-3 flex flex-col gap-1 px-1 font-mono text-[8px] leading-relaxed tracking-[0.12em] uppercase text-ink/35 sm:flex-row sm:items-center sm:justify-between">
+        <span>Continues to the current newsletter signup</span>
+        <span>No spam · unsubscribe</span>
       </div>
     </form>
   );

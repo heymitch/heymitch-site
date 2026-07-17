@@ -117,7 +117,7 @@ export default function Redesign() {
           {/* readout strip */}
           <div className="relative z-10 border-b border-ink/10">
             <div className="max-w-[1320px] mx-auto px-6 lg:px-12 py-2.5 flex items-center justify-between font-mono text-[10px] tracking-[0.16em] uppercase text-ink/45">
-              <span className="text-orange">01 / Useful AI</span>
+              <span className="text-orange">01 / Scaling With Agents</span>
               <span className="hidden sm:flex items-center gap-5">
                 <span>Sys: A/01</span><span>Grid: 8&times;5</span><span>Lat 107.221</span><span>MMXXVI</span>
               </span>
@@ -161,20 +161,21 @@ export default function Redesign() {
               {/* LEFT: brutalist headline */}
               <div>
                 <p className="font-mono text-[12px] tracking-[0.24em] uppercase text-ink/50 mb-5">
-                  AI Coach · Builder · Writer
+                  Practical Agent Education · Managed Agent Systems
                 </p>
                 <div className="relative">
-                  <h1 className="font-sans font-bold leading-[0.72] tracking-tighter text-[26vw] sm:text-[18vw] lg:text-[13.5rem]">
-                    USEFUL
-                    <span className="block text-orange">AI</span>
+                  <h1 className="font-sans font-bold leading-[0.78] tracking-tighter text-[clamp(3.75rem,19vw,9rem)]">
+                    <span className="block">SCALING</span>
+                    <span className="block">WITH</span>
+                    <span className="block text-orange">AGENTS</span>
                   </h1>
                   <span className="absolute right-0 top-[44%] hidden sm:block border border-ink/30 px-2.5 py-1.5 font-mono text-[11px] tracking-[0.14em] uppercase text-ink/50 leading-tight">
                     A/01<br />Series
                   </span>
                 </div>
                 <p className="font-serif text-3xl leading-snug text-ink/80 max-w-[36ch] mt-12">
-                  Personal agents, field-tested workflows, and practical training
-                  for operators who would rather use AI than talk about it.
+                  Learn how agents work and put them to work—through practical
+                  education for operators and managed agent systems for teams.
                 </p>
 
                 {/* email opt-in plate (live-site metal aesthetic) under the subtitle */}
