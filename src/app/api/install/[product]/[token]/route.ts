@@ -28,11 +28,12 @@ export async function GET(
   { params }: { params: { product: string; token: string } }
 ) {
   const { product, token } = params;
-  const supabase = getSupabase();
 
   if (!VALID_PRODUCTS.includes(product)) {
     return errorRedirect(request, "Unknown product");
   }
+
+  const supabase = getSupabase();
 
   const { data: access, error: lookupError } = await supabase
     .from("plugin_access")

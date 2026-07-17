@@ -1,414 +1,376 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import DispatchCountdown from "@/components/DispatchCountdown";
 import SubstackEmbed from "@/components/SubstackEmbed";
-import RetroStripes from "@/components/RetroStripes";
 
 export const metadata: Metadata = {
-  title: "AI Dispatch — One weekly prompt or skill to keep up with AI",
+  title: "AI Dispatch — One useful AI briefing every week",
   description:
-    "A free weekly briefing for agencies, solopreneurs, coaches, and consultants. One prompt or skill every week, plus what moved in AI and what it means for your work.",
+    "A free weekly briefing for agencies, solopreneurs, coaches, and consultants. The AI signal that matters, plus one prompt or skill you can use immediately.",
   openGraph: {
-    title: "AI Dispatch — One weekly prompt or skill to keep up with AI",
+    title: "AI Dispatch — One useful AI briefing every week",
     description:
-      "Free weekly AI briefing for knowledge workers. One prompt or skill every issue.",
+      "The AI signal that matters, plus one prompt or skill you can use immediately.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Dispatch — One weekly prompt or skill to keep up with AI",
+    title: "AI Dispatch — One useful AI briefing every week",
     description:
-      "Free weekly AI briefing for knowledge workers. One prompt or skill every issue.",
+      "The AI signal that matters, plus one prompt or skill you can use immediately.",
   },
 };
 
 const heroBullets = [
-  "WMD — what's in my AI stack this week",
-  "State of AI — filtered for knowledge workers",
-  "One free prompt or skill, every issue",
-  "5,000-day countdown to AI fluency",
+  "What moved in AI — minus the breathless noise",
+  "What it means for the work already on your desk",
+  "One prompt or skill you can put to work the same day",
 ];
 
 const everyIssue = [
   {
+    code: "01 / SIGNAL",
     label: "State of AI",
-    body: "New models, capability jumps, tool updates, filtered for knowledge workers. You get the three things worth knowing. Everything else gets cut.",
+    body: "New models, useful capability jumps, and tool updates—filtered down to the three things worth knowing for real knowledge work.",
   },
   {
+    code: "02 / APPLY",
     label: "One free prompt or skill",
-    body: "Every week, one thing you can drop into your workflow the same day. A prompt, a Claude skill, a system you can copy. Immediately usable.",
+    body: "A prompt, Claude skill, or workflow you can copy into your actual work. No speculative demos. No twenty-step setup ritual.",
   },
   {
-    label: "The countdown",
-    body: "A live 5,000-day clock tracking the window before AI fluency becomes table stakes for knowledge work. Updated weekly with what the number means right now.",
+    code: "03 / TRACK",
+    label: "The 5,000-day countdown",
+    body: "A live clock on the window before AI fluency becomes table stakes—and a useful read on what the number means right now.",
   },
 ];
 
 const weekOneBonus = [
-  "First 30 minutes inside Cowork — a video walkthrough to get you started immediately",
-  "First 30 minutes inside Claude Code — same format, zero assumed knowledge",
-  "My consolidated skills list — the specific skills I use every week for client work",
+  "First 30 minutes inside Cowork — a practical video walkthrough",
+  "First 30 minutes inside Claude Code — zero assumed knowledge",
+  "My consolidated skills list — the exact skills I use for client work",
 ];
 
 const archetypes = [
   {
-    label: "The lean agency owner",
-    body: "You're running a 2 to 5 person shop competing against agencies three times your size. Every bid you win gets delivered on hours your team physically has. AI Dispatch gives you the weekly workflows to deliver like a team of ten on a team of three.",
+    label: "Lean agency owners",
+    body: "You run a small shop competing with teams three times your size. Get the workflows that help a team of three deliver with the leverage of ten.",
   },
   {
-    label: "The solo consultant or coach",
-    body: "You're the product, the delivery, and the marketing department. Every new engagement adds hours to a week that's already full. AI Dispatch gives you one skill a week that fits into the work you're already doing.",
+    label: "Solo consultants and coaches",
+    body: "You are the product, delivery team, and marketing department. Add one useful capability a week without adding another job to your week.",
   },
   {
-    label: "The knowledge worker who wants to stay ahead",
-    body: "You have a good job, you're good at it, and you're watching AI reshape your industry in real time. You use AI occasionally but you know you're not using it well. AI Dispatch keeps you current and gives you one thing to practice.",
+    label: "Knowledge workers staying ahead",
+    body: "You are good at your work and can see the ground shifting. Stay current, practice deliberately, and turn AI from an occasional tab into real leverage.",
   },
 ];
 
+const displayFont = {
+  fontFamily: "var(--font-dot-matrix), ui-monospace, SFMono-Regular, monospace",
+};
+
+function SectionLabel({ index, children }: { index: string; children: ReactNode }) {
+  return (
+    <div className="mb-10 flex items-center gap-4" aria-hidden="true">
+      <span className="h-2.5 w-2.5 rounded-full bg-[#ee2b2b] shadow-[0_0_12px_rgba(238,43,43,0.65)]" />
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-[#4c4c4c]">
+        {index} &nbsp;·&nbsp; {children}
+      </p>
+      <div className="h-px flex-1 bg-[#171717]/15" />
+    </div>
+  );
+}
+
+function Screw({ className = "" }: { className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`absolute h-2.5 w-2.5 rounded-full border border-black/40 bg-[#777] shadow-[inset_1px_1px_1px_rgba(255,255,255,0.65)] ${className}`}
+    />
+  );
+}
+
+function SubscribeModule({ dark = false }: { dark?: boolean }) {
+  return (
+    <div className="w-full max-w-[480px]">
+      <div className={`mb-3 flex items-center justify-between border-b pb-3 ${dark ? "border-white/15" : "border-black/15"}`}>
+        <div className="flex items-center gap-2.5">
+          <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#ee2b2b] shadow-[0_0_12px_rgba(238,43,43,0.75)]" />
+          <span className={`font-mono text-[10px] font-semibold uppercase tracking-[0.22em] ${dark ? "text-white/70" : "text-black/65"}`}>
+            Subscription channel open
+          </span>
+        </div>
+        <span className={`font-mono text-[9px] uppercase tracking-[0.18em] ${dark ? "text-white/35" : "text-black/40"}`}>
+          Free / weekly
+        </span>
+      </div>
+      <div className="overflow-hidden border border-black/25 bg-white p-1 shadow-[8px_8px_0_rgba(0,0,0,0.2)] [&_iframe]:block [&_iframe]:!w-full [&_iframe]:!border-0">
+        <SubstackEmbed />
+      </div>
+    </div>
+  );
+}
+
+function DotSignal() {
+  const rows = [
+    "0000011111110000",
+    "0001111111111100",
+    "0011110000111110",
+    "0111100000011111",
+    "1111001100001111",
+    "1110011110000111",
+    "1110011111000111",
+    "1111001100001111",
+    "0111100000011110",
+    "0011111000111100",
+    "0001111111111000",
+    "0000011111100000",
+  ];
+
+  return (
+    <div className="relative mx-auto aspect-[4/3] w-full max-w-[520px] overflow-hidden border border-white/15 bg-[#080808] p-6 shadow-[inset_0_0_60px_rgba(255,255,255,0.03)] sm:p-9">
+      <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:24px_24px]" />
+      <div className="relative flex h-full flex-col justify-center gap-2 sm:gap-2.5" aria-hidden="true">
+        {rows.map((row, rowIndex) => (
+          <div key={rowIndex} className="flex justify-center gap-2 sm:gap-3">
+            {row.split("").map((cell, columnIndex) => (
+              <span
+                key={`${rowIndex}-${columnIndex}`}
+                className={`block aspect-square w-[clamp(4px,0.75vw,9px)] rounded-full ${
+                  cell === "1"
+                    ? "bg-white shadow-[0_0_7px_rgba(255,255,255,0.32)]"
+                    : "bg-white/10"
+                }`}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.2em] text-white/35">
+        <span>Signal / human</span>
+        <span className="text-[#ee2b2b]">Receiving</span>
+      </div>
+    </div>
+  );
+}
+
 export default function DispatchPage() {
   return (
-    <div className="min-h-screen text-brown font-sans">
-
-      {/* ─── NAV ─── */}
-      <nav className="bg-brown px-6 lg:px-12 py-5 flex items-center justify-between">
-        <a
-          href="/"
-          className="font-mono text-xs text-cream/50 tracking-[0.25em] uppercase hover:text-orange transition-colors"
-        >
-          ← heymitch.ai
-        </a>
-        <span className="font-mono text-xs text-orange tracking-[0.3em] uppercase">
-          AI Dispatch
-        </span>
+    <main className="min-h-screen overflow-hidden bg-[#d7d7d4] text-[#111] selection:bg-[#ee2b2b] selection:text-white">
+      <nav aria-label="Primary" className="border-b border-white/10 bg-[#080808] px-5 py-4 text-white sm:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6">
+          <a
+            href="/"
+            className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/55 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ee2b2b]"
+          >
+            ← Heymitch.ai
+          </a>
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-[#ee2b2b]" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/65">AI Dispatch / Online</span>
+          </div>
+        </div>
       </nav>
 
-      {/* ─── HERO (two-column, dark brown) ─── */}
-      <section className="bg-brown text-cream px-6 lg:px-12 pt-12 pb-20 lg:pt-16 lg:pb-24">
-        <div className="max-w-[1140px] mx-auto">
-
-          <div className="max-w-[280px] mb-10">
-            <RetroStripes />
-          </div>
-
-          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
-
-            {/* LEFT: Content */}
-            <div className="flex-1 w-full max-w-2xl">
-              <p className="font-mono text-xs text-orange tracking-[0.3em] uppercase mb-7">
-                ⊹ Free Weekly Newsletter ⊹
-              </p>
-
-              <h1 className="font-sans text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-cream mb-7 leading-[0.92]">
-                AI <span className="text-orange">Dispatch</span>
-              </h1>
-
-              <p className="font-sans text-2xl sm:text-3xl font-medium text-cream/90 mb-8 leading-[1.15]">
-                One weekly prompt or skill to keep up with AI.
-              </p>
-
-              {/* Mobile-only embed */}
-              <div className="lg:hidden mb-10">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="h-2 w-2 rounded-full bg-orange animate-pulse" />
-                  <span className="font-mono text-[10px] text-orange tracking-[0.25em] uppercase">
-                    Transmission Open
-                  </span>
-                </div>
-                <SubstackEmbed />
-              </div>
-
-              <p className="font-mono text-base text-cream/55 leading-relaxed mb-9">
-                What moved in AI this week. What it means for knowledge work.
-                One prompt or skill you can use the same day. Free, for
-                agencies, solopreneurs, coaches, and consultants.
-              </p>
-
-              <ul className="space-y-3.5 mb-10">
-                {heroBullets.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span className="mt-2.5 block h-2 w-2 rounded-full bg-orange shrink-0" />
-                    <span className="font-sans text-cream/85 text-lg">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Countdown widget */}
-              <div className="metal-housing inline-flex flex-wrap items-center gap-5 px-5 py-4 sm:px-6 sm:py-5">
-                <div className="metal-well p-2 relative z-10">
-                  <DispatchCountdown />
-                </div>
-                <div className="relative z-10 text-left max-w-[160px]">
-                  <p className="font-mono text-[10px] text-brown/70 tracking-[0.2em] leading-relaxed uppercase">
-                    Days before AI fluency<br />is table stakes
-                  </p>
-                </div>
-              </div>
+      <section className="relative border-b border-black bg-[#080808] px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-12 lg:py-20">
+        <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:radial-gradient(circle_at_center,rgba(255,255,255,.18)_1px,transparent_1.2px)] [background-size:18px_18px] [mask-image:linear-gradient(to_right,transparent,black_35%,transparent_80%)]" />
+        <div className="relative mx-auto grid max-w-[1240px] items-center gap-12 lg:grid-cols-[1.06fr_.94fr] lg:gap-16">
+          <div>
+            <div className="mb-8 flex items-center gap-3">
+              <span className="bg-[#ee2b2b] px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white">Free weekly briefing</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">Issue signal: Friday</span>
             </div>
 
-            {/* RIGHT: Substack embed (desktop) */}
-            <div className="hidden lg:block flex-shrink-0">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="h-2 w-2 rounded-full bg-orange animate-pulse" />
-                <span className="font-mono text-[10px] text-orange tracking-[0.25em] uppercase">
-                  Transmission Open
-                </span>
-              </div>
-              <SubstackEmbed />
-              <p className="font-mono text-[10px] text-cream/35 tracking-[0.2em] uppercase mt-4 text-center max-w-[480px]">
-                ⊹ Drops every Friday ⊹
-              </p>
-            </div>
+            <h1
+              className="mb-7 text-[clamp(4rem,11vw,8.75rem)] font-bold uppercase leading-[0.72] tracking-[-0.04em] text-white"
+              style={displayFont}
+            >
+              AI<br />Dispatch
+            </h1>
 
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SITUATION (cream) ─── */}
-      <section className="bg-cream py-24 lg:py-28 px-6 lg:px-12">
-        <div className="max-w-[1000px] mx-auto">
-
-          <div className="flex items-center gap-4 mb-12">
-            <div className="flex-1 h-px bg-brown/15" />
-            <span className="font-mono text-xs tracking-[0.3em] uppercase text-orange">
-              The Situation
-            </span>
-            <div className="flex-1 h-px bg-brown/15" />
-          </div>
-
-          <h2 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brown mb-10 leading-[1.05] max-w-3xl">
-            Most knowledge workers<br className="hidden sm:block" />
-            <span className="text-orange">are drowning.</span>
-          </h2>
-
-          <div className="max-w-2xl space-y-6 mb-12">
-            <p className="font-sans text-lg sm:text-xl text-brown/80 leading-relaxed">
-              The signal-to-noise ratio is catastrophic. 47 AI newsletters, 200
-              Twitter accounts posting &ldquo;BREAKING,&rdquo; a new tool
-              dropping every 72 hours. Following all of it is a part-time job.
-              Following none of it is a career risk.
+            <p className="mb-6 max-w-[640px] text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-[2.1rem]">
+              Let me keep up with AI for you.
+            </p>
+            <p className="mb-9 max-w-[620px] text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
+              One calm, useful transmission each week: what matters, what it means, and one practical workflow you can put to work immediately.
             </p>
 
-            <p className="font-sans text-lg sm:text-xl text-brown/80 leading-relaxed">
-              Most people are AI tourists. They&apos;ve tried ChatGPT.
-              They&apos;ve watched a YouTube demo. They know the names. Claude,
-              Cursor, Gemini. They&apos;re watching from the sidelines that&apos;s
-              repricing knowledge work. Master it, and you unlock huge leverage
-              in the new economy. Miss it, and you get left behind.
-            </p>
-          </div>
-
-          <div className="border-l-4 border-orange pl-6 py-2 mb-10 max-w-2xl">
-            <p className="font-sans text-2xl sm:text-3xl font-bold text-brown leading-tight">
-              People with jobs, businesses, families need AI application.
-            </p>
-          </div>
-
-          <ul className="space-y-5 max-w-2xl">
-            {[
-              "One workflow that saves four hours this week.",
-              "Filtered signal from someone building with the tools every day.",
-              "A prompt ready for Friday's client deliverable.",
-            ].map((item) => (
-              <li key={item} className="flex gap-4 items-start">
-                <span className="font-mono text-orange text-2xl mt-0 shrink-0 leading-none">
-                  ›
-                </span>
-                <span className="font-sans text-lg sm:text-xl text-brown/85">
-                  {item}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ─── WHAT YOU GET (teal) ─── */}
-      <section className="py-24 lg:py-28 px-6 lg:px-12" style={{ backgroundColor: "#2B6B8A" }}>
-        <div className="max-w-[1000px] mx-auto">
-
-          <div className="flex items-center gap-4 mb-12">
-            <div className="flex-1 h-px bg-cream/20" />
-            <span className="font-mono text-xs tracking-[0.3em] uppercase text-cream/70">
-              What You Get
-            </span>
-            <div className="flex-1 h-px bg-cream/20" />
-          </div>
-
-          <h2 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-cream mb-12 leading-[1.05]">
-            What&apos;s in <span className="text-orange">every issue:</span>
-          </h2>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
-            {everyIssue.map((item, i) => (
-              <div
-                key={item.label}
-                className="bg-cream/[0.07] border border-cream/15 rounded-xl p-7 hover:bg-cream/[0.12] transition-colors flex flex-col"
-              >
-                <p className="font-mono text-xs text-orange tracking-[0.25em] uppercase mb-4">
-                  ⊹ {String(i + 1).padStart(2, "0")}
-                </p>
-                <p className="font-sans font-bold text-cream text-2xl mb-3 leading-tight">
-                  {item.label}
-                </p>
-                <p className="font-sans text-base text-cream/75 leading-relaxed">
-                  {item.body}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Week 1 bonus */}
-          <div className="metal-housing p-6 sm:p-8 relative z-0 mb-10">
-            <p className="font-mono text-[10px] text-brown/60 tracking-[0.3em] uppercase mb-6 relative z-10">
-              ⊹ Week One Bonus ⊹
-            </p>
-            <ul className="space-y-4 relative z-10">
-              {weekOneBonus.map((item) => (
-                <li key={item} className="flex gap-3 items-start">
-                  <span className="font-mono text-orange text-xl mt-0 shrink-0 leading-none">
-                    ›
-                  </span>
-                  <span className="font-sans text-base sm:text-lg text-brown/85 leading-relaxed">
-                    {item}
-                  </span>
+            <ul className="mb-10 grid gap-3 text-sm text-white/75 sm:text-base">
+              {heroBullets.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#ee2b2b]" />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
+
+            <a
+              href="#subscribe"
+              className="inline-flex min-h-12 items-center justify-center border border-[#ee2b2b] bg-[#ee2b2b] px-6 py-3 font-mono text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[5px_5px_0_#5d0c0c] transition-transform hover:-translate-y-0.5 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              Get the dispatch →
+            </a>
+
+            <div aria-label="AI fluency countdown" className="mt-10 max-w-[390px] border border-white/15 bg-[#151515] p-3">
+              <div className="mb-2 flex items-center justify-between px-2 pt-1 font-mono text-[8px] uppercase tracking-[0.18em] text-white/40">
+                <span>5,000-day fluency window</span>
+                <span className="text-[#ee2b2b]">Live</span>
+              </div>
+              <div className="[&_.mini-crt-green-cursor]:!bg-[#ee2b2b] [&_.mini-crt-green-labels]:!text-[#aa3a3a] [&_.mini-crt-green-prompt]:!text-[#aa3a3a] [&_.mini-crt-green-time]:!text-[#f2f2f2]">
+                <DispatchCountdown />
+              </div>
+            </div>
           </div>
 
-          {/* Special issues — WMD callout */}
-          <div className="bg-cream/[0.07] border border-cream/15 border-l-4 border-l-orange rounded-xl p-7 sm:p-8">
-            <p className="font-mono text-xs text-orange tracking-[0.3em] uppercase mb-4">
-              ⊹ Look out for special issues ⊹
-            </p>
-            <p className="font-sans font-bold text-cream text-2xl sm:text-3xl mb-4 leading-tight">
-              WMD: What&apos;s Mitch Doing
-            </p>
-            <p className="font-sans text-base sm:text-lg text-cream/80 leading-relaxed max-w-2xl">
-              The tools, skills, and workflows I&apos;m actually running. Not a
-              review. Not sponsored. What&apos;s in the stack this week and why
-              it&apos;s there.
-            </p>
+          <div className="space-y-7">
+            <DotSignal />
+            <div className="mx-auto w-full max-w-[520px] border border-white/15 bg-[#151515] p-3 sm:p-4">
+              <SubscribeModule dark />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── WHO IT'S FOR (dark brown) ─── */}
-      <section className="bg-brown text-cream py-24 lg:py-28 px-6 lg:px-12">
-        <div className="max-w-[1000px] mx-auto">
+      <section className="border-b border-black/20 bg-[#d7d7d4] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="mx-auto max-w-[1100px]">
+          <SectionLabel index="01">The situation</SectionLabel>
+          <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
+            <h2 className="text-4xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
+              You do not need more AI news. <span className="text-[#ee2b2b]">You need a usable signal.</span>
+            </h2>
+            <div className="space-y-6 text-lg leading-8 text-black/70">
+              <p>
+                A new model, tool, and “breaking” thread appears every morning. Keeping up is a part-time job. Ignoring it completely is a career risk.
+              </p>
+              <p>
+                AI Dispatch is built for people with clients, deadlines, teams, families, and limited attention. I test the tools against real work, cut the noise, and send the useful part.
+              </p>
+              <div className="border-l-4 border-[#ee2b2b] bg-white/45 px-6 py-5 font-semibold text-black">
+                Less spectatorship. More capability. One useful improvement every week.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <div className="flex items-center gap-4 mb-12">
-            <div className="flex-1 h-px bg-cream/15" />
-            <span className="font-mono text-xs tracking-[0.3em] uppercase text-orange">
-              Who It&apos;s For
-            </span>
-            <div className="flex-1 h-px bg-cream/15" />
+      <section className="border-b border-black bg-[#101010] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-28">
+        <div className="mx-auto max-w-[1100px]">
+          <div className="mb-10 flex items-center gap-4">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ee2b2b] shadow-[0_0_12px_rgba(238,43,43,0.65)]" />
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-white/45">02 · Every issue</p>
+            <div className="h-px flex-1 bg-white/15" />
+          </div>
+          <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <h2 className="max-w-3xl text-4xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
+              Three parts. All signal.
+            </h2>
+            <p className="max-w-xs font-mono text-xs uppercase leading-6 tracking-[0.16em] text-white/45">Designed to read over coffee and use before lunch.</p>
           </div>
 
-          <h2 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-cream mb-16 leading-[1.05]">
-            Three people<br />
-            this is <span className="text-orange">built for.</span>
-          </h2>
+          <div className="grid border-l border-t border-white/15 md:grid-cols-3">
+            {everyIssue.map((item) => (
+              <article key={item.label} className="group relative min-h-[320px] border-b border-r border-white/15 bg-[#151515] p-7 transition-colors hover:bg-[#1d1d1d] sm:p-8">
+                <span className="mb-14 block font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#ee2b2b]">{item.code}</span>
+                <h3 className="mb-4 text-2xl font-bold leading-tight">{item.label}</h3>
+                <p className="leading-7 text-white/60">{item.body}</p>
+                <span aria-hidden="true" className="absolute bottom-6 right-6 h-3 w-3 rounded-full border border-white/25 bg-black group-hover:bg-[#ee2b2b]" />
+              </article>
+            ))}
+          </div>
 
-          <div className="space-y-14">
-            {archetypes.map((a, i) => (
-              <div
-                key={a.label}
-                className="flex flex-col sm:flex-row gap-6 sm:gap-10 pb-14 border-b border-cream/10 last:border-0 last:pb-0"
-              >
-                <div className="font-mono text-orange text-7xl sm:text-8xl font-bold leading-[0.85] shrink-0 select-none">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-                <div className="flex-1 pt-2">
-                  <p className="font-sans font-bold text-cream text-2xl sm:text-3xl mb-4 leading-tight">
-                    {a.label}
-                  </p>
-                  <p className="font-sans text-lg text-cream/75 leading-relaxed max-w-2xl">
-                    {a.body}
-                  </p>
-                </div>
-              </div>
+          <div className="relative mt-10 grid overflow-hidden border border-black/50 bg-[#b9b9b6] p-7 text-black shadow-[10px_10px_0_#050505] sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+            <Screw className="left-3 top-3" />
+            <Screw className="right-3 top-3" />
+            <Screw className="bottom-3 left-3" />
+            <Screw className="bottom-3 right-3" />
+            <div>
+              <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#a10f0f]">Week one / welcome packet</p>
+              <h3 className="mb-5 text-3xl font-bold tracking-[-0.03em]">Start with a working kit.</h3>
+              <ul className="space-y-3 text-black/70">
+                {weekOneBonus.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="font-mono font-bold text-[#c91616]">+</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-8 border border-black/25 bg-[#0b0b0b] px-6 py-5 text-center lg:mt-0">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">Special transmission</p>
+              <p className="mt-2 text-xl font-bold text-white">WMD</p>
+              <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#ee2b2b]">What Mitch&apos;s Doing</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-black/20 bg-[#ededeb] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="mx-auto max-w-[1100px]">
+          <SectionLabel index="03">Built for real work</SectionLabel>
+          <div className="mb-14 grid gap-7 lg:grid-cols-[1fr_.7fr] lg:items-end">
+            <h2 className="text-4xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-5xl lg:text-6xl">A weekly advantage for people already in motion.</h2>
+            <p className="text-lg leading-8 text-black/60">No technical identity required. Curiosity, useful work, and thirty minutes a week will do.</p>
+          </div>
+          <div className="divide-y divide-black/20 border-y border-black/20">
+            {archetypes.map((item, index) => (
+              <article key={item.label} className="grid gap-5 py-9 sm:grid-cols-[110px_1fr_1.4fr] sm:items-start sm:gap-8">
+                <span className="text-5xl font-bold leading-none text-black/20" style={displayFont}>{String(index + 1).padStart(2, "0")}</span>
+                <h3 className="text-xl font-bold leading-tight">{item.label}</h3>
+                <p className="leading-7 text-black/65">{item.body}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── WHY MITCH (green) ─── */}
-      <section className="py-24 lg:py-28 px-6 lg:px-12" style={{ backgroundColor: "#5B8C5A" }}>
-        <div className="max-w-[1000px] mx-auto">
-
-          <div className="flex items-center gap-4 mb-12">
-            <div className="flex-1 h-px bg-cream/25" />
-            <span className="font-mono text-xs tracking-[0.3em] uppercase text-cream/80">
-              Why Mitch
-            </span>
-            <div className="flex-1 h-px bg-cream/25" />
+      <section className="border-b border-black bg-[#1a1a1a] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-28">
+        <div className="mx-auto grid max-w-[1100px] gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
+          <div>
+            <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-[#ee2b2b]">04 / Why Mitch</p>
+            <h2 className="text-4xl font-bold leading-[1.03] tracking-[-0.04em] sm:text-5xl">Built in the field, not reported from the sidelines.</h2>
           </div>
-
-          <h2 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-cream mb-12 leading-[1.05]">
-            Three years as the<br />
-            internal AI hire<br />
-            <span className="text-brown">most can&apos;t afford.</span>
-          </h2>
-
-          <div className="space-y-6 max-w-2xl">
-            <p className="font-sans text-lg sm:text-xl text-cream/95 leading-relaxed">
-              I helped Nicolas Cole and Dickie Bush scale their portfolio of
-              companies by being their in-house AI integrator. Building real
-              systems, not demos. The kind that run client work, generate
-              content at volume, and cut delivery time by half.
+          <div className="space-y-6 text-lg leading-8 text-white/65">
+            <p>
+              For three years, I was the internal AI hire most small teams cannot afford—building systems that run client work, create content at volume, and reduce delivery time.
             </p>
-
-            <p className="font-sans text-lg sm:text-xl text-cream/95 leading-relaxed">
-              I&apos;m not a journalist covering AI from the outside. I build with
-              it every day. Claude Code, Cowork, Cursor, the tools that
-              actually move work. When something new drops, I test it against
-              real deliverables before it shows up in your inbox.
+            <p>
+              I use Claude Code, Cowork, Cursor, and the rest against real deliverables every day. Something earns space in AI Dispatch only after it proves useful.
             </p>
-
-            <p className="font-sans text-2xl sm:text-3xl font-bold text-cream leading-tight pt-6 mt-6 border-t-2 border-cream/20">
-              AI Dispatch is the weekly brief I wish I&apos;d had three years ago.
+            <p className="border-t border-white/15 pt-6 text-xl font-semibold leading-8 text-white">
+              This is the weekly briefing I wish I had when I started.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ─── CLOSING CTA (orange) ─── */}
-      <section className="py-24 lg:py-28 px-6 lg:px-12" style={{ backgroundColor: "#E8682A" }}>
-        <div className="max-w-[1000px] mx-auto">
-
-          <div className="max-w-[280px] mx-auto mb-10">
-            <RetroStripes />
+      <section className="bg-[#c3c3c0] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="mx-auto max-w-[1100px]">
+          <div className="relative overflow-hidden border border-black/40 bg-[#d7d7d4] p-6 shadow-[12px_12px_0_#111] sm:p-10 lg:p-14">
+            <Screw className="left-3 top-3" />
+            <Screw className="right-3 top-3" />
+            <Screw className="bottom-3 left-3" />
+            <Screw className="bottom-3 right-3" />
+            <div className="grid gap-12 lg:grid-cols-[1fr_480px] lg:items-center">
+              <div>
+                <p className="mb-5 inline-block bg-[#ee2b2b] px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-white">Transmission ready</p>
+                <h2 id="subscribe" className="mb-5 text-4xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
+                  Keep up with AI.<br />Keep moving forward.
+                </h2>
+                <p className="max-w-md text-lg leading-8 text-black/60">One email every Friday. Free. Useful on arrival. Leave whenever you like.</p>
+              </div>
+              <SubscribeModule />
+            </div>
           </div>
 
-          <div className="text-center mb-12">
-            <p className="font-mono text-xs text-brown tracking-[0.3em] uppercase mb-6">
-              ⊹ Subscribe Free ⊹
-            </p>
-            <h2 className="font-sans text-5xl sm:text-6xl lg:text-7xl font-bold text-brown leading-[0.95] mb-6 tracking-tight">
-              Keep up with AI.<br />
-              <span className="text-cream">One email a week.</span>
-            </h2>
-            <p className="font-sans text-xl sm:text-2xl text-brown/75 max-w-md mx-auto leading-snug">
-              Unsubscribe any time.
-            </p>
-          </div>
-
-          <div className="flex justify-center">
-            <SubstackEmbed />
+          <div className="mt-14 grid gap-8 border-t border-black/20 pt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-black/45 sm:grid-cols-3">
+            <p>© 2026 Heymitch.ai</p>
+            <p className="sm:text-center">AI Dispatch / Weekly</p>
+            <a href="/" className="text-black/55 hover:text-[#c91616] sm:text-right">Return to base →</a>
           </div>
         </div>
       </section>
 
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-brown px-6 py-10">
-        <div className="max-w-[280px] mx-auto mb-6">
-          <RetroStripes />
-        </div>
-        <p className="font-mono text-xs text-cream/40 text-center tracking-[0.3em] uppercase">
-          © 2026 Heymitch.ai &nbsp;/&nbsp; AI Dispatch
-        </p>
-      </footer>
-
-    </div>
+    </main>
   );
 }
