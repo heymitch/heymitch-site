@@ -1,13 +1,10 @@
 import dynamic from "next/dynamic";
 import resources from "@/data/resources.json";
 import feed from "@/data/feed.json";
-import OptinTerminal from "@/components/OptinTerminal";
 
 /*
-  Cloudflare preview branch: analog instrument-panel thought-leadership + services lander.
-  Ref: Mitch's "Agent Operations Module" mock. Bold spacing, brutalist USEFUL AI,
-  cockpit fire-button CTAs (red button in plate casing), instrument panels, metadata rails.
-  Signal accents (red / yellow / teal) used sparingly on LEDs, knobs, meters, status.
+  Cloudflare preview branch: neo-brutalist thought-leadership + services lander.
+  Bold type, useful content, and direct calls to action.
   This page only links to routes and products that exist on the current main branch.
 */
 
@@ -40,19 +37,6 @@ const socials = [
   { label: "X", href: "https://x.com/heymitch" },
 ];
 
-const HERO_WAVE = [30, 55, 40, 70, 45, 60, 35, 80, 50, 65, 40, 75, 55, 45, 60, 35, 70, 50, 40, 62, 48, 72, 38, 58, 44, 68, 52, 42, 60, 36];
-const TELE_WAVE = [40, 60, 35, 72, 50, 44, 66, 38, 78, 52, 46, 70, 40, 58, 34, 64, 48, 74, 42, 56, 38, 68, 50, 60, 36, 72, 44, 54];
-
-function Wave({ data, className = "" }: { data: number[]; className?: string }) {
-  return (
-    <div className={`wave ${className}`}>
-      {data.map((h, i) => (
-        <i key={i} style={{ height: `${h}%` }} />
-      ))}
-    </div>
-  );
-}
-
 function JobCard({ name, job, href, label }: { name: string; job: string; href: string; label?: string }) {
   return (
     <a href={href} className="group border border-ink/15 bg-page hover:border-ink transition-colors p-6 flex flex-col gap-3">
@@ -75,10 +59,6 @@ export default function Redesign() {
 
   return (
     <div className="bg-page text-ink min-h-screen">
-      {/* registration crosshairs */}
-      <div className="reg-mark reg-tl" /><div className="reg-mark reg-tr" />
-      <div className="reg-mark reg-bl" /><div className="reg-mark reg-br" />
-
       {/* ═══ NAV ═══ */}
       <header className="sticky top-0 z-50 bg-page/85 backdrop-blur border-b border-ink/10">
         <div className="max-w-[1320px] mx-auto px-6 h-16 flex items-center justify-between gap-6">
@@ -92,17 +72,9 @@ export default function Redesign() {
               </a>
             ))}
           </nav>
-          <div className="flex items-center gap-5">
-            <div className="hidden xl:flex items-center gap-3">
-              <span className="led led-g" />
-              <span className="font-mono text-[10px] leading-tight tracking-[0.14em] uppercase text-ink/45">
-                SYS: A/01<br />GRID: 8&times;5
-              </span>
-            </div>
-            <a href="https://personal-agent-bootcamp.vercel.app" className="fire-btn">
-              <span className="face">JOIN THE BOOTCAMP <span aria-hidden>→</span></span>
-            </a>
-          </div>
+          <a href="https://personal-agent-bootcamp.vercel.app" className="neo-btn">
+            Join the Bootcamp <span aria-hidden>→</span>
+          </a>
         </div>
       </header>
 
@@ -114,83 +86,26 @@ export default function Redesign() {
             <AsciiPortrait density={130} />
           </div>
 
-          {/* readout strip */}
-          <div className="relative z-10 border-b border-ink/10">
-            <div className="max-w-[1320px] mx-auto px-6 lg:px-12 py-2.5 flex items-center justify-between font-mono text-[10px] tracking-[0.16em] uppercase text-ink/45">
-              <span className="text-orange">01 / Scaling With Agents</span>
-              <span className="hidden sm:flex items-center gap-5">
-                <span>Sys: A/01</span><span>Grid: 8&times;5</span><span>Lat 107.221</span><span>MMXXVI</span>
-              </span>
-            </div>
-          </div>
-
-          {/* left numeric rail */}
-          <div className="hidden xl:flex flex-col gap-3 absolute left-5 top-1/2 -translate-y-1/2 z-20">
-            {["01", "02", "03", "04", "05"].map((n, i) => (
-              <div key={n} className="flex items-center gap-2">
-                <span className={`font-mono text-[10px] ${i === 0 ? "text-orange" : "text-ink/35"}`}>{n}</span>
-                <span className="block w-5 h-px bg-ink/20" />
-              </div>
-            ))}
-          </div>
-
-          {/* right levels rail */}
-          <div className="hidden xl:flex flex-col items-end gap-6 absolute right-5 top-1/2 -translate-y-1/2 z-20 w-28">
-            <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-ink/45 text-right leading-relaxed">
-              // Human<br />Intelligence<br />Amplified
-            </p>
-            <div className="font-mono text-[10px] text-ink/40 leading-relaxed text-right">
-              X: 107.221<br />Y: 45.662<br />Z: 12.009
-            </div>
-            <div className="w-full">
-              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-ink/45 mb-2">Levels</p>
-              {["100", "75", "50", "25", "00"].map((v, i) => (
-                <div key={v} className="flex items-center gap-2 mb-1.5">
-                  <span className="flex-1 h-px bg-ink/15" />
-                  {i === 0 ? <span className="led led-r" style={{ width: 7, height: 7 }} /> : null}
-                  <span className="font-mono text-[10px] text-ink/40 w-6 text-right">{v}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
           <div className="relative max-w-[1320px] mx-auto px-6 lg:px-12 pt-20 pb-24">
-            <span className="crop tl" style={{ top: 24, left: 24 }} /><span className="crop tr" style={{ top: 24, right: 24 }} />
-            <span className="crop bl" style={{ bottom: 24, left: 24 }} /><span className="crop br" style={{ bottom: 24, right: 24 }} />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center min-h-[80vh]">
               {/* LEFT: brutalist headline */}
               <div>
                 <p className="font-mono text-[12px] tracking-[0.24em] uppercase text-ink/50 mb-5">
                   Practical Agent Education · Managed Agent Systems
                 </p>
-                <div className="relative">
-                  <h1 className="font-sans font-bold leading-[0.78] tracking-tighter text-[clamp(3.75rem,19vw,9rem)]">
-                    <span className="block">SCALING</span>
-                    <span className="block">WITH</span>
-                    <span className="block text-orange">AGENTS</span>
-                  </h1>
-                  <span className="absolute right-0 top-[44%] hidden sm:block border border-ink/30 px-2.5 py-1.5 font-mono text-[11px] tracking-[0.14em] uppercase text-ink/50 leading-tight">
-                    A/01<br />Series
-                  </span>
-                </div>
+                <h1 className="font-sans font-bold leading-[0.78] tracking-tighter text-[clamp(3.75rem,19vw,9rem)]">
+                  <span className="block">SCALING</span>
+                  <span className="block">WITH</span>
+                  <span className="block text-orange">AGENTS</span>
+                </h1>
                 <p className="font-serif text-3xl leading-snug text-ink/80 max-w-[36ch] mt-12">
                   Learn how agents work and put them to work—through practical
                   education for operators and managed agent systems for teams.
                 </p>
 
-                {/* email opt-in plate (live-site metal aesthetic) under the subtitle */}
-                <div className="mt-9">
-                  <OptinTerminal />
-                </div>
-
                 <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-ink/45 mt-7">
                   Built in the field. Published with receipts.
                 </p>
-                <div className="flex items-center gap-6 mt-5 text-ink/30">
-                  {["✳", "N", "△", "G"].map((g, i) => (
-                    <span key={i} className="font-sans text-2xl font-bold">{g}</span>
-                  ))}
-                </div>
               </div>
 
               {/* ascii portrait owns the right side (hero backdrop above) */}
@@ -199,11 +114,10 @@ export default function Redesign() {
           </div>
         </section>
 
-        {/* ═══ BOOTCAMP MINI-SALES CARD + TELEMETRY ═══ */}
+        {/* ═══ BOOTCAMP ═══ */}
         <section id="bootcamp" className="max-w-[1320px] mx-auto px-6 py-16">
-          <div className="bg-brown text-cream rounded-xl border border-ink/30 grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
-            {/* sell side */}
-            <div className="p-9 lg:p-12">
+          <div className="bg-brown text-cream border-2 border-ink p-9 lg:p-14">
+            <div className="max-w-4xl">
               <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-orange mb-6">The Bootcamp · Flagship</p>
               <h2 className="font-serif text-4xl sm:text-5xl leading-[1.04] tracking-tight">
                 Build a personal agent that runs real work with you in control.
@@ -214,38 +128,13 @@ export default function Redesign() {
                 its receipts, and stops for approval before consequential action.
               </p>
               <div className="flex flex-wrap items-center gap-4 mt-9">
-                <a href="https://personal-agent-bootcamp.vercel.app" className="fire-btn">
-                  <span className="face">Join the Bootcamp <span aria-hidden>→</span></span>
+                <a href="https://personal-agent-bootcamp.vercel.app" className="neo-btn">
+                  Join the Bootcamp <span aria-hidden>→</span>
                 </a>
-                <a href="#writing" className="fire-btn ghost">
-                  <span className="face">Read the field notes <span aria-hidden>→</span></span>
+                <a href="#writing" className="neo-btn neo-btn-dark">
+                  Read the field notes <span aria-hidden>→</span>
                 </a>
               </div>
-            </div>
-            {/* telemetry side */}
-            <div className="bg-[#16110d] p-9 lg:p-12 border-t lg:border-t-0 lg:border-l border-black/40">
-              <div className="flex items-center justify-between mb-7">
-                <span className="font-mono text-[11px] tracking-[0.18em] uppercase text-cream/60">System Telemetry</span>
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.14em] uppercase text-cream/30"><span className="led led-g" /> live method</span>
-              </div>
-              {[
-                { k: "Personal agent", v: "01", c: "text-orange" },
-                { k: "Operating loop", v: "LIVE", c: "text-orange" },
-                { k: "Human approval", v: "ARMED", c: "text-orange" },
-              ].map((r) => (
-                <div key={r.k} className="flex items-center justify-between border-b border-cream/10 py-3.5">
-                  <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-cream/55">{r.k}</span>
-                  <span className={`font-sans font-bold text-2xl ${r.c}`}>{r.v}</span>
-                </div>
-              ))}
-              <div className="flex items-center justify-between py-3.5">
-                <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-cream/55">System online</span>
-                <span className="font-mono text-[12px] tracking-[0.1em] uppercase" style={{ color: "var(--sig-green)" }}>Approval required</span>
-              </div>
-              <div className="mt-4" style={{ color: "var(--sig-teal)" }}>
-                <Wave data={TELE_WAVE} />
-              </div>
-              <p className="font-mono text-[10px] tracking-[0.16em] uppercase text-cream/30 mt-3 text-right">Trigger · act · remember</p>
             </div>
           </div>
         </section>
@@ -334,7 +223,7 @@ export default function Redesign() {
               </a>
             ))}
           </div>
-          <span className="barcode text-cream/40">{[14, 22, 9, 26, 12, 18, 7, 24, 16, 10, 20, 8, 23, 13, 19, 11].map((h, i) => (<i key={i} style={{ height: h }} />))}</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-cream/40">Scaling With Agents</span>
         </div>
       </footer>
     </div>

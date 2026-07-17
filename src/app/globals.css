@@ -200,6 +200,90 @@
   --link:       #4A9DB8;
 }
 
+/* Restrained neo-brutalist homepage actions. */
+.neo-btn,
+.neo-btn-dark {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1.125rem;
+  border: 2px solid rgb(var(--c-ink));
+  border-radius: 2px;
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.neo-btn {
+  color: #1e1914;
+  background: #e8682a;
+  box-shadow: 5px 5px 0 rgb(var(--c-ink));
+}
+
+.neo-btn-dark {
+  color: rgb(var(--c-page));
+  background: rgb(var(--c-ink));
+  box-shadow: 5px 5px 0 #e8682a;
+}
+
+.neo-btn:hover,
+.neo-btn-dark:hover {
+  transform: translate(-2px, -2px);
+}
+
+.neo-btn:hover {
+  box-shadow: 7px 7px 0 rgb(var(--c-ink));
+}
+
+.neo-btn-dark:hover {
+  box-shadow: 7px 7px 0 #e8682a;
+}
+
+.neo-btn:active,
+.neo-btn-dark:active {
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px 0 currentColor;
+}
+
+.neo-btn:focus-visible,
+.neo-btn-dark:focus-visible {
+  outline: 3px solid var(--sig-yellow);
+  outline-offset: 5px;
+}
+
+.neo-btn:disabled,
+.neo-btn-dark:disabled,
+.neo-btn[aria-disabled="true"],
+.neo-btn-dark[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-btn,
+  .neo-btn-dark {
+    transition: none;
+  }
+
+  .neo-btn:hover,
+  .neo-btn-dark:hover,
+  .neo-btn:active,
+  .neo-btn-dark:active {
+    transform: none;
+  }
+}
+
 
 /* ═══════════════════════════════════════════════
    BASE STYLES — Editorial Foundation
