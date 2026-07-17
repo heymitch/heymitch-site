@@ -18,8 +18,8 @@
   --sig-yellow: #E8B23A;
   --sig-teal: #2B6B8A;
   --sig-green: #5FBF63;
-  --acid: #D1F643;
-  --acid-dim: #AFC93A;
+  --acid: #E0392A;     /* red took the acid seat */
+  --acid-dim: #B52E1F;
   --plate: #16110d;
   --plate-hi: #2a241f;
   --screen: #14100b;
@@ -54,7 +54,7 @@ body {
 a { color: inherit; }
 img { max-width: 100%; display: block; }
 
-::selection { background: var(--acid); color: #0D0F0E; }
+::selection { background: var(--acid); color: #fff; }
 
 .shell { max-width: var(--maxw); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
 
@@ -89,10 +89,10 @@ img { max-width: 100%; display: block; }
 .led-g { background: var(--sig-green); box-shadow: 0 0 8px 1px rgba(95, 191, 99, .75); animation: led-breathe 2.6s ease-in-out infinite; }
 .led-y { background: var(--sig-yellow); box-shadow: 0 0 8px 1px rgba(232, 178, 58, .75); }
 .led-r { background: var(--sig-red); box-shadow: 0 0 8px 1px rgba(206, 59, 38, .75); }
-.led-a { background: var(--acid); box-shadow: 0 0 8px 1px rgba(209, 246, 67, .75); animation: led-breathe-a 2.6s ease-in-out infinite; }
+.led-a { background: var(--acid); box-shadow: 0 0 8px 1px rgba(224, 57, 42, .75); animation: led-breathe-a 2.6s ease-in-out infinite; }
 @keyframes led-breathe-a {
-  0%, 100% { box-shadow: 0 0 6px 1px rgba(209, 246, 67, .5); }
-  50% { box-shadow: 0 0 11px 2px rgba(209, 246, 67, .9); }
+  0%, 100% { box-shadow: 0 0 6px 1px rgba(224, 57, 42, .5); }
+  50% { box-shadow: 0 0 11px 2px rgba(224, 57, 42, .9); }
 }
 @keyframes led-breathe {
   0%, 100% { box-shadow: 0 0 6px 1px rgba(95, 191, 99, .55); }
@@ -541,7 +541,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
 }
 .hud-led {
   width: 7px; height: 7px; border-radius: 50%; background: var(--acid);
-  box-shadow: 0 0 8px 1px rgba(209, 246, 67, .8);
+  box-shadow: 0 0 8px 1px rgba(224, 57, 42, .8);
   animation: hud-led 2.4s ease-in-out infinite;
 }
 @keyframes hud-led { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
@@ -646,14 +646,14 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .slack-body { height: 560px; overflow: hidden; padding: 16px 18px; background: #fff; }
 
 .slack .msg { display: flex; gap: 12px; padding: 10px 10px; border-radius: 8px; }
-.slack .msg.agent { background: #F4F9DC; }
+.slack .msg.agent { background: #FBEAE5; }
 .slack .msg .av { width: 42px; height: 42px; border-radius: 9px; flex: none; overflow: hidden; }
 .slack .msg .av img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .slack .msg .body { min-width: 0; }
 .slack .msg .h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1px; }
 .slack .msg .name { font-weight: 700; font-size: 15px; color: #1d1c1d; }
 .slack .msg .badge { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; background: #e6e6e6; color: #616061; padding: 2px 6px; border-radius: 3px; }
-.slack .msg.agent .badge { background: var(--acid); color: #1d1c1d; }
+.slack .msg.agent .badge { background: var(--acid); color: #fff; }
 .slack .msg .badge.auto { background: #fde9c8; color: #9a6a12; }
 .slack .msg .ts { font-size: 11px; color: #9b9b9b; }
 .slack .msg .text { font-size: 15px; line-height: 1.5; color: #1d1c1d; }
@@ -791,7 +791,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
   color: var(--cream);
 }
 .thesis-big span, .thesis-big em { display: block; white-space: nowrap; }
-.thesis-big em { font-style: normal; color: var(--acid); }
+.thesis-big em { font-style: normal; color: #FF4B33; text-shadow: 0 2px 0 rgba(0,0,0,.12); }
 .thesis-lead {
   font-size: clamp(18px, 2vw, 25px);
   line-height: 1.55;
@@ -803,7 +803,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
 
 /* thesis band: Top Gun blue */
 .plate-band { background: #1F6FB2; }
-.plate-band .sec-meta .idx { color: var(--acid); }
+.plate-band .sec-meta .idx { color: rgba(241, 238, 234, .75); }
 .plate-band .lab { color: rgba(241, 238, 234, .6); }
 .thesis-big { color: #F1EEEA; }
 .thesis-lead { color: rgba(241, 238, 234, .85); }
