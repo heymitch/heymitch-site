@@ -35,6 +35,28 @@ export default function AsciiPortrait({ density = BASE_ROWS }: { density?: numbe
     let lastTime = 0;
     let running = true;
 
+    // Keep the glyph-density ramp aligned with both explicit theme selection
+    // and the OS preference when no explicit theme has been set.
+    const detectDark = () => {
+      const theme = document.documentElement.getAttribute("data-theme");
+      if (theme === "dark") return true;
+      if (theme === "light") return false;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    };
+    let dark = detectDark();
+    const themeObserver = new MutationObserver(() => {
+      dark = detectDark();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    const schemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onScheme = () => {
+      dark = detectDark();
+    };
+    schemeMq.addEventListener("change", onScheme);
+
     function computeGrid(img: HTMLImageElement) {
       const w = container!.offsetWidth;
       const h = container!.offsetHeight;
@@ -143,7 +165,7 @@ export default function AsciiPortrait({ density = BASE_ROWS }: { density?: numbe
             }
           }
 
-          let charIndex = Math.floor((1 - lum) * rampLen);
+          let charIndex = Math.floor((dark ? lum : 1 - lum) * rampLen);
           if (Math.random() < SHIMMER_RATE) {
             charIndex += Math.random() < 0.5 ? 1 : -1;
             charIndex = Math.max(0, Math.min(rampLen, charIndex));
@@ -215,6 +237,8 @@ export default function AsciiPortrait({ density = BASE_ROWS }: { density?: numbe
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
+      themeObserver.disconnect();
+      schemeMq.removeEventListener("change", onScheme);
     };
   }, [density]);
 
