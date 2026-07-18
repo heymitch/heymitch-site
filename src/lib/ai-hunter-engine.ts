@@ -1,4 +1,4 @@
-// AI Hunter Engine v3 — exact character positions, per-category colors, contrast vocabulary
+// AI Hunter Engine v4 — exact character positions, per-category colors, contrast vocabulary
 // Every flag has start + end. No API calls. Pure regex + structural analysis.
 
 export interface Flag {
@@ -11,12 +11,17 @@ export interface Flag {
   matchedText: string;  // the actual text that was flagged
   explanation: string;
   fix: string;
+  /** A blocking flag prevents an approval-grade result regardless of score. */
+  blocking?: boolean;
 }
 
 export interface ScanResult {
   score: number;
   grade: string;
   flags: Flag[];
+  /** Approval metadata is optional so older ScanResult consumers still compile. */
+  blockingCount?: number;
+  hasBlockingFlags?: boolean;
   stats: {
     sentenceCount: number;
     avgSentenceLength: number;
@@ -62,6 +67,7 @@ function mkFlag(
   label: string,
   explanation: string,
   fix: string,
+  blocking = false,
 ): Flag {
   return {
     id: `f${_flagId++}`,
@@ -73,6 +79,7 @@ function mkFlag(
     label,
     explanation,
     fix,
+    blocking,
   };
 }
 
@@ -261,6 +268,59 @@ export function scan(rawText: string): ScanResult {
         fix,
       ));
       break; // first instance only per word
+    }
+  }
+
+  // ─── SAVED CAT ────────────────────────────────────────────────────────────
+  // Deterministic checks cover only exact, high-confidence voice fingerprints.
+  // Whether coinage was intentional or a claim is true requires source context
+  // and belongs in human-eval, not a broad regular expression.
+  const savedCatPatterns: [RegExp, string, string][] = [
+    [
+      /\bcapability earned today\b/gi,
+      'Packages a normal lesson outcome as a course badge.',
+      'State what the learner will know or do in normal speech.',
+    ],
+    [
+      /^[ \t]*(?:[-*#>]+\s*)?(?:\*\*)?one saved prompt(?:\*\*)?[ \t]*[.!:]?[ \t]*$/gim,
+      'Turns a routine saved artifact into dashboard status language.',
+      'Tell the reader which prompt and outputs to save.',
+    ],
+    [
+      /\bthree[-\s]pass\s+climb\b/gi,
+      'Brands three ordinary editing runs as a named method.',
+      'Use Pass 1, Pass 2, and Pass 3, or simply tell the reader to try it.',
+    ],
+    [
+      /^[ \t]*(?:[-*#>]+\s*)?(?:\*\*)?what you will save today(?:\*\*)?[ \t]*[.!:]?[ \t]*$/gim,
+      'Makes spoken instruction sound like a course dashboard.',
+      'State the outcome directly in a sentence the instructor would say aloud.',
+    ],
+    [
+      /\bvisible confirmation\b/gi,
+      'Renames a routine check as a branded concept.',
+      'Say what the reader should check.',
+    ],
+    [
+      /\bthe answer accountability check\b/gi,
+      'Renames an ordinary answer review as a branded method.',
+      'Tell the reader how to review the answer.',
+    ],
+  ];
+
+  for (const [re, explanation, fix] of savedCatPatterns) {
+    let m: RegExpExecArray | null;
+    re.lastIndex = 0;
+    while ((m = re.exec(analysisText)) !== null) {
+      flags.push(mkFlag(
+        'Saved Cat', 'error',
+        m.index, m.index + m[0].length,
+        analysisText,
+        'Saved Cat',
+        explanation,
+        fix,
+        true,
+      ));
     }
   }
 
@@ -512,11 +572,16 @@ export function scan(rawText: string): ScanResult {
   const weights: Record<Flag['severity'], number> = { error: 12, warning: 7, info: 4 };
   const totalDeductions = deduped.reduce((a, f) => a + weights[f.severity], 0);
   const score = Math.max(0, Math.min(100, 100 - totalDeductions));
+  const blockingCount = deduped.filter(f => f.blocking).length;
+  const calculatedGrade = getGrade(score);
+  const grade = blockingCount > 0 && calculatedGrade === 'A' ? 'B' : calculatedGrade;
 
   return {
     score,
-    grade: getGrade(score),
+    grade,
     flags: deduped.sort((a, b) => a.start - b.start),
+    blockingCount,
+    hasBlockingFlags: blockingCount > 0,
     stats: {
       sentenceCount: sentences.length,
       avgSentenceLength: Math.round(avgLen),

@@ -34,6 +34,7 @@ const CAT_COLORS: Record<string, CatColor> = {
   'Reframe Pattern':     { bg: '#f0fbf4', line: '#40c057', text: '#1a5c2a' },
   'Flat Rhythm':         { bg: '#fce4ec', line: '#f48fb1', text: '#880e4f' },
   'Staccato':            { bg: '#e8f5e9', line: '#66bb6a', text: '#1b5e20' },
+  'Saved Cat':           { bg: '#fff0e6', line: '#e8590c', text: '#9c3608' },
 };
 
 function catColor(cat: string): CatColor {
@@ -443,6 +444,7 @@ export default function AIHunterTool() {
                 { cat: 'Reframe Pattern',      desc: '"You don\'t have X. You have Y." "It\'s not X. It\'s Y."' },
                 { cat: 'Flat Rhythm',         desc: '3 sentences nearly the same length.' },
                 { cat: 'Staccato',            desc: '3+ short sentences in a row.' },
+                { cat: 'Saved Cat',           desc: 'AI keeps naming and packaging ordinary actions or outcomes. Read the phrase after "what I like to call..." Repeated natural fits are the tell. Deliberate hooks and useful names are allowed; check whether their claims are true separately.' },
               ].map(({ cat, desc }) => {
                 const cc = catColor(cat);
                 return (
@@ -488,6 +490,14 @@ export default function AIHunterTool() {
                   <div style={{ marginTop: 14 }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: gradeInfo.color }}>{gradeInfo.label}</div>
                     <div style={{ fontSize: 12, color: C.mid, marginTop: 3, lineHeight: 1.5 }}>{gradeInfo.desc}</div>
+                  </div>
+                )}
+                {result.hasBlockingFlags && (
+                  <div style={{ marginTop: 14, padding: '10px 12px', background: '#fff0e6', borderLeft: '3px solid #e8590c', borderRadius: 4 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#9c3608' }}>Approval blocked</div>
+                    <div style={{ fontSize: 11, color: C.mid, marginTop: 3, lineHeight: 1.45 }}>
+                      Fix {result.blockingCount} Saved Cat flag{result.blockingCount === 1 ? '' : 's'} before this copy ships. These phrases package ordinary actions or outcomes as names. Deliberate hook names can stay; check whether their claims are true separately.
+                    </div>
                   </div>
                 )}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 0', marginTop: 18 }}>
